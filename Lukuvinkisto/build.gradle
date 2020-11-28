@@ -6,7 +6,7 @@ apply plugin: 'build-dashboard'
 
 description = 'Ohtu syksy 2020 - ryhma16'
 
-mainClassName = 'Lukuvinkisto.Main'
+mainClassName = 'Main.Main'
 
 repositories {
     jcenter()

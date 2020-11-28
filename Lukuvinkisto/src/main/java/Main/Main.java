@@ -1,10 +1,12 @@
-package Lukuvinkisto;
+package Main;
 
 import Lukuvinkisto.dao.TiedostoDAO;
 import Lukuvinkisto.dao.TietokantaDAO;
 import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
 import Lukuvinkisto.netio.NBookIO;
+import java.awt.Desktop;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
@@ -23,7 +25,16 @@ public class Main {
      */
     public static void main(String[] args) {
         //run();
-        port(findOutPort());
+        int foundPort = findOutPort();
+        port(foundPort);
+        try {
+            //specify the protocol along with the URL
+            Desktop.getDesktop().browse(new URL("http://localhost:" + foundPort + "/").toURI());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         TiedostoDAO dbFile = new TiedostoDAO();
         dbFile.createFile(DB_FILENAME);
         TietokantaDAO db = new TietokantaDAO(DB_FILENAME);
@@ -71,6 +82,11 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
+        get("/lopeta", (request, response) -> {
+            System.exit(0);
+            return null;
+        }, new VelocityTemplateEngine());
+
         post("/lisaakirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
@@ -80,11 +96,11 @@ public class Main {
             Boolean bookAdded = bookNIO.add(new Book(title, author, pages));
 
             if (!bookAdded) {
-                model.put("error", "Kirjaa ei saatu lis‰tty‰");
+                model.put("error", "Kirjaa ei saatu lis√§tty√§");
                 model.put("template", "templates/lisaakirja.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Kirja lis‰tty lukuvinkistˆˆn");
+            model.put("lisatty", "Kirja lis√§tty lukuvinkist√∂√∂n");
             model.put("template", "templates/lisaakirja.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -102,7 +118,7 @@ public class Main {
                 model.put("template", "templates/poistakirja.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Kirja poistettu lukuvinkistˆst‰");
+            model.put("lisatty", "Kirja poistettu lukuvinkist√∂st√§");
             model.put("template", "templates/poistakirja.html");
             return new ModelAndView(model, LAYOUT);
 
