@@ -23,29 +23,22 @@ public class Main {
 
     private static final String DB_FILENAME = "Lukuvinkisto";
     static String LAYOUT = "templates/layout.html";
-
+    
+    private static NBookIO bookNIO;
+    private static NArticleIO articleNIO;
+    private static NVideoIO videoNIO;
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //run();
-        int foundPort = findOutPort();
-        port(foundPort);
-        try {
-            //specify the protocol along with the URL
-            Desktop.getDesktop().browse(new URL("http://localhost:" + foundPort + "/").toURI());
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        TiedostoDAO dbFile = new TiedostoDAO();
-        dbFile.createFile(DB_FILENAME);
-        TietokantaDAO db = new TietokantaDAO(DB_FILENAME);
-        NBookIO bookNIO = new NBookIO(db);
-        NArticleIO articleNIO = new NArticleIO(db);
-        NVideoIO videoNIO = new NVideoIO(db);
-
+        
+        setUpSite();
+        setUpIO();
+        setUpWebpages();
+    }
+    
+    static void setUpWebpages() {
         get("/", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             model.put("template", "templates/index.html");
@@ -145,7 +138,7 @@ public class Main {
             String articles = "";
 
             for (Media article : articlesFound) {
-                articles += article;
+                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>";
                 articles += "<br>";
             }
 
@@ -225,7 +218,7 @@ public class Main {
             String videos = "";
 
             for (Media video : videosFound) {
-                videos += video;
+                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>";
                 videos += "<br>";
             }
 
@@ -316,7 +309,7 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
     }
-
+    
     static int findOutPort() {
         if (portFromEnv != null) {
             return Integer.parseInt(portFromEnv);
@@ -330,5 +323,24 @@ public class Main {
     static void setEnvPort(String port) {
         portFromEnv = port;
     }
-
+    
+    static void setUpSite(){
+        int foundPort = findOutPort();
+        port(foundPort);
+        try {
+            //specify the protocol along with the URL
+            Desktop.getDesktop().browse(new URL("http://localhost:" + foundPort + "/").toURI());
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
+    static void setUpIO(){
+        (new TiedostoDAO()).createFile(DB_FILENAME);
+        TietokantaDAO db = new TietokantaDAO(DB_FILENAME);
+        bookNIO = new NBookIO(db);
+        articleNIO = new NArticleIO(db);
+        videoNIO = new NVideoIO(db);
+    }
 }
