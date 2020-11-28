@@ -5,8 +5,10 @@
  */
 package Lukuvinkisto.dao;
 
+import Lukuvinkisto.media.Article;
 import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
+import Lukuvinkisto.media.Video;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -144,5 +146,117 @@ public class TietokantaDAO {
             return -1;
         }
     }
+    
+    // Metodit videoille
+    //
+    
+    public boolean addVideo(String title, String link) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p = dM.prepareStatement("INSERT INTO Videos(title, link) VALUES (?, ?)");
+            p.setString(1, title);
+            p.setString(2, link);
+            p.executeUpdate();
+            dM.close();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
 
+    public List<Media> listVideos(String searchTerm) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p1;
+            if (searchTerm==null) {
+                p1 = dM.prepareStatement("SELECT * FROM Videos");
+            } else {
+                p1 = dM.prepareStatement("SELECT * FROM Videos WHERE lower(title) LIKE ?");
+                String term = "%"+searchTerm.toLowerCase()+"%";
+                p1.setString(1, term);
+            }
+            ResultSet r = p1.executeQuery();
+            List<Media> videos = new ArrayList<>();
+            while (r.next()) {
+                videos.add(new Video(r.getString("title"), r.getString("link")));
+            }
+            dM.close();
+            return videos;
+        } catch (SQLException ex) {
+            return new ArrayList<>();
+        }
+    }    
+    
+    public boolean removeVideo(Video video) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p1 = dM.prepareStatement("DELETE FROM Videos WHERE title=?");
+            p1.setString(1, video.getTitle());
+            int r = p1.executeUpdate();
+            dM.close();
+            if (r==1) {
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    // Metodit artikkeleille
+    //
+    
+    public boolean addArticle(String title, String link) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p = dM.prepareStatement("INSERT INTO Articles(title, link) VALUES (?, ?)");
+            p.setString(1, title);
+            p.setString(2, link);
+            p.executeUpdate();
+            dM.close();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    public List<Media> listArticles(String searchTerm) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p1;
+            if (searchTerm==null) {
+                p1 = dM.prepareStatement("SELECT * FROM Articles");
+            } else {
+                p1 = dM.prepareStatement("SELECT * FROM Articles WHERE lower(title) LIKE ?");
+                String term = "%"+searchTerm.toLowerCase()+"%";
+                p1.setString(1, term);
+            }
+            ResultSet r = p1.executeQuery();
+            List<Media> articles = new ArrayList<>();
+            while (r.next()) {
+                articles.add(new Article(r.getString("title"), r.getString("link")));
+            }
+            dM.close();
+            return articles;
+        } catch (SQLException ex) {
+            return new ArrayList<>();
+        }
+    }    
+    
+    public boolean removeArticle(Article article) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p1 = dM.prepareStatement("DELETE FROM Articles WHERE title=?");
+            p1.setString(1, article.getTitle());
+            int r = p1.executeUpdate();
+            dM.close();
+            if (r==1) {
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
 }

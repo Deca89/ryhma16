@@ -2,9 +2,13 @@ package Main;
 
 import Lukuvinkisto.dao.TiedostoDAO;
 import Lukuvinkisto.dao.TietokantaDAO;
+import Lukuvinkisto.media.Article;
 import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
+import Lukuvinkisto.media.Video;
+import Lukuvinkisto.netio.NArticleIO;
 import Lukuvinkisto.netio.NBookIO;
+import Lukuvinkisto.netio.NVideoIO;
 import java.awt.Desktop;
 import java.net.URL;
 import java.util.HashMap;
@@ -39,6 +43,8 @@ public class Main {
         dbFile.createFile(DB_FILENAME);
         TietokantaDAO db = new TietokantaDAO(DB_FILENAME);
         NBookIO bookNIO = new NBookIO(db);
+        NArticleIO articleNIO = new NArticleIO(db);
+        NVideoIO videoNIO = new NVideoIO(db);
 
         get("/", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
@@ -52,21 +58,9 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
-        get("/lisaakirja", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/lisaakirja.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
         get("/poistavinkki", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             model.put("template", "templates/poistavinkki.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/poistakirja", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/poistakirja.html");
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
@@ -76,15 +70,176 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
-        get("/haekirja", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/haekirja.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
         get("/lopeta", (request, response) -> {
             System.exit(0);
             return null;
+        }, new VelocityTemplateEngine());
+
+        //Artikkelin komennot
+        get("/lisaaArtikkeli", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/lisaaArtikkeli.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        get("/poistaArtikkeli", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/poistaArtikkeli.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        get("/haeartikkeli", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/haeartikkeli.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        post("/lisaaArtikkeli", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String title = request.queryParams("otsikko");
+            String link = request.queryParams("verkkoosoite");
+
+            Boolean articleAdded = articleNIO.add(new Article(title, link));
+
+            if (!articleAdded) {
+                model.put("error", "Artikkelia ei saatu lisättyä");
+                model.put("template", "templates/lisaaArtikkeli.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+            model.put("lisatty", "Artikkeli lisätty lukuvinkistöön");
+            model.put("template", "templates/lisaaArtikkeli.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+
+        post("/poistaArtikkeli", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String title = request.queryParams("otsikko");
+            String link = request.queryParams("verkkoosoite");
+
+            Boolean bookRemoved = articleNIO.remove(new Article(title, link));
+
+            if (!bookRemoved) {
+                model.put("error", "Artikkelia ei saatu poistettua");
+                model.put("template", "templates/poistaArtikkeli.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+            model.put("lisatty", "Artikkeli poistettu lukuvinkistöstä");
+            model.put("template", "templates/poistaArtikkeli.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+
+        post("/haeartikkeli", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String searchWord = request.queryParams("hakusana");
+
+            List<Media> articlesFound = articleNIO.fetch(searchWord);
+
+            if (articlesFound.isEmpty()) {
+                model.put("error", "Ei hakusanaa vastaavia artikkeleita");
+                model.put("template", "templates/haeartikkeli.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+
+            String articles = "";
+
+            for (Media article : articlesFound) {
+                articles += article;
+                articles += "<br>";
+            }
+
+            model.put("articles", articles);
+            model.put("template", "templates/haeartikkeli.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+
+        //Videon komennot
+        get("/lisaavideo", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/lisaavideo.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        get("/poistavideo", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/poistavideo.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        get("/haevideo", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/haevideo.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        post("/lisaavideo", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String title = request.queryParams("otsikko");
+            String link = request.queryParams("verkkoosoite");
+
+            Boolean videoAdded = videoNIO.add(new Video(title, link));
+
+            if (!videoAdded) {
+                model.put("error", "Videoa ei saatu lisättyä");
+                model.put("template", "templates/lisaavideo.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+            model.put("lisatty", "Video lisätty lukuvinkistöön");
+            model.put("template", "templates/lisaavideo.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+
+        post("/poistavideo", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String title = request.queryParams("otsikko");
+            String link = request.queryParams("verkkoosoite");
+
+            Boolean videoRemoved = videoNIO.remove(new Video(title, link));
+
+            if (!videoRemoved) {
+                model.put("error", "Videota ei saatu poistettua");
+                model.put("template", "templates/poistavideo.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+            model.put("lisatty", "Video poistettu lukuvinkistöstä");
+            model.put("template", "templates/poistavideo.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+
+        post("/haevideo", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String searchWord = request.queryParams("hakusana");
+
+            List<Media> videosFound = videoNIO.fetch(searchWord);
+
+            if (videosFound.isEmpty()) {
+                model.put("error", "Ei hakusanaa vastaavia videoita");
+                model.put("template", "templates/haevideo.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+
+            String videos = "";
+
+            for (Media video : videosFound) {
+                videos += video;
+                videos += "<br>";
+            }
+
+            model.put("videos", videos);
+            model.put("template", "templates/haevideo.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+
+        //kirjan komennot
+        get("/lisaakirja", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/lisaakirja.html");
+            return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
         post("/lisaakirja", (request, response) -> {
@@ -149,6 +304,17 @@ public class Main {
 
         }, new VelocityTemplateEngine());
 
+        get("/poistakirja", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/poistakirja.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        get("/haekirja", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/haekirja.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
     }
 
     static int findOutPort() {

@@ -34,14 +34,19 @@ public class TiedostoDAO {
         boolean fileExists = fileExists(fileName);
 
         if (fileExists) {
+            System.out.println("1");
             return 1;
         } else {
             try {
                 Connection db = DriverManager.getConnection("jdbc:sqlite:" + fileName + ".db");
                 db.createStatement().execute("CREATE TABLE Books (book_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE, author TEXT, pages TEXT, genres TEXT, description TEXT);");
+                db.createStatement().execute("CREATE TABLE Videos (video_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE, link TEXT);");
+                db.createStatement().execute("CREATE TABLE Articles (article_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE, link TEXT);");
+                System.out.println("2");
                 return 2;
             } catch (SQLException ex) {
                 ex.printStackTrace();
+                System.out.println("3");
                 return 3;
                 
             }
