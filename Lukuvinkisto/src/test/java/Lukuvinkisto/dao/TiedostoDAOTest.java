@@ -23,7 +23,6 @@ public class TiedostoDAOTest {
     @Test
     public void testCreateFile() {
         Integer expResult = instance.createFile("TestFile");
-        
         assertEquals((Object) expResult, (Object) 2);
         
         expResult = instance.createFile("TestFile");
