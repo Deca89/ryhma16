@@ -1,0 +1,28 @@
+<h1>Lisää kirja</h1>
+
+#if( $error )
+<div id="error" style="color:red">
+    <p><em>$error</em></p>
+</div>
+#end
+
+#if( $lisatty )
+<div id="lisatty" style="color:green">
+    <p><em>$lisatty</em></p>
+</div>
+#end
+
+<form method="POST" action="/lisaakirja">
+    <fieldset>
+        Otsikko        : <input type="text" name="otsikko" id="otsikko" size="150"/>
+        <br/>
+        Kirjoittaja : <input type="text" name="kirjoittaja" id="kirjoittaja" size="100"/>
+        <br/>     
+        Sivumäärä   : <input type="text" name="sivumaara" id="sivumaara" size="10"/>
+        <br/>          
+        <input name="lisaakirja" type="submit" value="Lisää kirja" />
+    </fieldset>
+<form>  
+    
+<p><a href="/lisaavinkki">Takaisin valikkoon</a></p>
+<p><a href="/">Takaisin päävalikkoon</a></p>

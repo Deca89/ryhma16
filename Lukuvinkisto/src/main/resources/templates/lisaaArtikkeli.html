@@ -1,0 +1,26 @@
+<h1>Lisää artikkeli</h1>
+
+#if( $error )
+<div id="error" style="color:red">
+    <p><em>$error</em></p>
+</div>
+#end
+
+#if( $lisatty )
+<div id="lisatty" style="color:green">
+    <p><em>$lisatty</em></p>
+</div>
+#end
+
+<form method="POST" action="/lisaaArtikkeli">
+    <fieldset>
+        Otsikko        : <input type="text" name="otsikko" id="otsikko" size="150"/>
+        <br/>
+        Verkko-osoite : <input type="text" name="verkkoosoite" id="verkkoosoite" size="100"/>
+        <br/>              
+        <input name="lisaaArtikkeli" type="submit" value="Lisää artikkeli" />
+    </fieldset>
+<form>  
+    
+<p><a href="/lisaavinkki">Takaisin valikkoon</a></p>
+<p><a href="/">Takaisin päävalikkoon</a></p>

@@ -1,0 +1,26 @@
+<h1>Poista video</h1>
+
+#if( $error )
+<div id="error" style="color:red">
+    <p><em>$error</em></p>
+</div>
+#end
+
+#if( $lisatty )
+<div id="lisatty" style="color:green">
+    <p><em>$lisatty</em></p>
+</div>
+#end
+
+<form method="POST" action="/poistavideo">
+    <fieldset>
+        Otsikko        : <input type="text" name="otsikko" id="otsikko" size="150"/>
+        <br/>
+        Verkko-osoite : <input type="text" name="verkkoosoite" id="verkkoosoite" size="100"/>
+        <br/>          
+        <input name="poistavideo" type="submit" value="Poista video" />
+    </fieldset>
+<form>  
+    
+<p><a href="/poistavinkki">Takaisin valikkoon</a></p>
+<p><a href="/">Takaisin päävalikkoon</a></p>

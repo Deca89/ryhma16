@@ -1,20 +1,16 @@
 package Lukuvinkisto;
 
 import Lukuvinkisto.media.Book;
-import Lukuvinkisto.io.InputStub;
-import Lukuvinkisto.io.MediaStub;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import java.util.ArrayDeque;
 import java.util.Queue;
-import lukuvinkisto.io.InputIO;
 import static org.junit.Assert.*;
 
 public class Stepdefs {
     Book book;
-    InputIO inputIO;
     Queue<String> inputs;
         
 //    @Before

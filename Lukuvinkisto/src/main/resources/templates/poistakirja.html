@@ -1,0 +1,26 @@
+<h1>Poista kirja</h1>
+
+#if( $error )
+<div id="error" style="color:red">
+    <p><em>$error</em></p>
+</div>
+#end
+
+#if( $lisatty )
+<div id="lisatty" style="color:green">
+    <p><em>$lisatty</em></p>
+</div>
+#end
+
+<form method="POST" action="/poistakirja">
+    <fieldset>
+        Otsikko        : <input type="text" name="otsikko" id="otsikko" size="150"/>
+        <br/>
+        Kirjoittaja : <input type="text" name="kirjoittaja" id="kirjoittaja" size="100"/>
+        <br/>          
+        <input name="poistakirja" type="submit" value="Poista kirja" />
+    </fieldset>
+<form>  
+    
+<p><a href="/poistavinkki">Takaisin valikkoon</a></p>
+<p><a href="/">Takaisin päävalikkoon</a></p>
