@@ -27,10 +27,7 @@ public class Main {
     private static NBookIO bookNIO;
     private static NArticleIO articleNIO;
     private static NVideoIO videoNIO;
-    
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String[] args) {
         
         setUpSite();

@@ -8,7 +8,7 @@
 ### Burndown-kirjanpito
 Lisää tehdyt taskit Seuranta-välilehdelle.
 
-[Burndown-kirjanpito](https://drive.google.com/file/d/1j_Juq5yFYapAQBtRJbpEmEyYTJ6UJzF-/edit)
+[Burndown-kirjanpito](https://docs.google.com/spreadsheets/d/1F7UD5SX0QfkrZj2iQEsYmjWsCflqhhSRyLpn6-PuG4c/edit#gid=0)
 
 ### Tuntikirjanpito
 [Ajankäyttö](https://github.com/vuorenkoski/ryhma16/blob/main/Dokumentaatio/Ajankaytto.md)
