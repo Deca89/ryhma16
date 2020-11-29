@@ -1,3 +1,4 @@
+/* Tämä on kommentoitu pois, mutta säilytetty tulevaa käyttöä varten
 package Lukuvinkisto.io;
 
 import Lukuvinkisto.dao.TiedostoDAO;
@@ -118,3 +119,4 @@ public class BookIOTest {
         assertTrue(r);
     }
 }
+*/
