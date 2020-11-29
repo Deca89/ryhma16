@@ -59,6 +59,12 @@ public class Main {
             model.put("template", "templates/haevinkki.html");
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
+        
+        get("/naytavinkit", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            model.put("template", "templates/naytavinkit.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
 
         get("/lopeta", (request, response) -> {
             System.exit(0);
@@ -144,6 +150,21 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
+        
+        get("/naytaartikkelit", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            List<Media> articlesFound = articleNIO.fetch();
+            model.put("template", "templates/naytaartikkelit.html");
+            String articles = "";
+
+            for (Media article : articlesFound) {
+                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>";
+                articles += "<br>";
+            }
+
+            model.put("articles", articles);
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
 
         //Videon komennot
         get("/lisaavideo", (request, response) -> {
@@ -224,6 +245,21 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
+        
+        get("/naytavideot", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            List<Media> videosFound = videoNIO.fetch();
+            model.put("template", "templates/naytavideot.html");
+            String videos = "";
+
+            for (Media video : videosFound) {
+                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>";
+                videos += "<br>";
+            }
+
+            model.put("videos", videos);
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
 
         //kirjan komennot
         get("/lisaakirja", (request, response) -> {
@@ -303,6 +339,21 @@ public class Main {
         get("/haekirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             model.put("template", "templates/haekirja.html");
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+        
+        get("/naytakirjat", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            List<Media> booksFound = bookNIO.fetch();
+            model.put("template", "templates/naytakirjat.html");
+            String books = "";
+
+            for (Media book : booksFound) {
+                books += book;
+                books += "<br>";
+            }
+
+            model.put("books", books);
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
     }
