@@ -1,8 +1,11 @@
-apply plugin: 'java'
-apply plugin: 'jacoco'
-apply plugin: 'application'
-apply plugin: 'checkstyle'
-apply plugin: 'build-dashboard'
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'application'
+    id 'checkstyle'
+    id 'build-dashboard'
+    id "com.github.johnrengelman.shadow" version "6.1.0"    
+}
 
 description = 'Ohtu syksy 2020 - ryhma16'
 
@@ -49,6 +52,12 @@ checkstyle {
 
 repositories {
     mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Main.Main'
+    }
 }
 
 jacocoTestReport {
