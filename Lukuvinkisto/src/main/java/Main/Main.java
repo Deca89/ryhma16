@@ -95,7 +95,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean articleAdded = articleNIO.add(new Article(title, link));
+            Boolean articleAdded = articleNIO.add(new Article(title, link, null));
 
             if (!articleAdded) {
                 model.put("error", "Artikkelia ei saatu lisättyä");
@@ -113,7 +113,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean bookRemoved = articleNIO.remove(new Article(title, link));
+            Boolean bookRemoved = articleNIO.remove(new Article(title, link, null));
 
             if (!bookRemoved) {
                 model.put("error", "Artikkelia ei saatu poistettua");
@@ -141,7 +141,7 @@ public class Main {
             String articles = "";
 
             for (Media article : articlesFound) {
-                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>";
+                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>, Tagit: "  + article.getTagString();
                 articles += "<br>";
             }
 
@@ -158,7 +158,7 @@ public class Main {
             String articles = "";
 
             for (Media article : articlesFound) {
-                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>";
+                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>, Tagit: "  + article.getTagString();
                 articles += "<br>";
             }
 
@@ -190,7 +190,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean videoAdded = videoNIO.add(new Video(title, link));
+            Boolean videoAdded = videoNIO.add(new Video(title, link, null));
 
             if (!videoAdded) {
                 model.put("error", "Videoa ei saatu lisättyä");
@@ -208,7 +208,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean videoRemoved = videoNIO.remove(new Video(title, link));
+            Boolean videoRemoved = videoNIO.remove(new Video(title, link, null));
 
             if (!videoRemoved) {
                 model.put("error", "Videota ei saatu poistettua");
@@ -236,7 +236,7 @@ public class Main {
             String videos = "";
 
             for (Media video : videosFound) {
-                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>";
+                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>, Tagit: " + video.getTagString();
                 videos += "<br>";
             }
 
@@ -253,7 +253,7 @@ public class Main {
             String videos = "";
 
             for (Media video : videosFound) {
-                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>";
+                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>, Tagit: " + video.getTagString();
                 videos += "<br>";
             }
 
@@ -274,7 +274,7 @@ public class Main {
             String author = request.queryParams("kirjoittaja");
             int pages = Integer.valueOf(request.queryParams("sivumaara"));
 
-            Boolean bookAdded = bookNIO.add(new Book(title, author, pages));
+            Boolean bookAdded = bookNIO.add(new Book(title, author, pages, null));
 
             if (!bookAdded) {
                 model.put("error", "Kirjaa ei saatu lisättyä");
@@ -292,7 +292,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
 
-            Boolean bookRemoved = bookNIO.remove(new Book(title, author, 0));
+            Boolean bookRemoved = bookNIO.remove(new Book(title, author, 0, null));
 
             if (!bookRemoved) {
                 model.put("error", "Kirjaa ei saatu poistettua");

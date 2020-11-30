@@ -5,6 +5,8 @@
  */
 package Lukuvinkisto.media;
 
+import java.util.List;
+
 /**
  *
  * @author Sami
@@ -14,12 +16,14 @@ public class Media implements Comparable<Media>   {
     final String author;
     final String link;
     final int length;
+    final List<String> tags;
 
-    public Media(String title, String author, String link, int pages) {
+    public Media(String title, String author, String link, int pages, List<String> tags) {
         this.title = title;
         this.author = author;
         this.link = link;
         this.length = pages;
+        this.tags = tags;
     }
 
     public String getAuthor() {
@@ -37,6 +41,26 @@ public class Media implements Comparable<Media>   {
     public String getLink() {
         return link;
     }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public String getTagString() {
+        if (tags==null || tags.isEmpty()) return "";
+        StringBuilder str = new StringBuilder();
+        boolean first = true;
+        for (String tag : tags) {
+            if (first) {
+                first = false;
+            } else {
+                str.append(", ");
+            }
+            str.append(tag);
+        }
+        return str.toString();
+    }
+
     
     @Override
     public int compareTo(Media t) {
