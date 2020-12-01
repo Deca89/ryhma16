@@ -42,12 +42,42 @@ public class Main {
         get("/", (request, response) -> {
             return new ModelAndView(buildModel("index"), LAYOUT);
         }, new VelocityTemplateEngine());
-        
+
         get("/lopeta", (request, response) -> {
             System.exit(0);
             return null;
         }, new VelocityTemplateEngine());
         
+        get("/naytaartikkelit", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            List<Media> articlesFound = articleNIO.fetch();
+            model.put("template", "templates/naytaartikkelit.html");
+            String articles = "";
+
+            for (Media article : articlesFound) {
+                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>";
+                articles += "<br>";
+            }
+
+            model.put("articles", articles);
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        get("/naytavideot", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            List<Media> videosFound = videoNIO.fetch();
+            model.put("template", "templates/naytavideot.html");
+            String videos = "";
+
+            for (Media video : videosFound) {
+                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>";
+                videos += "<br>";
+            }
+
+            model.put("videos", videos);
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+
         get("/:page", (request, response) -> {
             String page = request.params(":page");
             return new ModelAndView(buildModel(page), LAYOUT);
@@ -116,7 +146,7 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
-
+        
         //Videon komennot
 
         post("/lisaavideo", (request, response) -> {
@@ -179,7 +209,7 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
-
+        
         //kirjan komennot
         post("/lisaakirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
@@ -275,6 +305,7 @@ public class Main {
         }
         model.put("template", siteAddresses.get(page));
         return model;
+
     }
     
     static int findOutPort() {
