@@ -48,33 +48,27 @@ public class Main {
             return null;
         }, new VelocityTemplateEngine());
         
+        get("/naytakirjat", (request, response) -> {
+            HashMap<String, String> model = buildModel("naytakirjat");
+            List<Media> booksFound = bookNIO.fetch();
+            
+            model.put("books", stringifyList(booksFound));
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
+        
         get("/naytaartikkelit", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
+            HashMap<String, String> model = buildModel("naytaartikkelit");
             List<Media> articlesFound = articleNIO.fetch();
-            model.put("template", "templates/naytaartikkelit.html");
-            String articles = "";
-
-            for (Media article : articlesFound) {
-                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>";
-                articles += "<br>";
-            }
-
-            model.put("articles", articles);
+            
+            model.put("articles", stringifyList(articlesFound));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
         get("/naytavideot", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
+            HashMap<String, String> model = buildModel("naytavideot");
             List<Media> videosFound = videoNIO.fetch();
-            model.put("template", "templates/naytavideot.html");
-            String videos = "";
-
-            for (Media video : videosFound) {
-                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>";
-                videos += "<br>";
-            }
-
-            model.put("videos", videos);
+            
+            model.put("videos", stringifyList(videosFound));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
 
@@ -268,6 +262,8 @@ public class Main {
         siteAddresses.put("haevinkki", "templates/haevinkki.html");
         
         siteAddresses.put("naytakirjat", "templates/naytakirjat.html");
+        siteAddresses.put("naytaartikkelit", "templates/naytaartikkelit.html");
+        siteAddresses.put("naytavideot", "templates/naytavideot.html");
         siteAddresses.put("naytavinkit", "templates/naytavinkit.html");
         
         siteAddresses.put("poistakirja", "templates/poistakirja.html");
