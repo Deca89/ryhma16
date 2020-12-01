@@ -12,11 +12,13 @@ package Lukuvinkisto.media;
 public class Media implements Comparable<Media>   {
     final String title;
     final String author;
+    final String link;
     final int length;
 
-    public Media(String title, String author, int pages) {
+    public Media(String title, String author, String link, int pages) {
         this.title = title;
         this.author = author;
+        this.link = link;
         this.length = pages;
     }
 
@@ -30,6 +32,10 @@ public class Media implements Comparable<Media>   {
 
     public int getLength() {
         return length;
+    }
+
+    public String getLink() {
+        return link;
     }
     
     @Override

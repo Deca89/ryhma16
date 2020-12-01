@@ -6,7 +6,6 @@
 package Lukuvinkisto.netio;
 
 import Lukuvinkisto.dao.TietokantaDAO;
-import Lukuvinkisto.io.InputInterface;
 import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
 import java.util.Collections;
