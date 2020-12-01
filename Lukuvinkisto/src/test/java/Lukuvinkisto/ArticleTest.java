@@ -2,7 +2,6 @@ package Lukuvinkisto;
 
 import Lukuvinkisto.media.Article;
 import Lukuvinkisto.media.Book;
-import Lukuvinkisto.media.Video;
 import java.util.ArrayList;
 import java.util.Collections;
 import org.junit.Test;
@@ -30,5 +29,10 @@ public class ArticleTest {
         Collections.sort(articles);
         assertEquals(articles.get(0).toString(), "Linnunradan käsikirja liftareille : https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille");
     }
-
+    
+    @Test
+    public void ReturnCorrectListElement() {
+        Article article = new Article("Wikipedia: The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy");
+        assertEquals(article.getAsListElement(), "<a href=\"https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy\">Wikipedia: The Hitchhiker's Guide to the Galaxy<a>");
+    }
 }
