@@ -13,6 +13,7 @@ import java.awt.Desktop;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import spark.ModelAndView;
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -27,9 +28,11 @@ public class Main {
     private static NBookIO bookNIO;
     private static NArticleIO articleNIO;
     private static NVideoIO videoNIO;
+    
+    private static Map<String, String> siteAddresses;
 
     public static void main(String[] args) {
-        
+        buildSiteAddresses();
         setUpSite();
         setUpIO();
         setUpWebpages();
@@ -37,53 +40,22 @@ public class Main {
     
     static void setUpWebpages() {
         get("/", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/index.html");
-            return new ModelAndView(model, LAYOUT);
+            return new ModelAndView(buildModel("index"), LAYOUT);
         }, new VelocityTemplateEngine());
-
-        get("/lisaavinkki", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/lisaavinkki.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/poistavinkki", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/poistavinkki.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/haevinkki", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/haevinkki.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
+        
         get("/lopeta", (request, response) -> {
             System.exit(0);
             return null;
         }, new VelocityTemplateEngine());
+        
+        get("/:page", (request, response) -> {
+            String page = request.params(":page");
+            return new ModelAndView(buildModel(page), LAYOUT);
+        }, new VelocityTemplateEngine());
+
+        
 
         //Artikkelin komennot
-        get("/lisaaArtikkeli", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/lisaaArtikkeli.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/poistaArtikkeli", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/poistaArtikkeli.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/haeartikkeli", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/haeartikkeli.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
         post("/lisaaArtikkeli", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
@@ -146,23 +118,6 @@ public class Main {
         }, new VelocityTemplateEngine());
 
         //Videon komennot
-        get("/lisaavideo", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/lisaavideo.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/poistavideo", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/poistavideo.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/haevideo", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/haevideo.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
 
         post("/lisaavideo", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
@@ -226,12 +181,6 @@ public class Main {
         }, new VelocityTemplateEngine());
 
         //kirjan komennot
-        get("/lisaakirja", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/lisaakirja.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
         post("/lisaakirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
@@ -293,18 +242,39 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
-
-        get("/poistakirja", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/poistakirja.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/haekirja", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            model.put("template", "templates/haekirja.html");
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
+    }
+    
+    static void buildSiteAddresses(){
+        siteAddresses = new HashMap<>();
+        siteAddresses.put("index", "templates/index.html");
+        
+        siteAddresses.put("lisaakirja", "templates/lisaakirja.html");
+        siteAddresses.put("lisaaartikkeli", "templates/lisaaartikkeli.html");
+        siteAddresses.put("lisaavideo", "templates/lisaavideo.html");
+        siteAddresses.put("lisaavinkki", "templates/lisaavinkki.html");
+        
+        siteAddresses.put("haeartikkeli", "templates/haeartikkeli.html");
+        siteAddresses.put("haekirja", "templates/haekirja.html");
+        siteAddresses.put("haevideo", "templates/haevideo.html");
+        siteAddresses.put("haevinkki", "templates/haevinkki.html");
+        
+        siteAddresses.put("naytakirjat", "templates/naytakirjat.html");
+        siteAddresses.put("naytavinkit", "templates/naytavinkit.html");
+        
+        siteAddresses.put("poistakirja", "templates/poistakirja.html");
+        siteAddresses.put("poistaartikkeli", "templates/poistaartikkeli.html");
+        siteAddresses.put("poistavideo", "templates/poistavideo.html");
+        siteAddresses.put("poistavinkki", "templates/poistavinkki.html");
+    }
+    
+    
+    static HashMap<String, String> buildModel(String page){
+        HashMap<String, String> model = new HashMap<>();
+        if(!siteAddresses.containsKey(page)){
+            return null;
+        }
+        model.put("template", siteAddresses.get(page));
+        return model;
     }
     
     static int findOutPort() {
