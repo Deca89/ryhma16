@@ -287,7 +287,7 @@ public class Main {
         String stringified = "";
 
             for (Media media : mediaList) {
-                stringified += media;
+                stringified += media.getAsListElement();
                 stringified += "<br>";
             }
             

@@ -7,7 +7,12 @@ public class Video extends Media {
     }
     
     @Override
-    public String toString() {
+    public String getAsListElement(){
         return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>";
+    }
+    
+    @Override
+    public String toString() {
+        return title + " : "  + link;
     }
 }

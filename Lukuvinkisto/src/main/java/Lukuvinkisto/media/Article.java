@@ -7,7 +7,12 @@ public class Article extends Media {
     }
     
     @Override
-    public String toString() {
+    public String getAsListElement(){
         return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>";
+    }
+    
+    @Override
+    public String toString() {
+        return title + " : "  + link;
     }
 }

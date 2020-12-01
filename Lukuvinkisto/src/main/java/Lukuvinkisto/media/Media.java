@@ -38,6 +38,10 @@ public class Media implements Comparable<Media>   {
         return link;
     }
     
+    public String getAsListElement(){
+        return toString();
+    }
+    
     @Override
     public int compareTo(Media t) {
         return this.title.compareTo(t.getTitle());
