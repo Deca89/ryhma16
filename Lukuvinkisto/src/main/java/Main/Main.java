@@ -134,14 +134,7 @@ public class Main {
                 return new ModelAndView(model, LAYOUT);
             }
 
-            String articles = "";
-
-            for (Media article : articlesFound) {
-                articles += "<a href=\"" + article.getLink() + "\">" + article.getTitle() + "<a>";
-                articles += "<br>";
-            }
-
-            model.put("articles", articles);
+            model.put("articles", stringifyList(articlesFound));
             model.put("template", "templates/haeartikkeli.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -197,14 +190,7 @@ public class Main {
                 return new ModelAndView(model, LAYOUT);
             }
 
-            String videos = "";
-
-            for (Media video : videosFound) {
-                videos += "<a href=\"" + video.getLink() + "\">" + video.getTitle() + "<a>";
-                videos += "<br>";
-            }
-
-            model.put("videos", videos);
+            model.put("videos", stringifyList(videosFound));
             model.put("template", "templates/haevideo.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -260,14 +246,7 @@ public class Main {
                 return new ModelAndView(model, LAYOUT);
             }
 
-            String books = "";
-
-            for (Media book : booksFound) {
-                books += book;
-                books += "<br>";
-            }
-
-            model.put("books", books);
+            model.put("books", stringifyList(booksFound));
             model.put("template", "templates/haekirja.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -306,6 +285,17 @@ public class Main {
         model.put("template", siteAddresses.get(page));
         return model;
 
+    }
+    
+    static String stringifyList(List<Media> mediaList) {
+        String stringified = "";
+
+            for (Media media : mediaList) {
+                stringified += media;
+                stringified += "<br>";
+            }
+            
+        return stringified;
     }
     
     static int findOutPort() {

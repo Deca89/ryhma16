@@ -8,6 +8,6 @@ public class Video extends Media {
     
     @Override
     public String toString() {
-        return title + " : "  + link;
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>";
     }
 }
