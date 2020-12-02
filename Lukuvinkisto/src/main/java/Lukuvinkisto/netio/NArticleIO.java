@@ -35,6 +35,6 @@ public class NArticleIO {
     }
 
     public boolean add(Article article) {
-        return db.addArticle(article.getTitle(), article.getLink());
+        return db.addArticle(article.getTitle(), article.getLink(), article.getTags());
     }
 }

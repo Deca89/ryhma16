@@ -48,7 +48,7 @@ public class NBookIO {
     }
     
     public boolean add(Book book){
-        return db.addBook(book.getTitle(), book.getAuthor(), String.valueOf(book.getLength()), "", "");
+        return db.addBook(book.getTitle(), book.getAuthor(), String.valueOf(book.getLength()), book.getTags());
     }
     
 }

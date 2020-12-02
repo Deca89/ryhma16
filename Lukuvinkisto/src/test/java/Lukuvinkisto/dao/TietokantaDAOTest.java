@@ -2,14 +2,12 @@ package Lukuvinkisto.dao;
 
 import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
-import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -26,10 +24,10 @@ public class TietokantaDAOTest {
     
     @Before
     public void addBooksToTestDatabaseBeforeRunningTests() {
-        instance.addBook("Taikavuori", "Thomas Mann", "800", " ", " ");
-        instance.addBook("Ulysses", "James Joyce", "111", " ", " ");
-        instance.addBook("Malleus Maleficarum", "The Spanish Inquisition", "612", " ", " ");
-        instance.addBook("Harry Potter and The Prisoner Of Azkaban", "J. K. Rowling", "412", " ", " ");
+        instance.addBook("Taikavuori", "Thomas Mann", "800", List.of("ab", "cd"));
+        instance.addBook("Ulysses", "James Joyce", "111", List.of("ef", "gh"));
+        instance.addBook("Malleus Maleficarum", "The Spanish Inquisition", "612", List.of("ij", "kl"));
+        instance.addBook("Harry Potter and The Prisoner Of Azkaban", "J. K. Rowling", "412", List.of("mn", "op"));
     }
     
     /**
@@ -55,8 +53,7 @@ public class TietokantaDAOTest {
      */
     @Test
     public void testAddBook() {
-        boolean result = instance.addBook("1984", "George Orwell", "209", " ", " ");
-        boolean expResult = true;        
+        boolean result = instance.addBook("1984", "George Orwell", "209", null);
 
         assertEquals(true, result);
     }
@@ -86,7 +83,7 @@ public class TietokantaDAOTest {
      */
     @Test
     public void testRemoveBook() {
-        Book book = new Book("Ulysses", "James Joyce", 409);
+        Book book = new Book("Ulysses", "James Joyce", 409, null);
         boolean result2 = instance.removeBook(book);
         assertEquals(true, result2);
         
@@ -103,7 +100,7 @@ public class TietokantaDAOTest {
         assertEquals(0, result.size());
         
         // Removing a non-exisgent book
-        Book book = new Book("Ulysses and Donald Duck", "James Joyce", 409);
+        Book book = new Book("Ulysses and Donald Duck", "James Joyce", 409, null);
         boolean result2 = instance.removeBook(book);
         assertEquals(false, result2);
         
@@ -124,4 +121,24 @@ public class TietokantaDAOTest {
         assertEquals(expResult, result);
     }
     
+    @Test
+    public void testNumberOfTags() {
+        int expResult = 2;
+        int result = instance.listBooks("vuori").get(0).getTags().size();
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testTag1() {
+        String expResult = "ab";
+        String result = instance.listBooks("vuori").get(0).getTags().get(0);
+        assertEquals(expResult, result);
+    }
+
+    @Test
+    public void testTag2() {
+        String expResult = "cd";
+        String result = instance.listBooks("vuori").get(0).getTags().get(1);
+        assertEquals(expResult, result);
+    }
 }

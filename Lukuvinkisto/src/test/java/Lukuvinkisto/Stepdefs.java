@@ -21,7 +21,7 @@ public class Stepdefs {
     
     @Given("Book is initialized with title {string} and author {string} and page count {int}")
     public void bookIsInitialized(String title, String author, int pagecount) {
-        book = new Book(title, author,pagecount);
+        book = new Book(title, author, pagecount, null);
     }
 //    
 //    @Given("{String} is inputted")

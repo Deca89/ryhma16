@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Lukuvinkisto.dao;
 
 import java.io.File;
@@ -38,9 +33,11 @@ public class TiedostoDAO {
         } else {
             try {
                 Connection db = DriverManager.getConnection("jdbc:sqlite:" + fileName + ".db");
-                db.createStatement().execute("CREATE TABLE Books (book_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE, author TEXT, pages TEXT, genres TEXT, description TEXT);");
+                db.createStatement().execute("CREATE TABLE Books (book_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE, author TEXT, pages TEXT);");
                 db.createStatement().execute("CREATE TABLE Videos (video_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE, link TEXT);");
                 db.createStatement().execute("CREATE TABLE Articles (article_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL UNIQUE, link TEXT);");
+                db.createStatement().execute("CREATE TABLE Tags (tag_id INTEGER PRIMARY KEY AUTOINCREMENT, item_type INTEGER, item_id INTEGER, tag TEXT);");
+                // item_type: book=1, video=2, article=3
                 return 2;
             } catch (SQLException ex) {
                 ex.printStackTrace();
