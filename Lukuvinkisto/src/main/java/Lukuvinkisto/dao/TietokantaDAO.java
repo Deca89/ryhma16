@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Lukuvinkisto.dao;
 
 import Lukuvinkisto.media.Article;
@@ -13,11 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,23 +58,26 @@ public class TietokantaDAO {
      * @param description kuvaus kirjasta
      * @return true: lisäys onnistui false: lisäys epäonnistui
      */
-    public boolean addBook(String title, String author, String pages, String genres, String description) {
+    public boolean addBook(String title, String author, String pages, List<String> tags) {
         try {
             Connection dM = createConnection();
-            PreparedStatement p = dM.prepareStatement("INSERT INTO Books(title, author, pages, genres, description) VALUES (?, ?, ?, ?, ?)");
+            PreparedStatement p = dM.prepareStatement("INSERT INTO Books(title, author, pages) VALUES (?, ?, ?)");
             p.setString(1, title);
             p.setString(2, author);
             p.setString(3, pages);
-            p.setString(4, genres);
-            p.setString(5, description);
             p.executeUpdate();
+
+            p = dM.prepareStatement("SELECT book_id FROM Books WHERE title=? AND author=?");
+            p.setString(1, title);
+            p.setString(2, author);
+            int id = p.executeQuery().getInt("book_id");
             dM.close();
-            return true;
+            return addTags(tags, 1, id);
         } catch (SQLException ex) {
             return false;
         }
     }
-
+   
     public List<Media> listBooks(String searchTerm) {
         try {
             Connection dM = createConnection();
@@ -98,7 +93,8 @@ public class TietokantaDAO {
             ResultSet r = p1.executeQuery();
             List<Media> books = new ArrayList<>();
             while (r.next()) {
-                books.add(new Book(r.getString("title"), r.getString("author"), r.getInt("pages")));
+                List<String> tags = listTags(1, r.getInt("book_id"));
+                books.add(new Book(r.getString("title"), r.getString("author"), r.getInt("pages"), tags));
             }
             dM.close();
             return books;
@@ -150,15 +146,20 @@ public class TietokantaDAO {
     // Metodit videoille
     //
     
-    public boolean addVideo(String title, String link) {
+    public boolean addVideo(String title, String link, List<String> tags) {
         try {
             Connection dM = createConnection();
             PreparedStatement p = dM.prepareStatement("INSERT INTO Videos(title, link) VALUES (?, ?)");
             p.setString(1, title);
             p.setString(2, link);
             p.executeUpdate();
+            
+            p = dM.prepareStatement("SELECT video_id FROM Videos WHERE title=? AND link=?");
+            p.setString(1, title);
+            p.setString(2, link);
+            int id = p.executeQuery().getInt("video_id");
             dM.close();
-            return true;
+            return addTags(tags, 2, id);
         } catch (SQLException ex) {
             return false;
         }
@@ -178,7 +179,8 @@ public class TietokantaDAO {
             ResultSet r = p1.executeQuery();
             List<Media> videos = new ArrayList<>();
             while (r.next()) {
-                videos.add(new Video(r.getString("title"), r.getString("link")));
+                List<String> tags = listTags(2, r.getInt("video_id"));
+                videos.add(new Video(r.getString("title"), r.getString("link"),tags));
             }
             dM.close();
             return videos;
@@ -206,15 +208,20 @@ public class TietokantaDAO {
     // Metodit artikkeleille
     //
     
-    public boolean addArticle(String title, String link) {
+    public boolean addArticle(String title, String link, List<String> tags) {
         try {
             Connection dM = createConnection();
             PreparedStatement p = dM.prepareStatement("INSERT INTO Articles(title, link) VALUES (?, ?)");
             p.setString(1, title);
             p.setString(2, link);
             p.executeUpdate();
+            
+            p = dM.prepareStatement("SELECT article_id FROM Articles WHERE title=? AND link=?");
+            p.setString(1, title);
+            p.setString(2, link);
+            int id = p.executeQuery().getInt("article_id");
             dM.close();
-            return true;
+            return addTags(tags, 3, id);
         } catch (SQLException ex) {
             return false;
         }
@@ -234,7 +241,8 @@ public class TietokantaDAO {
             ResultSet r = p1.executeQuery();
             List<Media> articles = new ArrayList<>();
             while (r.next()) {
-                articles.add(new Article(r.getString("title"), r.getString("link")));
+                List<String> tags = listTags(3, r.getInt("article_id"));
+                articles.add(new Article(r.getString("title"), r.getString("link"), tags));
             }
             dM.close();
             return articles;
@@ -256,6 +264,47 @@ public class TietokantaDAO {
             return false;
         } catch (SQLException ex) {
             return false;
+        }
+    }
+    
+    // Metodit tageille
+    //
+    
+    private boolean addTags(List<String> tags, int item_type, int item_id) {
+        if (tags==null) {
+            return true;
+        }
+        try {
+            Connection dM = createConnection();
+            for (String tag : tags) {
+                PreparedStatement p = dM.prepareStatement("INSERT INTO Tags(item_type, item_id, tag) VALUES (?, ?, ?)");
+                p.setInt(1, item_type);
+                p.setInt(2, item_id);
+                p.setString(3, tag);
+                p.executeUpdate();
+            }
+            dM.close();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+    private List<String> listTags(int item_type, int item_id) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p = dM.prepareStatement("SELECT tag FROM Tags WHERE item_type=? AND item_id=?");
+            p.setInt(1, item_type);
+            p.setInt(2, item_id);
+            ResultSet r = p.executeQuery();
+            List<String> tags = new ArrayList<>();
+            while (r.next()) {
+                tags.add(r.getString("tag"));
+            }
+            dM.close();
+            return tags;
+        } catch (SQLException ex) {
+            return null;
         }
     }
     
