@@ -1,9 +1,11 @@
 package Lukuvinkisto.media;
 
+import java.util.List;
+
 public class Article extends Media {
   
-    public Article(String title, String link) {
-        super(title, "", link, 0);
+    public Article(String title, String link, List<String> tags) {
+        super(title, "", link, 0, tags);
     }
     
     @Override
@@ -13,6 +15,6 @@ public class Article extends Media {
     
     @Override
     public String toString() {
-        return title + " : "  + link;
+        return title + " : "  + link + ", Tagit: " + this.getTagString();
     }
 }

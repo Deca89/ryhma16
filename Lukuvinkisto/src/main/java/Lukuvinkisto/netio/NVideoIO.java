@@ -35,6 +35,6 @@ public class NVideoIO {
     }
 
     public boolean add(Video video) {
-        return db.addVideo(video.getTitle(), video.getLink());
+        return db.addVideo(video.getTitle(), video.getLink(), video.getTags());
     }
 }
