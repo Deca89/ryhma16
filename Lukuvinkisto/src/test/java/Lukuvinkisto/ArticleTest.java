@@ -40,6 +40,6 @@ public class ArticleTest {
     @Test
     public void ReturnCorrectListElement() {
         Article article = new Article("Wikipedia: The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd"));
-        assertEquals(article.getAsListElement(), "<a href=\"https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy\">Wikipedia: The Hitchhiker's Guide to the Galaxy<a>");
+        assertEquals(article.getAsListElement(), "<a href=\"https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy\">Wikipedia: The Hitchhiker's Guide to the Galaxy<a>, Tagit: ab, cd");
     }
 }

@@ -10,7 +10,7 @@ public class Video extends Media {
     
     @Override
     public String getAsListElement(){
-        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>";
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString();
     }
     
     @Override

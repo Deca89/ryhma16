@@ -63,7 +63,7 @@ public class Media implements Comparable<Media>   {
 
     
     public String getAsListElement(){
-        return toString();
+        return toString() + ", Tagit: " + this.getTagString();
     }
     
     @Override
