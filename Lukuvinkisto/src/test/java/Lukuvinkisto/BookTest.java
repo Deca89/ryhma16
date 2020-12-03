@@ -50,6 +50,6 @@ public class BookTest {
     @Test
     public void ReturnCorrectListElement() {
         Book book = new Book("Linnunradan käsikirja liftareille", "Adams, Douglas", 203, List.of("ab", "cd"));
-        assertEquals(book.getAsListElement(), book.toString() + ", Tagit: ab, cd");
+        assertEquals(book.getAsListElement(), book.toString());
     }
 }
