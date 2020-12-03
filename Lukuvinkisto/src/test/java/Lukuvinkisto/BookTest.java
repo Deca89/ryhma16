@@ -47,5 +47,9 @@ public class BookTest {
         Collections.sort(books);
         assertEquals(books.get(0).toString(), "Adams, Douglas : Linnunradan käsikirja liftareille, sivumäärä: 203, Tagit: ab, cd");
     }
-
+    @Test
+    public void ReturnCorrectListElement() {
+        Book book = new Book("Linnunradan käsikirja liftareille", "Adams, Douglas", 203, List.of("ab", "cd"));
+        assertEquals(book.getAsListElement(), book.toString() + ", Tagit: ab, cd");
+    }
 }

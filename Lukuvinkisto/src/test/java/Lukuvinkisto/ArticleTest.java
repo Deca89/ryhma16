@@ -36,5 +36,10 @@ public class ArticleTest {
         Collections.sort(articles);
         assertEquals(articles.get(0).toString(), "Linnunradan käsikirja liftareille : https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille, Tagit: ef, gh");
     }
-
+    
+    @Test
+    public void ReturnCorrectListElement() {
+        Article article = new Article("Wikipedia: The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd"));
+        assertEquals(article.getAsListElement(), "<a href=\"https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy\">Wikipedia: The Hitchhiker's Guide to the Galaxy<a>, Tagit: ab, cd");
+    }
 }
