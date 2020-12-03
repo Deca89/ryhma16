@@ -62,6 +62,10 @@ public class Media implements Comparable<Media>   {
     }
 
     
+    public String getAsListElement(){
+        return toString() + ", Tagit: " + this.getTagString();
+    }
+    
     @Override
     public int compareTo(Media t) {
         return this.title.compareTo(t.getTitle());

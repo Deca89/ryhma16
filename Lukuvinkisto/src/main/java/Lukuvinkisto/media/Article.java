@@ -9,6 +9,11 @@ public class Article extends Media {
     }
     
     @Override
+    public String getAsListElement(){
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString();
+    }
+    
+    @Override
     public String toString() {
         return title + " : "  + link + ", Tagit: " + this.getTagString();
     }
