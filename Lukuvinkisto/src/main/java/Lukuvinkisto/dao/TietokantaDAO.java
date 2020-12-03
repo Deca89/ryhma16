@@ -331,20 +331,20 @@ public class TietokantaDAO {
             PreparedStatement p;
             ResultSet r;
             
-            p = dM.prepareStatement("SELECT title,author,pages,book_id FROM Tags,Books WHERE item_type=1 AND item_id=book_id AND tag=?");
-            p.setString(1, tag);
+            p = dM.prepareStatement("SELECT title,author,pages,book_id FROM Tags,Books WHERE item_type=1 AND item_id=book_id AND lower(tag)=?");
+            p.setString(1, tag.toLowerCase());
             r = p.executeQuery();
             while (r.next()) {
                 items.add(new Book(r.getString("title"), r.getString("author"), r.getInt("pages"), listTags(1, r.getInt("book_id"))));
             }
-            p = dM.prepareStatement("SELECT title,link,video_id FROM Tags,Videos WHERE item_type=2 AND item_id=video_id AND tag=?");
-            p.setString(1, tag);
+            p = dM.prepareStatement("SELECT title,link,video_id FROM Tags,Videos WHERE item_type=2 AND item_id=video_id AND lower(tag)=?");
+            p.setString(1, tag.toLowerCase());
             r = p.executeQuery();
             while (r.next()) {
                 items.add(new Video(r.getString("title"), r.getString("link"), listTags(2, r.getInt("video_id"))));
             }
-            p = dM.prepareStatement("SELECT title,link,article_id FROM Tags,Articles WHERE item_type=3 AND item_id=article_id AND tag=?");
-            p.setString(1, tag);
+            p = dM.prepareStatement("SELECT title,link,article_id FROM Tags,Articles WHERE item_type=3 AND item_id=article_id AND lower(tag)=?");
+            p.setString(1, tag.toLowerCase());
             r = p.executeQuery();
             while (r.next()) {
                 items.add(new Article(r.getString("title"), r.getString("link"), listTags(3, r.getInt("article_id"))));

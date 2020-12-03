@@ -20,7 +20,7 @@ public class DemodbTest {
     public void TestDemodbCorrectTagSearch() {
         DemoTietokanta.luo("testi");
         TietokantaDAO db = new TietokantaDAO("testi");
-        int count = db.SearchByTag("liftausta").size();
+        int count = db.SearchByTag("LIFTAUSTA").size();
         File file = new File("testi.db"); 
         file.delete(); 
         assertEquals(7, count);
