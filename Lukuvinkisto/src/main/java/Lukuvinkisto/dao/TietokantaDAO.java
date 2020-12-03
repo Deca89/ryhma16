@@ -307,5 +307,54 @@ public class TietokantaDAO {
             return null;
         }
     }
+
+    public List<String> listAllTags() {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p = dM.prepareStatement("SELECT DISTINCT tag FROM Tags");
+            ResultSet r = p.executeQuery();
+            List<String> tags = new ArrayList<>();
+            while (r.next()) {
+                tags.add(r.getString("tag"));
+            }
+            dM.close();
+            return tags;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+    
+    public List<Media> SearchByTag(String tag) {
+        try {
+            Connection dM = createConnection();
+            List<Media> items = new ArrayList<>();
+            PreparedStatement p;
+            ResultSet r;
+            
+            p = dM.prepareStatement("SELECT title,author,pages,book_id FROM Tags,Books WHERE item_type=1 AND item_id=book_id AND tag=?");
+            p.setString(1, tag);
+            r = p.executeQuery();
+            while (r.next()) {
+                items.add(new Book(r.getString("title"), r.getString("author"), r.getInt("pages"), listTags(1, r.getInt("book_id"))));
+            }
+            p = dM.prepareStatement("SELECT title,link,video_id FROM Tags,Videos WHERE item_type=2 AND item_id=video_id AND tag=?");
+            p.setString(1, tag);
+            r = p.executeQuery();
+            while (r.next()) {
+                items.add(new Video(r.getString("title"), r.getString("link"), listTags(2, r.getInt("video_id"))));
+            }
+            p = dM.prepareStatement("SELECT title,link,article_id FROM Tags,Articles WHERE item_type=3 AND item_id=article_id AND tag=?");
+            p.setString(1, tag);
+            r = p.executeQuery();
+            while (r.next()) {
+                items.add(new Article(r.getString("title"), r.getString("link"), listTags(3, r.getInt("article_id"))));
+            }            
+            
+            dM.close();
+            return items;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
     
 }
