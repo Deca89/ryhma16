@@ -1,5 +1,6 @@
 package Main;
 
+import Lukuvinkisto.dao.DemoTietokanta;
 import Lukuvinkisto.dao.TiedostoDAO;
 import Lukuvinkisto.dao.TietokantaDAO;
 import Lukuvinkisto.media.Article;
@@ -32,6 +33,9 @@ public class Main {
     private static Map<String, String> siteAddresses;
 
     public static void main(String[] args) {
+        if ((args.length>0) && args[0].equals("demotietokanta")) {
+            DemoTietokanta.luo(DB_FILENAME);
+        }
         buildSiteAddresses();
         setUpSite();
         setUpIO();

@@ -25,6 +25,8 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 4. Ohjelma avaa uuddssa selainikkunassa Lukuvinkistön web-käyttöliittymän.
 5. Kun haluat lopettaa ohjelman, klikkaa web-käyttöliittymässä linkkiä *Lopeta ohjelma*.
 
+Suorittamalla ohjelma komennolla *gradle run \-\-args="demotietokanta"*, ohjelma aluksi poistaa mahdollisen aiemman tietokannan ja korvaa sen demotietokannalla.
+
 ### Käyttöohje
 
 Ohjelma käynnistetään komentoriviltä. Seuraavat ohjeet koskevat web-käyttöliittymää.
