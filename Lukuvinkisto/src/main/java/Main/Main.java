@@ -31,6 +31,7 @@ public class Main {
     private static NBookIO bookNIO;
     private static NArticleIO articleNIO;
     private static NVideoIO videoNIO;
+    private static TietokantaDAO db;
     
     private static Map<String, String> siteAddresses;
 
@@ -206,6 +207,25 @@ public class Main {
 
         }, new VelocityTemplateEngine());
         
+        post("/haetagi", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String searchWord = request.queryParams("tagi");
+
+            List<Media> itemsFound = db.SearchByTag(searchWord);
+
+            if (itemsFound.isEmpty()) {
+                model.put("error", "Ei tagia vastaavia vinkkejä");
+                model.put("template", "templates/haetagi.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+
+            model.put("videos", stringifyList(itemsFound));
+            
+            model.put("template", "templates/haetagi.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+        
         //kirjan komennot
         post("/lisaakirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
@@ -280,6 +300,7 @@ public class Main {
         siteAddresses.put("haekirja", "templates/haekirja.html");
         siteAddresses.put("haevideo", "templates/haevideo.html");
         siteAddresses.put("haevinkki", "templates/haevinkki.html");
+        siteAddresses.put("haetagi", "templates/haetagi.html");
         
         siteAddresses.put("naytakirjat", "templates/naytakirjat.html");
         siteAddresses.put("naytaartikkelit", "templates/naytaartikkelit.html");
@@ -342,7 +363,7 @@ public class Main {
     
     static void setUpIO(){
         (new TiedostoDAO()).createFile(DB_FILENAME);
-        TietokantaDAO db = new TietokantaDAO(DB_FILENAME);
+        db = new TietokantaDAO(DB_FILENAME);
         bookNIO = new NBookIO(db);
         articleNIO = new NArticleIO(db);
         videoNIO = new NVideoIO(db);

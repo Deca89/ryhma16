@@ -1,0 +1,25 @@
+<h1>Hae tagien avulla</h1>
+
+<form method="POST" action="/haetagi">
+    <fieldset>
+        Tagi : <input type="text" name="tagi" id="hakusana" size="150"/>
+        <br/>       
+        <input name="haetagi" type="submit" value="Hae" />
+    </fieldset>
+<form>  
+    
+<p><a href="/haevinkki">Takaisin valikkoon</a></p>
+<p><a href="/">Takaisin päävalikkoon</a></p>
+
+#if( $error )
+<div id="error" style="color:red">
+    <p><em>$error</em></p>
+</div>
+#end
+
+#if( $videos )
+<div id="videos" style="color:black">
+    <p><em>$videos</em></p>
+</div>
+#end
+
