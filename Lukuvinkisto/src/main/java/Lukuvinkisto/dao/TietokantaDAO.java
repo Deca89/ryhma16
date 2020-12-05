@@ -109,12 +109,12 @@ public class TietokantaDAO {
      * @param title kirjan nimi
      * @return true: kirjan poisto onnistui false: kirjan poisto epäonnisti
      */
-    public boolean removeBook(Book book) {
+    public boolean removeBook(String title, String author) {
         try {
             Connection dM = createConnection();
             PreparedStatement p1 = dM.prepareStatement("DELETE FROM Books WHERE title=? AND author=?");
-            p1.setString(1, book.getTitle());
-            p1.setString(2, book.getAuthor());
+            p1.setString(1, title);
+            p1.setString(2, author);
             int r = p1.executeUpdate();
             dM.close();
             if (r==1) {
@@ -189,11 +189,11 @@ public class TietokantaDAO {
         }
     }    
     
-    public boolean removeVideo(Video video) {
+    public boolean removeVideo(String title) {
         try {
             Connection dM = createConnection();
             PreparedStatement p1 = dM.prepareStatement("DELETE FROM Videos WHERE title=?");
-            p1.setString(1, video.getTitle());
+            p1.setString(1, title);
             int r = p1.executeUpdate();
             dM.close();
             if (r==1) {
@@ -251,11 +251,11 @@ public class TietokantaDAO {
         }
     }    
     
-    public boolean removeArticle(Article article) {
+    public boolean removeArticle(String title) {
         try {
             Connection dM = createConnection();
             PreparedStatement p1 = dM.prepareStatement("DELETE FROM Articles WHERE title=?");
-            p1.setString(1, article.getTitle());
+            p1.setString(1, title);
             int r = p1.executeUpdate();
             dM.close();
             if (r==1) {

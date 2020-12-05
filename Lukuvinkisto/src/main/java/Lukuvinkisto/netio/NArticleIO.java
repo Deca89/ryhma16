@@ -30,11 +30,18 @@ public class NArticleIO {
         return works;
     }
 
-    public boolean remove(Article article) {
-        return db.removeArticle(article);
+    public boolean remove(String title) {
+        return db.removeArticle(title);
     }
 
-    public boolean add(Article article) {
-        return db.addArticle(article.getTitle(), article.getLink(), article.getTags());
+    public boolean add(String title, String link, List<String> tags) {
+        if (this.validate(title, link)) {
+            return db.addArticle(title, link, tags);
+        }
+        return false;
+    }
+    
+    private boolean validate(String title, String link) {
+        return title.length() > 2 && link.length() > 2;
     }
 }

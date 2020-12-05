@@ -100,12 +100,13 @@ public class Main {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
+
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
                 Collections.addAll(tagit,request.queryParams("tagit").split(","));
             }
             
-            Boolean articleAdded = articleNIO.add(new Article(title, link, tagit));
+            Boolean articleAdded = articleNIO.add(title, link, tagit);
 
             if (!articleAdded) {
                 model.put("error", "Artikkelia ei saatu lisättyä");
@@ -123,7 +124,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean bookRemoved = articleNIO.remove(new Article(title, link, null));
+            Boolean bookRemoved = articleNIO.remove(title);
 
             if (!bookRemoved) {
                 model.put("error", "Artikkelia ei saatu poistettua");
@@ -166,10 +167,10 @@ public class Main {
                 Collections.addAll(tagit,request.queryParams("tagit").split(","));
             }
 
-            Boolean videoAdded = videoNIO.add(new Video(title, link, tagit));
+            Boolean videoAdded = videoNIO.add(title, link, tagit);
 
             if (!videoAdded) {
-                model.put("error", "Videoa ei saatu lisättyä");
+                model.put("error", "Videota ei saatu lisättyä");
                 model.put("template", "templates/lisaavideo.html");
                 return new ModelAndView(model, LAYOUT);
             }
@@ -184,7 +185,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean videoRemoved = videoNIO.remove(new Video(title, link, null));
+            Boolean videoRemoved = videoNIO.remove(title);
 
             if (!videoRemoved) {
                 model.put("error", "Videota ei saatu poistettua");
@@ -243,13 +244,14 @@ public class Main {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
-            int pages = Integer.valueOf(request.queryParams("sivumaara"));
+            String pages = request.queryParams("sivumaara");
+          
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
                 Collections.addAll(tagit,request.queryParams("tagit").split(","));
             }
 
-            Boolean bookAdded = bookNIO.add(new Book(title, author, pages, tagit));
+            Boolean bookAdded = bookNIO.add(title, author, pages, tagit);
 
             if (!bookAdded) {
                 model.put("error", "Kirjaa ei saatu lisättyä");
@@ -267,7 +269,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
 
-            Boolean bookRemoved = bookNIO.remove(new Book(title, author, 0, null));
+            Boolean bookRemoved = bookNIO.remove(title, author);
 
             if (!bookRemoved) {
                 model.put("error", "Kirjaa ei saatu poistettua");
@@ -320,7 +322,7 @@ public class Main {
         siteAddresses.put("naytavinkit", "templates/naytavinkit.html");
         
         siteAddresses.put("poistakirja", "templates/poistakirja.html");
-        siteAddresses.put("poistaartikkeli", "templates/poistaartikkeli.html");
+        siteAddresses.put("poistaArtikkeli", "templates/poistaArtikkeli.html");
         siteAddresses.put("poistavideo", "templates/poistavideo.html");
         siteAddresses.put("poistavinkki", "templates/poistavinkki.html");
     }
