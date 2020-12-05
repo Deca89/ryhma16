@@ -10,6 +10,7 @@ import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -43,12 +44,22 @@ public class NBookIO {
         return works;
     }
 
-    public boolean remove(Book book) {
-        return db.removeBook(book);
+    public boolean remove(String title, String author) { 
+        return db.removeBook(title, author);
     }
     
-    public boolean add(Book book){
-        return db.addBook(book.getTitle(), book.getAuthor(), String.valueOf(book.getLength()), book.getTags());
+    public boolean add(String title, String Author, String pages, List<String> tags){
+        if (this.validate(title, Author, pages)) {
+            return db.addBook(title, Author, pages, tags);
+           
+        }
+        return false;
     }
     
+    private boolean validate(String title, String author, String pages) {
+        if (!StringUtils.isNumeric(pages)) {
+            return false;
+        }
+        return author.length() > 2 && Integer.valueOf(pages) > 0 && title.length()>0;
+    }
 }

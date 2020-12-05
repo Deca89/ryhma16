@@ -30,11 +30,18 @@ public class NVideoIO {
         return works;
     }
 
-    public boolean remove(Video video) {
-        return db.removeVideo(video);
+    public boolean remove(String title) {
+        return db.removeVideo(title);
     }
 
-    public boolean add(Video video) {
-        return db.addVideo(video.getTitle(), video.getLink(), video.getTags());
+    public boolean add(String title, String link, List<String> tags) {
+        if (this.validate(title, link)) {
+            return db.addVideo(title, link, tags);
+        }
+        return false;
+    }
+    
+    private boolean validate(String title, String link) {
+        return title.length() > 2 && link.length() > 2;
     }
 }

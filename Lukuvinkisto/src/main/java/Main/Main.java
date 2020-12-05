@@ -89,7 +89,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean articleAdded = articleNIO.add(new Article(title, link, null));
+            Boolean articleAdded = articleNIO.add(title, link, null);
 
             if (!articleAdded) {
                 model.put("error", "Artikkelia ei saatu lisättyä");
@@ -107,7 +107,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean bookRemoved = articleNIO.remove(new Article(title, link, null));
+            Boolean bookRemoved = articleNIO.remove(title);
 
             if (!bookRemoved) {
                 model.put("error", "Artikkelia ei saatu poistettua");
@@ -146,10 +146,10 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean videoAdded = videoNIO.add(new Video(title, link, null));
+            Boolean videoAdded = videoNIO.add(title, link, null);
 
             if (!videoAdded) {
-                model.put("error", "Videoa ei saatu lisättyä");
+                model.put("error", "Videota ei saatu lisättyä");
                 model.put("template", "templates/lisaavideo.html");
                 return new ModelAndView(model, LAYOUT);
             }
@@ -164,7 +164,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean videoRemoved = videoNIO.remove(new Video(title, link, null));
+            Boolean videoRemoved = videoNIO.remove(title);
 
             if (!videoRemoved) {
                 model.put("error", "Videota ei saatu poistettua");
@@ -201,9 +201,9 @@ public class Main {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
-            int pages = Integer.valueOf(request.queryParams("sivumaara"));
+            String pages = request.queryParams("sivumaara");
 
-            Boolean bookAdded = bookNIO.add(new Book(title, author, pages, null));
+            Boolean bookAdded = bookNIO.add(title, author, pages, null);
 
             if (!bookAdded) {
                 model.put("error", "Kirjaa ei saatu lisättyä");
@@ -221,7 +221,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
 
-            Boolean bookRemoved = bookNIO.remove(new Book(title, author, 0, null));
+            Boolean bookRemoved = bookNIO.remove(title, author);
 
             if (!bookRemoved) {
                 model.put("error", "Kirjaa ei saatu poistettua");
@@ -258,7 +258,7 @@ public class Main {
         siteAddresses.put("index", "templates/index.html");
         
         siteAddresses.put("lisaakirja", "templates/lisaakirja.html");
-        siteAddresses.put("lisaaartikkeli", "templates/lisaaartikkeli.html");
+        siteAddresses.put("lisaaArtikkeli", "templates/lisaaArtikkeli.html");
         siteAddresses.put("lisaavideo", "templates/lisaavideo.html");
         siteAddresses.put("lisaavinkki", "templates/lisaavinkki.html");
         
