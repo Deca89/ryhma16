@@ -84,7 +84,7 @@ public class TietokantaDAOTest {
     @Test
     public void testRemoveBook() {
         Book book = new Book("Ulysses", "James Joyce", 409, null);
-        boolean result2 = instance.removeBook(book);
+        boolean result2 = instance.removeBook(book.getTitle(), book.getAuthor());
         assertEquals(true, result2);
         
         String searchTerm = null;
@@ -101,7 +101,7 @@ public class TietokantaDAOTest {
         
         // Removing a non-exisgent book
         Book book = new Book("Ulysses and Donald Duck", "James Joyce", 409, null);
-        boolean result2 = instance.removeBook(book);
+        boolean result2 = instance.removeBook(book.getTitle(), book.getAuthor());
         assertEquals(false, result2);
         
         // Checking the list size afterwards
