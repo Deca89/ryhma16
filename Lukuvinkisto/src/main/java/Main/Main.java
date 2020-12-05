@@ -12,6 +12,8 @@ import Lukuvinkisto.netio.NBookIO;
 import Lukuvinkisto.netio.NVideoIO;
 import java.awt.Desktop;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,8 +90,12 @@ public class Main {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
-
-            Boolean articleAdded = articleNIO.add(new Article(title, link, null));
+            List<String> tagit = new ArrayList();
+            if (!request.queryParams("tagit").equals("")) {
+                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+            }
+            
+            Boolean articleAdded = articleNIO.add(new Article(title, link, tagit));
 
             if (!articleAdded) {
                 model.put("error", "Artikkelia ei saatu lisättyä");
@@ -145,8 +151,12 @@ public class Main {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
+            List<String> tagit = new ArrayList();
+            if (!request.queryParams("tagit").equals("")) {
+                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+            }
 
-            Boolean videoAdded = videoNIO.add(new Video(title, link, null));
+            Boolean videoAdded = videoNIO.add(new Video(title, link, tagit));
 
             if (!videoAdded) {
                 model.put("error", "Videoa ei saatu lisättyä");
@@ -202,8 +212,12 @@ public class Main {
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
             int pages = Integer.valueOf(request.queryParams("sivumaara"));
+            List<String> tagit = new ArrayList();
+            if (!request.queryParams("tagit").equals("")) {
+                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+            }
 
-            Boolean bookAdded = bookNIO.add(new Book(title, author, pages, null));
+            Boolean bookAdded = bookNIO.add(new Book(title, author, pages, tagit));
 
             if (!bookAdded) {
                 model.put("error", "Kirjaa ei saatu lisättyä");
@@ -258,7 +272,7 @@ public class Main {
         siteAddresses.put("index", "templates/index.html");
         
         siteAddresses.put("lisaakirja", "templates/lisaakirja.html");
-        siteAddresses.put("lisaaartikkeli", "templates/lisaaartikkeli.html");
+        siteAddresses.put("lisaaArtikkeli", "templates/lisaaArtikkeli.html");
         siteAddresses.put("lisaavideo", "templates/lisaavideo.html");
         siteAddresses.put("lisaavinkki", "templates/lisaavinkki.html");
         
