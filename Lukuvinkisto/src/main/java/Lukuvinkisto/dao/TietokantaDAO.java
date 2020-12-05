@@ -280,7 +280,7 @@ public class TietokantaDAO {
                 PreparedStatement p = dM.prepareStatement("INSERT INTO Tags(item_type, item_id, tag) VALUES (?, ?, ?)");
                 p.setInt(1, item_type);
                 p.setInt(2, item_id);
-                p.setString(3, tag);
+                p.setString(3, tag.trim());
                 p.executeUpdate();
             }
             dM.close();
