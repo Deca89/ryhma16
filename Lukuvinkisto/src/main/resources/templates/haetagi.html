@@ -2,8 +2,13 @@
 
 <form method="POST" action="/haetagi">
     <fieldset>
-        Tagi : <input type="text" name="tagi" id="hakusana" size="150"/>
-        <br/>       
+        Tagi: 
+        <select name="tagi">
+            #foreach ($tag in $allTags)
+                <option value="$tag">$tag</option>
+            #end
+        </select>
+        <p>       
         <input name="haetagi" type="submit" value="Hae" />
     </fieldset>
 <form>  
@@ -17,9 +22,9 @@
 </div>
 #end
 
-#if( $videos )
-<div id="videos" style="color:black">
-    <p><em>$videos</em></p>
+#if( $tags )
+<div id="tags" style="color:black">
+    <p><em>$tags</em></p>
 </div>
 #end
 

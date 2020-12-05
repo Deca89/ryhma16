@@ -78,6 +78,15 @@ public class Main {
             model.put("videos", stringifyList(videosFound));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
+        
+        get("/haetagi", (request, response) -> {
+            HashMap<String, Object> model = new HashMap<>();
+            List<String> tags = db.listAllTags();
+            Collections.sort(tags);
+            model.put("allTags", tags);
+            model.put("template", siteAddresses.get("haetagi"));
+            return new ModelAndView(model, LAYOUT);
+        }, new VelocityTemplateEngine());
 
         get("/:page", (request, response) -> {
             String page = request.params(":page");
@@ -208,7 +217,12 @@ public class Main {
         }, new VelocityTemplateEngine());
         
         post("/haetagi", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
+            HashMap<String, Object> model = new HashMap<>();
+            List<String> tags = db.listAllTags();
+            Collections.sort(tags);
+            model.put("allTags", tags);
+            model.put("template", siteAddresses.get("haetagi"));
+            
             String searchWord = request.queryParams("tagi");
 
             List<Media> itemsFound = db.SearchByTag(searchWord);
@@ -219,9 +233,7 @@ public class Main {
                 return new ModelAndView(model, LAYOUT);
             }
 
-            model.put("videos", stringifyList(itemsFound));
-            
-            model.put("template", "templates/haetagi.html");
+            model.put("tags", stringifyList(itemsFound));
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
