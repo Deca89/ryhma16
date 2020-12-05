@@ -60,7 +60,7 @@ public class ArticleDaoTest {
     @Test
     public void testRemovingNonExistingArticleReturnsFalse() {
         db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
-        boolean r = db.removeArticle(article2);
+        boolean r = db.removeArticle(article2.getTitle());
         assertFalse(r);
     } 
 
@@ -76,7 +76,7 @@ public class ArticleDaoTest {
     public void testTwoArticlesAddedOneRemoved() {
         db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
         db.addArticle(article2.getTitle(), article2.getLink(), article2.getTags());
-        db.removeArticle(article1);
+        db.removeArticle(article1.getTitle());
         
         List<Media> list = db.listArticles(null);
         assertEquals(list.size(),1);

@@ -60,7 +60,7 @@ public class VideoDaoTest {
     @Test
     public void testRemovingNonExistingVideoReturnsFalse() {
         db.addVideo(video1.getTitle(), video1.getLink(), video1.getTags());
-        boolean r = db.removeVideo(video2);
+        boolean r = db.removeVideo(video2.getTitle());
         assertFalse(r);
     } 
 
@@ -76,7 +76,7 @@ public class VideoDaoTest {
     public void testTwoVideosAddedOneRemoved() {
         db.addVideo(video1.getTitle(), video1.getLink(), video1.getTags());
         db.addVideo(video2.getTitle(), video2.getLink(), video2.getTags());
-        db.removeVideo(video1);
+        db.removeVideo(video1.getTitle());
         
         List<Media> list = db.listVideos(null);
         assertEquals(list.size(),1);
