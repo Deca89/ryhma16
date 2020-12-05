@@ -12,6 +12,8 @@ import Lukuvinkisto.netio.NBookIO;
 import Lukuvinkisto.netio.NVideoIO;
 import java.awt.Desktop;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,7 @@ public class Main {
     private static NBookIO bookNIO;
     private static NArticleIO articleNIO;
     private static NVideoIO videoNIO;
+    private static TietokantaDAO db;
     
     private static Map<String, String> siteAddresses;
 
@@ -89,7 +92,12 @@ public class Main {
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
 
-            Boolean articleAdded = articleNIO.add(title, link, null);
+            List<String> tagit = new ArrayList();
+            if (!request.queryParams("tagit").equals("")) {
+                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+            }
+            
+            Boolean articleAdded = articleNIO.add(title, link, tagit);
 
             if (!articleAdded) {
                 model.put("error", "Artikkelia ei saatu lisättyä");
@@ -145,8 +153,12 @@ public class Main {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
+            List<String> tagit = new ArrayList();
+            if (!request.queryParams("tagit").equals("")) {
+                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+            }
 
-            Boolean videoAdded = videoNIO.add(title, link, null);
+            Boolean videoAdded = videoNIO.add(title, link, tagit);
 
             if (!videoAdded) {
                 model.put("error", "Videota ei saatu lisättyä");
@@ -196,14 +208,38 @@ public class Main {
 
         }, new VelocityTemplateEngine());
         
+        post("/haetagi", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String searchWord = request.queryParams("tagi");
+
+            List<Media> itemsFound = db.SearchByTag(searchWord);
+
+            if (itemsFound.isEmpty()) {
+                model.put("error", "Ei tagia vastaavia vinkkejä");
+                model.put("template", "templates/haetagi.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+
+            model.put("videos", stringifyList(itemsFound));
+            
+            model.put("template", "templates/haetagi.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
+        
         //kirjan komennot
         post("/lisaakirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
             String pages = request.queryParams("sivumaara");
+          
+            List<String> tagit = new ArrayList();
+            if (!request.queryParams("tagit").equals("")) {
+                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+            }
 
-            Boolean bookAdded = bookNIO.add(title, author, pages, null);
+            Boolean bookAdded = bookNIO.add(title, author, pages, tagit);
 
             if (!bookAdded) {
                 model.put("error", "Kirjaa ei saatu lisättyä");
@@ -266,6 +302,7 @@ public class Main {
         siteAddresses.put("haekirja", "templates/haekirja.html");
         siteAddresses.put("haevideo", "templates/haevideo.html");
         siteAddresses.put("haevinkki", "templates/haevinkki.html");
+        siteAddresses.put("haetagi", "templates/haetagi.html");
         
         siteAddresses.put("naytakirjat", "templates/naytakirjat.html");
         siteAddresses.put("naytaartikkelit", "templates/naytaartikkelit.html");
@@ -273,7 +310,7 @@ public class Main {
         siteAddresses.put("naytavinkit", "templates/naytavinkit.html");
         
         siteAddresses.put("poistakirja", "templates/poistakirja.html");
-        siteAddresses.put("poistaartikkeli", "templates/poistaartikkeli.html");
+        siteAddresses.put("poistaArtikkeli", "templates/poistaArtikkeli.html");
         siteAddresses.put("poistavideo", "templates/poistavideo.html");
         siteAddresses.put("poistavinkki", "templates/poistavinkki.html");
     }
@@ -328,7 +365,7 @@ public class Main {
     
     static void setUpIO(){
         (new TiedostoDAO()).createFile(DB_FILENAME);
-        TietokantaDAO db = new TietokantaDAO(DB_FILENAME);
+        db = new TietokantaDAO(DB_FILENAME);
         bookNIO = new NBookIO(db);
         articleNIO = new NArticleIO(db);
         videoNIO = new NVideoIO(db);

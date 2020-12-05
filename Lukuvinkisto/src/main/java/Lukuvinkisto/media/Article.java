@@ -10,11 +10,17 @@ public class Article extends Media {
     
     @Override
     public String getAsListElement(){
+        if (tags==null || tags.isEmpty()) {
+            return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>";
+        }
         return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString();
     }
     
     @Override
     public String toString() {
+        if (tags==null || tags.isEmpty()) {
+            return title + " : "  + link;
+        }
         return title + " : "  + link + ", Tagit: " + this.getTagString();
     }
 }
