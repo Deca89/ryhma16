@@ -44,7 +44,7 @@ public class NBookIO {
         return works;
     }
     
-    public List<Media> fetchId(String input) {
+    public List<Media> fetchWithId(String input) {
         List<Media> work = db.getBookById(input);
         return work;
     }

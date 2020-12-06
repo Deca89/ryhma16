@@ -18,9 +18,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
+import spark.TemplateViewRoute;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class Main {
@@ -301,25 +304,28 @@ public class Main {
 
         }, new VelocityTemplateEngine());
 
-        post("/muokkaakirjaa", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            String wantedId = request.queryParams("haettavaId");
-            
-            // hakee kirjan id:n perusteella
-            // toimii oikein jos searchId:n tilalle vaihtaa esim. nron 2
-            // Eli id ei tule oikein lomakkeelta
-            List<Media> bookFound = bookNIO.fetchId(wantedId);
-
-            if (bookFound.isEmpty()) {
-                model.put("error", "Ei id:tä vastaavia kirjoja");
+        post("/muokkaakirjaa", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) throws Exception {
+                HashMap<String, String> model = new HashMap<>();
+                String id = request.queryParams("haettavaId");
+                
+                List<Media> bookFound = bookNIO.fetchWithId(id);
+                
+                if (bookFound.isEmpty()) {
+                    model.put("error", "Ei id:tä vastaavia kirjoja");
+                    model.put("template", "templates/muokkaakirjaa.html");
+                    return new ModelAndView(model, LAYOUT);
+                }
+                
+                model.put("id", id);
+                model.put("pages", String.valueOf(bookFound.get(0).getLength()));
+                model.put("title", bookFound.get(0).getTitle());
+                model.put("author", bookFound.get(0).getAuthor());
+                model.put("tags", String.join(",", bookFound.get(0).getTags()));
                 model.put("template", "templates/muokkaakirjaa.html");
                 return new ModelAndView(model, LAYOUT);
             }
-
-            model.put("book", stringifyList(bookFound));
-            model.put("template", "templates/muokkaakirjaa.html");
-            return new ModelAndView(model, LAYOUT);
-
         }, new VelocityTemplateEngine());
     }
 
@@ -349,7 +355,7 @@ public class Main {
         siteAddresses.put("poistavinkki", "templates/poistavinkki.html");
         
         siteAddresses.put("muokkaakirjaa", "templates/muokkaakirjaa.html");
-        siteAddresses.put("dummy", "templates/dummy.html");
+        siteAddresses.put("tallennamuokkaus", "templates/tallennamuokkaus.html");
     }
 
     static HashMap<String, String> buildModel(String page) {
