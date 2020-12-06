@@ -9,6 +9,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Queue;
 import static org.junit.Assert.*;
 
@@ -76,9 +77,73 @@ public class Stepdefs {
     public void videoAddValidationReturns(String trueFalse) {
         assertEquals(trueFalse, String.valueOf(nVideo.add(video.getTitle(), video.getLink(), null)));
     }
-    
+
     @Then("Article add validation is {string}")
     public void articleAddValidationReturns(String trueFalse) {
         assertEquals(trueFalse, String.valueOf(nArticle.add(article.getTitle(), article.getLink(), null)));
     }
+
+    @Given("Book is added with title {string} and author {string} and page count {int}")
+    public void bookIsAdded(String title, String author, int pagecount) {
+        nBook.add(title, author, String.valueOf(pagecount), null);
+    }
+
+    @Then("Book search for {string} should return {int} results")
+    public void bookSearchShouldReturnResults(String searchTerm, Integer results) {
+        List<Media> found;
+        if (searchTerm.length() == 0) {
+            found = nBook.fetch();
+        } else {
+            found = nBook.fetch(searchTerm);
+        }
+        assertEquals(results, (Integer) found.size());
+    }
+
+    @Given("Video is added with title {string} and link {string}")
+    public void videoIsAddedWithTitleAndLink(String title, String link) {
+        nVideo.add(title, link, null);
+    }
+
+    @Then("Video search for {string} should return {int} results")
+    public void videoSearchShouldReturnResults(String searchTerm, Integer results) {
+        List<Media> found;
+        if (searchTerm.length() == 0) {
+            found = nVideo.fetch();
+        } else {
+            found = nVideo.fetch(searchTerm);
+        }
+        assertEquals(results, (Integer) found.size());
+    }
+
+    @Given("Article is added with title {string} and link {string}")
+    public void articleIsAddedWithTitleAndLink(String title, String link) {
+        nArticle.add(title, link, null);
+    }
+
+    @Then("Article search for {string} should return {int} results")
+    public void articleSearchShouldReturnResults(String searchTerm, Integer results) {
+        List<Media> found;
+        if (searchTerm.length() == 0) {
+            found = nArticle.fetch();
+        } else {
+            found = nArticle.fetch(searchTerm);
+        }
+        assertEquals(results, (Integer) found.size());
+    }
+
+    @Then("Video removal for {string} is {string}")
+    public void videoRemovalIs(String title, String trueFalse) {
+        assertEquals(trueFalse, String.valueOf(nVideo.remove(title)));
+    }
+
+    @Then("Article removal for {string} is {string}")
+    public void articleRemovalIs(String title, String trueFalse) {
+        assertEquals(trueFalse, String.valueOf(nArticle.remove(title)));
+    }
+
+    @Then("Book removal for {string} and {string} is {string}")
+    public void bookRemovalIs(String title, String author, String trueFalse) {
+        assertEquals(trueFalse, String.valueOf(nBook.remove(title, author)));
+    }
+
 }
