@@ -78,15 +78,16 @@ public class TietokantaDAO {
         }
     }
 
-    public boolean modifyBook(String id, String title, String author, String pages, List<String> tags) {
+    public boolean modifyBook(String id, String title, String author, String pages, List<String> tags, String status) {
         try {
             Connection dM = createConnection();
             int idInt = Integer.parseInt(id);
-            PreparedStatement p = dM.prepareStatement("UPDATE Books SET title=?, author=?, pages=? WHERE book_id=?");
+            PreparedStatement p = dM.prepareStatement("UPDATE Books SET title=?, author=?, pages=?, status=? WHERE book_id=?");
             p.setString(1, title);
             p.setString(2, author);
             p.setString(3, pages);
-            p.setString(4, id);
+            p.setString(4, status);
+            p.setString(5, id);
             p.executeUpdate();
             return addTags(tags, 1, idInt);
             
@@ -111,7 +112,7 @@ public class TietokantaDAO {
             List<Media> books = new ArrayList<>();
             while (r.next()) {
                 List<String> tags = listTags(1, r.getInt("book_id"));
-                books.add(new Book(r.getInt("book_id"), r.getString("title"), r.getString("author"), r.getInt("pages"), tags));
+                books.add(new Book(r.getInt("book_id"), r.getString("title"), r.getString("author"), r.getInt("pages"), tags, r.getInt("status")));
             }
             dM.close();
             return books;
@@ -133,7 +134,7 @@ public class TietokantaDAO {
             List<Media> book = new ArrayList<>();
             while (r.next()) {
                 List<String> tags = listTags(1, r.getInt("book_id"));
-                book.add(new Book(r.getInt("book_id"), r.getString("title"), r.getString("author"), r.getInt("pages"), tags));
+                book.add(new Book(r.getInt("book_id"), r.getString("title"), r.getString("author"), r.getInt("pages"), tags, r.getInt("status")));
             }
             dM.close();
             return book;
@@ -372,7 +373,7 @@ public class TietokantaDAO {
             p.setString(1, tag.toLowerCase());
             r = p.executeQuery();
             while (r.next()) {
-                items.add(new Book(r.getString("title"), r.getString("author"), r.getInt("pages"), listTags(1, r.getInt("book_id"))));
+                items.add(new Book(r.getString("title"), r.getString("author"), r.getInt("pages"), listTags(1, r.getInt("book_id")), r.getInt("status")));
             }
             p = dM.prepareStatement("SELECT title,link,video_id FROM Tags,Videos WHERE item_type=2 AND item_id=video_id AND lower(tag)=?");
             p.setString(1, tag.toLowerCase());

@@ -323,6 +323,7 @@ public class Main {
                 model.put("title", bookFound.get(0).getTitle());
                 model.put("author", bookFound.get(0).getAuthor());
                 model.put("tags", String.join(",", bookFound.get(0).getTags()));
+                model.put("status", String.valueOf(bookFound.get(0).getStatus()));
                 model.put("template", "templates/muokkaakirjaa.html");
                 return new ModelAndView(model, LAYOUT);
             }
@@ -335,6 +336,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
             String pages = request.queryParams("sivumaara");
+            String status = request.queryParams("status");
             String id = request.queryParams("id");
 
             List<String> tagit = new ArrayList();
@@ -342,7 +344,7 @@ public class Main {
                 Collections.addAll(tagit, request.queryParams("tagit").split(","));
             }
 
-            Boolean bookAdded = bookNIO.modify(id, title, author, pages, tagit);
+            Boolean bookAdded = bookNIO.modify(id, title, author, pages, tagit, status);
 
             if (!bookAdded) {
                 model.put("error", "Kirjaa ei saatu muokattua");

@@ -61,9 +61,9 @@ public class NBookIO {
         return false;
     }    
     
-    public boolean modify(String id, String title, String Author, String pages, List<String> tags){
+    public boolean modify(String id, String title, String Author, String pages, List<String> tags, String status){
         if (this.validate(title, Author, pages)) {
-            return db.modifyBook(id, title, Author, pages, tags);
+            return db.modifyBook(id, title, Author, pages, tags, status);
         }
         return false;
     }
