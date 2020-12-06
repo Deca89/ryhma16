@@ -37,6 +37,8 @@ Ohjelma käynnistetään komentoriviltä. Seuraavat ohjeet koskevat web-käyttö
 
 Kun olet painanut *Lisää vinkki* -linkkiä, valitse seuraavaksi *Lisää kirja*, *Lisää artikkeli* tai *Lisää video* sen mukaan, minkä tyyppistä materiaalia haluat lisätä. Täytyä pyydetyt tiedot ja paina lopuksi *Lisää kirja/artikkeli/video*. Ohjelma ilmoittaa, onnistuiko uuden vinkin lisääminen.
 
+Tagit lisätään yhteen kertaan pilkuilla eroteltuna.
+
 #### Poista vinkki -linkki
 
 Kun haluat poistaa lukuvinkistöstä vinkkejä, klikkaa aluksi linkkiä *Poista vinkki*.
@@ -52,6 +54,8 @@ Täytä lomake ja paina lopuksi *Poista kirja/artikkeli/video*. Ohjelma ilmoitta
 Valitse seuraavaksi *Hae kirja*, *Hae artikkeli* tai *Hae video* sen mukaan, minkätyyppistä materiaalia haluat etsiä.
 
 Täytä lomake ja paina lopuksi *Hae kirja/video/artikkeli*. Ohjelma listaa hakutulokset hakukentän alle.
+
+Vinkkejä voi hakea myös tageilla valitsemalla *Hae tagien avulla*. Alasvetovalikosta voi valita tagin. Painamalla *Hae*, ohjelma listaa kaikki vinkit joihin on merkitty kyseinen tagi.
 
 #### Näytä vinkit
 
