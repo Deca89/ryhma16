@@ -1,42 +1,70 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <title>Lukuvinkistö</title>
-  
-  <style>
-    .sidenav {
-          height: 100%;
-          width: 200px;
-          position: fixed;
-          left: 0;
-          background-color: #DDDDD0;
-          padding-top: 25px;
-		  padding-bottom: 25px;
-    }
-    .main {
-          margin-left: 200px
-    }
-  
-  </style>
-  
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>Lukuvinkistö</title>
 
-<body>
-  <div class="sidenav">
-    <h3>Navigointi</h3>
-    <ul>
-      <li><a href="lisaavinkki">Lisää vinkki</a></li>
-      <li><a href="poistavinkki">Poista vinkki</a></li>
-      <li><a href="haevinkki">Hae vinkki</a></li>
-      <li><a href="naytavinkit">Näytä vinkit</a></li>
-      <li><a href="lopeta">Lopeta ohjelma</a></li>
-    </ul>
-  </div>
-  <div class="main">
-    #parse($template)
-  </div>
-</body>
+        <style>
+            body {
+                font-family: Arial, Sans Serif;
+                background-color: #EEEEE0;
+                padding: 1em; 
+            }
+            .sidenav {
+                height: 100%;
+                width: 200px;
+                position: fixed;
+                left: 0;
+                background-color: #DDDDD0;
+                padding-top: 25px;
+                padding-bottom: 25px;
+            }
+            .main {
+                margin-left: 200px
+            }
+            
+            div {
+                padding: 10px;
+            }
+            
+            input {
+                background: #FFF;
+                border: 1px solid #DDD;
+                margin:3px;
+            }
+            
+            label {
+                width: 6em;
+                display: inline-block;
+            }
+            
+            a, a:visited {
+                color: #333;
+            }
+            
+            a:hover {
+                color: #999;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+        <div class="sidenav">
+            <h3>Navigointi</h3>
+            <ul>
+                <li><a href="lisaavinkki">Lisää vinkki</a></li>
+                <li><a href="poistavinkki">Poista vinkki</a></li>
+                <li><a href="haevinkki">Hae vinkki</a></li>
+                <li><a href="naytavinkit">Näytä vinkit</a></li>
+                <li><a href="lopeta">Lopeta ohjelma</a></li>
+            </ul>
+        </div>
+        <div class="main">
+            #parse($template)
+        </div>
+    </body>
 
 </html>

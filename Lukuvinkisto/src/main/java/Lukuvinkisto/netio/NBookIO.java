@@ -43,6 +43,11 @@ public class NBookIO {
         Collections.sort(works);
         return works;
     }
+    
+    public List<Media> fetchId(String input) {
+        List<Media> work = db.getBookById(input);
+        return work;
+    }
 
     public boolean remove(String title, String author) { 
         return db.removeBook(title, author);

@@ -27,16 +27,16 @@ public class Main {
 
     private static final String DB_FILENAME = "Lukuvinkisto";
     static String LAYOUT = "templates/layout.html";
-    
+
     private static NBookIO bookNIO;
     private static NArticleIO articleNIO;
     private static NVideoIO videoNIO;
     private static TietokantaDAO db;
-    
+
     private static Map<String, String> siteAddresses;
 
     public static void main(String[] args) {
-        if ((args.length>0) && args[0].equals("demotietokanta")) {
+        if ((args.length > 0) && args[0].equals("demotietokanta")) {
             DemoTietokanta.luo(DB_FILENAME);
         }
         buildSiteAddresses();
@@ -44,29 +44,33 @@ public class Main {
         setUpIO();
         setUpWebpages();
     }
-    
+
     static void setUpWebpages() {
         get("/", (request, response) -> {
             return new ModelAndView(buildModel("index"), LAYOUT);
+        }, new VelocityTemplateEngine());
+        
+        get("/dummy", (request, response) -> {
+            return new ModelAndView(buildModel("dummy"), LAYOUT);
         }, new VelocityTemplateEngine());
 
         get("/lopeta", (request, response) -> {
             System.exit(0);
             return null;
         }, new VelocityTemplateEngine());
-        
+
         get("/naytakirjat", (request, response) -> {
             HashMap<String, String> model = buildModel("naytakirjat");
             List<Media> booksFound = bookNIO.fetch();
-            
+
             model.put("books", stringifyList(booksFound));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
-        
+
         get("/naytaartikkelit", (request, response) -> {
             HashMap<String, String> model = buildModel("naytaartikkelit");
             List<Media> articlesFound = articleNIO.fetch();
-            
+
             model.put("articles", stringifyList(articlesFound));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
@@ -74,11 +78,11 @@ public class Main {
         get("/naytavideot", (request, response) -> {
             HashMap<String, String> model = buildModel("naytavideot");
             List<Media> videosFound = videoNIO.fetch();
-            
+
             model.put("videos", stringifyList(videosFound));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
-        
+
         get("/haetagi", (request, response) -> {
             HashMap<String, Object> model = new HashMap<>();
             List<String> tags = db.listAllTags();
@@ -93,8 +97,6 @@ public class Main {
             return new ModelAndView(buildModel(page), LAYOUT);
         }, new VelocityTemplateEngine());
 
-        
-
         //Artikkelin komennot
         post("/lisaaArtikkeli", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
@@ -103,9 +105,9 @@ public class Main {
 
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
-                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+                Collections.addAll(tagit, request.queryParams("tagit").split(","));
             }
-            
+
             Boolean articleAdded = articleNIO.add(title, link, tagit);
 
             if (!articleAdded) {
@@ -155,16 +157,15 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
-        
-        //Videon komennot
 
+        //Videon komennot
         post("/lisaavideo", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String link = request.queryParams("verkkoosoite");
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
-                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+                Collections.addAll(tagit, request.queryParams("tagit").split(","));
             }
 
             Boolean videoAdded = videoNIO.add(title, link, tagit);
@@ -211,19 +212,19 @@ public class Main {
             }
 
             model.put("videos", stringifyList(videosFound));
-            
+
             model.put("template", "templates/haevideo.html");
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
-        
+
         post("/haetagi", (request, response) -> {
             HashMap<String, Object> model = new HashMap<>();
             List<String> tags = db.listAllTags();
             Collections.sort(tags);
             model.put("allTags", tags);
             model.put("template", siteAddresses.get("haetagi"));
-            
+
             String searchWord = request.queryParams("tagi");
 
             List<Media> itemsFound = db.SearchByTag(searchWord);
@@ -238,17 +239,17 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
-        
+
         //kirjan komennot
         post("/lisaakirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
             String author = request.queryParams("kirjoittaja");
             String pages = request.queryParams("sivumaara");
-          
+
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
-                Collections.addAll(tagit,request.queryParams("tagit").split(","));
+                Collections.addAll(tagit, request.queryParams("tagit").split(","));
             }
 
             Boolean bookAdded = bookNIO.add(title, author, pages, tagit);
@@ -299,56 +300,79 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
+
+        post("/muokkaakirjaa", (request, response) -> {
+            HashMap<String, String> model = new HashMap<>();
+            String wantedId = request.queryParams("haettavaId");
+            
+            // hakee kirjan id:n perusteella
+            // toimii oikein jos searchId:n tilalle vaihtaa esim. nron 2
+            // Eli id ei tule oikein lomakkeelta
+            List<Media> bookFound = bookNIO.fetchId(wantedId);
+
+            if (bookFound.isEmpty()) {
+                model.put("error", "Ei id:tä vastaavia kirjoja");
+                model.put("template", "templates/muokkaakirjaa.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+
+            model.put("book", stringifyList(bookFound));
+            model.put("template", "templates/muokkaakirjaa.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
     }
-    
-    static void buildSiteAddresses(){
+
+    static void buildSiteAddresses() {
         siteAddresses = new HashMap<>();
         siteAddresses.put("index", "templates/index.html");
-        
+
         siteAddresses.put("lisaakirja", "templates/lisaakirja.html");
         siteAddresses.put("lisaaArtikkeli", "templates/lisaaArtikkeli.html");
         siteAddresses.put("lisaavideo", "templates/lisaavideo.html");
         siteAddresses.put("lisaavinkki", "templates/lisaavinkki.html");
-        
+
         siteAddresses.put("haeartikkeli", "templates/haeartikkeli.html");
         siteAddresses.put("haekirja", "templates/haekirja.html");
         siteAddresses.put("haevideo", "templates/haevideo.html");
         siteAddresses.put("haevinkki", "templates/haevinkki.html");
         siteAddresses.put("haetagi", "templates/haetagi.html");
-        
+
         siteAddresses.put("naytakirjat", "templates/naytakirjat.html");
         siteAddresses.put("naytaartikkelit", "templates/naytaartikkelit.html");
         siteAddresses.put("naytavideot", "templates/naytavideot.html");
         siteAddresses.put("naytavinkit", "templates/naytavinkit.html");
-        
+
         siteAddresses.put("poistakirja", "templates/poistakirja.html");
         siteAddresses.put("poistaArtikkeli", "templates/poistaArtikkeli.html");
         siteAddresses.put("poistavideo", "templates/poistavideo.html");
         siteAddresses.put("poistavinkki", "templates/poistavinkki.html");
+        
+        siteAddresses.put("muokkaakirjaa", "templates/muokkaakirjaa.html");
+        siteAddresses.put("dummy", "templates/dummy.html");
     }
-    
-    
-    static HashMap<String, String> buildModel(String page){
+
+    static HashMap<String, String> buildModel(String page) {
         HashMap<String, String> model = new HashMap<>();
-        if(!siteAddresses.containsKey(page)){
+        if (!siteAddresses.containsKey(page)) {
             return null;
         }
         model.put("template", siteAddresses.get(page));
         return model;
 
     }
-    
+
     static String stringifyList(List<Media> mediaList) {
         String stringified = "";
 
-            for (Media media : mediaList) {
-                stringified += media.getAsListElement();
-                stringified += "<br>";
-            }
-            
+        for (Media media : mediaList) {
+            stringified += media.getAsListElement();
+            stringified += "<br>";
+        }
+
         return stringified;
     }
-    
+
     static int findOutPort() {
         if (portFromEnv != null) {
             return Integer.parseInt(portFromEnv);
@@ -362,8 +386,8 @@ public class Main {
     static void setEnvPort(String port) {
         portFromEnv = port;
     }
-    
-    static void setUpSite(){
+
+    static void setUpSite() {
         int foundPort = findOutPort();
         port(foundPort);
         try {
@@ -374,8 +398,8 @@ public class Main {
             e.printStackTrace();
         }
     }
-    
-    static void setUpIO(){
+
+    static void setUpIO() {
         (new TiedostoDAO()).createFile(DB_FILENAME);
         db = new TietokantaDAO(DB_FILENAME);
         bookNIO = new NBookIO(db);
