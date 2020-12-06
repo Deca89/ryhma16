@@ -6,7 +6,7 @@
 </div>
 #end
 
-<form method="POST" action="tallennamuokkaus/">
+<form method="POST" action="/tallennamuokkaus">
     <fieldset>
         <label for="otsikko">Otsikko:</label>
         <input type="text" name="otsikko" id="otsikko" size="100" value="$title"/>
@@ -22,6 +22,10 @@
         
         <label for="tagit">Tagit pilkulla eroteltuina:</label>
         <input type="text" name="tagit" id="tagit" size="100" value="$tags"/>
+        <br/>          
+        
+        <label for="id">ID:</label>
+        <input type="hidden" name="id" id="id" size="100" value="$id"/>
         <br/>          
         
         <input name="tallennamuokkaus" type="submit" value="Muokkaa" />

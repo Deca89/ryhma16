@@ -327,6 +327,33 @@ public class Main {
                 return new ModelAndView(model, LAYOUT);
             }
         }, new VelocityTemplateEngine());
+        
+        //Tallenna muokkaukset
+        post("/tallennamuokkaus", (request, response) -> {
+            
+            HashMap<String, String> model = new HashMap<>();
+            String title = request.queryParams("otsikko");
+            String author = request.queryParams("kirjoittaja");
+            String pages = request.queryParams("sivumaara");
+            String id = request.queryParams("id");
+
+            List<String> tagit = new ArrayList();
+            if (!request.queryParams("tagit").equals("")) {
+                Collections.addAll(tagit, request.queryParams("tagit").split(","));
+            }
+
+            Boolean bookAdded = bookNIO.modify(id, title, author, pages, tagit);
+
+            if (!bookAdded) {
+                model.put("error", "Kirjaa ei saatu muokattua");
+                model.put("template", "templates/tallennamuokkaus.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+            model.put("lisatty", "Muokattu onnistuneesti");
+            model.put("template", "templates/tallennamuokkaus.html");
+            return new ModelAndView(model, LAYOUT);
+
+        }, new VelocityTemplateEngine());
     }
 
     static void buildSiteAddresses() {
