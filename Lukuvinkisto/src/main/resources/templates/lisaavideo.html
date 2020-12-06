@@ -14,12 +14,18 @@
 
 <form method="POST" action="/lisaavideo">
     <fieldset>
-        Otsikko : <input type="text" name="otsikko" id="otsikko" size="150"/>
+        <label for="otsikko">Otsikko:</label>
+        <input type="text" name="otsikko" id="otsikko" size="100"/>
         <br/>
-        Verkko-osoite : <input type="text" name="verkkoosoite" id="verkkoosoite" size="100"/>
-        <p>
-        Tagit pilkulla eroteltuina : <input type="text" name="tagit" id="tagit" size="100"/>
-        <br/>              
+        
+        <label for="verkko-osoite">Verkko-osoite:</label>
+        <input type="text" name="verkkoosoite" id="verkkoosoite" size="100"/>
+        <br />
+        
+        <label for="tagit">Tagit pilkulla eroteltuina:</label>
+        <input type="text" name="tagit" id="tagit" size="100"/>
+        <br/>    
+        
         <input name="lisaavideo" type="submit" value="Lisää video" />
     </fieldset>
 <form>  

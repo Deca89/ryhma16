@@ -25,8 +25,8 @@ public class Book extends Media {
         }
         return author + " : "  + title + ", sivumäärä: " + length + ", Tagit: " + this.getTagString() + " "
                 + "<form method=\"POST\" action=\"/muokkaakirjaa\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\">" +
-                "        <input type=\"submit\" value=\"Muokkaa\" />\n" +
+                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
+                "        <input type=\"submit\" name=\"muokkaa\" value=\"Muokkaa\" />\n" +
                   "<form>";
     }
     
