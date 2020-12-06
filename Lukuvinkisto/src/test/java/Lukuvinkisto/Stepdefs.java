@@ -9,6 +9,9 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Queue;
 import static org.junit.Assert.*;
 
@@ -37,6 +40,51 @@ public class Stepdefs {
         nVideo = new NVideoIO(instance);
     }
 
+    @Given("Books, videos and articles in demodatabase are added to database")
+    public void demodbAdded() {
+        Article article = new Article("The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("wikipedia", "englanti", "liftausta"));
+        instance.addArticle(article.getTitle(), article.getLink(), article.getTags());
+        article = new Article("Linnunradan käsikirja liftareille", "https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille", List.of("wikipedia", "liftausta"));
+        instance.addArticle(article.getTitle(), article.getLink(), article.getTags());
+        instance.addArticle("The Game - 30th Anniversary Edition", "https://www.bbc.co.uk/programmes/articles/1g84m0sXpnNCv84GpN2PLZG/the-game-30th-anniversary-edition", List.of("peli", "liftausta"));
+        
+        Video video = new Video("Hitchhiker's Guide - Earth Destroyed and Guide Introduction (HD)", "https://youtu.be/Z1Ba4BbH0oY", List.of("elokuva", "liftausta"));
+        instance.addVideo(video.getTitle(), video.getLink(), video.getTags());
+        video = new Video("The Hitchhiker's Guide to the Galaxy read by Douglas Adams [Part 1 of 4]", "https://youtu.be/FmakHVY7xeU", List.of("äänikirja", "englanti", "osa1","liftausta"));
+        instance.addVideo(video.getTitle(), video.getLink(), video.getTags());
+
+        Book book = new Book("Linnunradan käsikirja liftareille", "Adams, Douglas", 203, List.of("osa1", "liftausta"));
+        instance.addBook(book.getTitle(), book.getAuthor(), Integer.toString(book.getLength()), book.getTags());
+        book = new Book("Maailmanlopun ravintola", "Adams, Douglas", 222, List.of("osa2", "liftausta"));
+        instance.addBook(book.getTitle(), book.getAuthor(), Integer.toString(book.getLength()), book.getTags());
+        
+        instance.addBook("Taikavuori", "Thomas Mann", "800", List.of("romaani", "Hans Castorp"));
+        instance.addBook("Ulysses", "James Joyce", "111", List.of("Irlanti", "Leopold", "romaani"));
+        instance.addBook("Malleus Maleficarum", "The Spanish Inquisition", "612", List.of("ohjekirja", "noidat"));
+        instance.addBook("Harry Potter and The Prisoner Of Azkaban", "J. K. Rowling", "412", List.of("romaani", "noidat"));
+    }
+    
+    @Given("Book is added with title {string} and author {string} and page count {int} and tags {string}")
+    public void bookIsInitializedWithTags(String title, String author, int pagecount, String tagstr) {
+        List<String> tagit = new ArrayList();
+        Collections.addAll(tagit,tagstr.split(","));
+        nBook.add(title, author, Integer.toString(pagecount), tagit);
+    }
+
+    @Given("Video is added with title {string} and link {string} and tags {string}")
+    public void videoIsInitializedWithTags(String title, String link, String tagstr) {
+        List<String> tagit = new ArrayList();
+        Collections.addAll(tagit,tagstr.split(","));
+        nVideo.add(title, link, tagit);
+    }
+
+    @Given("Article is added with title {string} and link {string} and tags {string}")
+    public void articleIsInitializedWithTags(String title, String link, String tagstr) {
+        List<String> tagit = new ArrayList();
+        Collections.addAll(tagit,tagstr.split(","));
+        nVideo.add(title, link, tagit);
+    }
+    
     @Given("Book is initialized with title {string} and author {string} and page count {int}")
     public void bookIsInitialized(String title, String author, int pagecount) {
         book = new Book(title, author, pagecount, null);
@@ -52,6 +100,16 @@ public class Stepdefs {
         article = new Article(title, link, null);
     }
 
+    @Then("The search with tag {string} should return {int} items")
+    public void TagSearchReturnsSeveralItems(String tag, int count) {
+        assertEquals(count, instance.SearchByTag(tag).size());
+    }
+
+    @Then("The search with tag {string} should return item with title {string}")
+    public void TagSearchForOne(String tag, String title) {
+        assertEquals(title, instance.SearchByTag(tag).get(0).getTitle());
+    }
+    
     @Then("the author should be {string}")
     public void theAuthorShouldBe(String val) {
         assertEquals(val, book.getAuthor());
