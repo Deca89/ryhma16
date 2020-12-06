@@ -78,6 +78,23 @@ public class TietokantaDAO {
         }
     }
 
+//    // TÄMÄ ON KESKEN
+//    public boolean modifyBook(String id, String title, String author, String pages, List<String> tags) {
+//        try {
+//            Connection dM = createConnection();
+//            
+//            PreparedStatement p = dM.prepareStatement("UPDATE Books SET title=?, author=?, pages=? WHERE book_id=?");
+//            p.setString(1, title);
+//            p.setString(2, author);
+//            p.setString(3, pages);
+//            p.setString(4, id);
+//            p.executeUpdate();
+//
+//        } catch (SQLException ex) {
+//            return false;
+//        }
+//    }
+    
     public List<Media> listBooks(String searchTerm) {
         try {
             Connection dM = createConnection();
