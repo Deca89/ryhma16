@@ -22,7 +22,7 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 1. Lataa ohjelma Githubista (komento *git clone*).
 2. Avaa ohjelmakansio. Mene kansioon *Lukuvinkisto*.
 3. Suorita ohjelma komentoriviltä komennolla *gradle run*.
-4. Ohjelma avaa uuddssa selainikkunassa Lukuvinkistön web-käyttöliittymän.
+4. Ohjelma avaa uudessa selainikkunassa Lukuvinkistön web-käyttöliittymän.
 5. Kun haluat lopettaa ohjelman, klikkaa web-käyttöliittymässä linkkiä *Lopeta ohjelma*.
 
 Suorittamalla ohjelma komennolla *gradle run \-\-args="demotietokanta"*, ohjelma aluksi poistaa mahdollisen aiemman tietokannan ja korvaa sen demotietokannalla.
