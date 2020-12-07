@@ -12,7 +12,7 @@ public class DemoTietokanta {
         File file = new File(db_filename+".db"); 
         if (file != null) {
             file.delete();
-        } /*
+        } 
 
         (new TiedostoDAO()).createFile(db_filename);
         TietokantaDAO db = new TietokantaDAO(db_filename);
@@ -36,7 +36,7 @@ public class DemoTietokanta {
         db.addBook("Taikavuori", "Thomas Mann", "800", List.of("romaani", "Hans Castorp"));
         db.addBook("Ulysses", "James Joyce", "111", List.of("Irlanti", "Leopold", "romaani"));
         db.addBook("Malleus Maleficarum", "The Spanish Inquisition", "612", List.of("ohjekirja", "noidat"));
-        db.addBook("Harry Potter and The Prisoner Of Azkaban", "J. K. Rowling", "412", List.of("romaani", "noidat"));*/
+        db.addBook("Harry Potter and The Prisoner Of Azkaban", "J. K. Rowling", "412", List.of("romaani", "noidat"));
     }
     
 }
