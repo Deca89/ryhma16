@@ -94,7 +94,59 @@ public class Main {
             model.put("template", siteAddresses.get("haetagi"));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
-
+        
+        get("/kirja/:id", (request, response) -> {
+            HashMap<String, String> model = buildModel("muokkaakirjaa");
+            
+            String id = request.params(":id");
+            
+            List<Media> bookFound = bookNIO.fetchWithId(id);
+            
+            model.put("id", id);
+            model.put("pages", String.valueOf(bookFound.get(0).getLength()));
+            model.put("title", bookFound.get(0).getTitle());
+            model.put("author", bookFound.get(0).getAuthor());
+            model.put("tags", String.join(",", bookFound.get(0).getTags()));
+            model.put("status", String.valueOf(bookFound.get(0).getStatus()));
+            
+            return new ModelAndView(model, LAYOUT);
+                
+        }, new VelocityTemplateEngine());
+        
+        get("/artikkeli/:id", (request, response) -> {
+            HashMap<String, String> model = buildModel("muokkaaartikkeli");
+            
+            String id = request.params(":id");
+            
+            List<Media> articleFound = bookNIO.fetchWithId(id);
+            
+            model.put("id", id);
+            model.put("title", articleFound.get(0).getTitle());
+            model.put("link", articleFound.get(0).getLink());
+            model.put("tags", String.join(",", articleFound.get(0).getTags()));
+            model.put("status", String.valueOf(articleFound.get(0).getStatus()));
+            
+            return new ModelAndView(model, LAYOUT);
+                
+        }, new VelocityTemplateEngine());
+        
+        get("/video/:id", (request, response) -> {
+            HashMap<String, String> model = buildModel("muokkaakirjaa");
+            
+            String id = request.params(":id");
+            
+            List<Media> videoFound = bookNIO.fetchWithId(id);
+            
+            model.put("id", id);
+            model.put("title", videoFound.get(0).getTitle());
+            model.put("link", videoFound.get(0).getAuthor());
+            model.put("tags", String.join(",", videoFound.get(0).getTags()));
+            model.put("status", String.valueOf(videoFound.get(0).getStatus()));
+            
+            return new ModelAndView(model, LAYOUT);
+                
+        }, new VelocityTemplateEngine());
+        
         get("/:page", (request, response) -> {
             String page = request.params(":page");
             return new ModelAndView(buildModel(page), LAYOUT);
@@ -304,80 +356,6 @@ public class Main {
 
         }, new VelocityTemplateEngine());
 
-        post("/muokkaakirjaa", new TemplateViewRoute() {
-            @Override
-            public ModelAndView handle(Request request, Response response) throws Exception {
-                HashMap<String, String> model = new HashMap<>();
-                String id = request.queryParams("haettavaId");
-                
-                List<Media> bookFound = bookNIO.fetchWithId(id);
-                
-                if (bookFound.isEmpty()) {
-                    model.put("error", "Ei id:tä vastaavia kirjoja");
-                    model.put("template", "templates/muokkaakirjaa.html");
-                    return new ModelAndView(model, LAYOUT);
-                }
-                
-                model.put("id", id);
-                model.put("pages", String.valueOf(bookFound.get(0).getLength()));
-                model.put("title", bookFound.get(0).getTitle());
-                model.put("author", bookFound.get(0).getAuthor());
-                model.put("tags", String.join(",", bookFound.get(0).getTags()));
-                model.put("status", String.valueOf(bookFound.get(0).getStatus()));
-                model.put("template", "templates/muokkaakirjaa.html");
-                return new ModelAndView(model, LAYOUT);
-            }
-        }, new VelocityTemplateEngine());
-        
-        //Artikkelin muokkaus
-        post("/muokkaaartikkeli", new TemplateViewRoute() {
-            @Override
-            public ModelAndView handle(Request request, Response response) throws Exception {
-                HashMap<String, String> model = new HashMap<>();
-                String id = request.queryParams("haettavaId");
-                
-                List<Media> articleFound = articleNIO.fetchWithId(id);
-                
-                if (articleFound.isEmpty()) {
-                    model.put("error", "Ei id:tä vastaavia artikkeleita");
-                    model.put("template", "templates/muokkaaartikkeli.html");
-                    return new ModelAndView(model, LAYOUT);
-                }
-                
-                model.put("id", id);
-                model.put("title", articleFound.get(0).getTitle());
-                model.put("link", articleFound.get(0).getLink());
-                model.put("tags", String.join(",", articleFound.get(0).getTags()));
-                model.put("status", String.valueOf(articleFound.get(0).getStatus()));
-                model.put("template", "templates/muokkaaartikkeli.html");
-                return new ModelAndView(model, LAYOUT);
-            }
-        }, new VelocityTemplateEngine());
-        
-        post("/muokkaavideo", new TemplateViewRoute() {
-            @Override
-            public ModelAndView handle(Request request, Response response) throws Exception {
-                HashMap<String, String> model = new HashMap<>();
-                String id = request.queryParams("haettavaId");
-                
-                List<Media> videoFound = videoNIO.fetchWithId(id);
-                
-                if (videoFound.isEmpty()) {
-                    model.put("error", "Ei id:tä vastaavia videoita");
-                    model.put("template", "templates/muokkaavideo.html");
-                    return new ModelAndView(model, LAYOUT);
-                }
-                
-                model.put("id", id);
-                model.put("title", videoFound.get(0).getTitle());
-                model.put("link", videoFound.get(0).getAuthor());
-                model.put("tags", String.join(",", videoFound.get(0).getTags()));
-                model.put("status", String.valueOf(videoFound.get(0).getStatus()));
-                model.put("template", "templates/muokkaavideo.html");
-                return new ModelAndView(model, LAYOUT);
-            }
-        }, new VelocityTemplateEngine());
-        
         //Tallenna muokkaukset
         post("/tallennamuokkaus", (request, response) -> {
             
