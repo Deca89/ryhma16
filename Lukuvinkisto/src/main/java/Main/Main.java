@@ -334,7 +334,7 @@ public class Main {
         withListAddresses.add("naytavinkit");
         withListAddresses.add("haevinkki");
         withListAddresses.add("poistavinkki");
-        withListAddresses.add("liasaavinkki");
+        withListAddresses.add("lisaavinkki");
     }
     
     
