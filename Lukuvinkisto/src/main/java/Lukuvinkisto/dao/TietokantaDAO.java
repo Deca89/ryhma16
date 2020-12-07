@@ -204,6 +204,24 @@ public class TietokantaDAO {
             return false;
         }
     }
+    
+    public boolean modifyVideo(String id, String title, String link, List<String> tags, String status) {
+        try {
+            Connection dM = createConnection();
+            int idInt = Integer.parseInt(id);
+            PreparedStatement p = dM.prepareStatement("UPDATE Videos SET title=?, link=?, status=? WHERE video_id=?");
+            p.setString(1, title);
+            p.setString(2, link);
+            p.setString(3, status);
+            p.setString(4, id);
+            p.executeUpdate();
+            return addTags(tags, 1, idInt);
+
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
 
     public List<Media> listVideos(String searchTerm) {
         try {
@@ -224,6 +242,28 @@ public class TietokantaDAO {
             }
             dM.close();
             return videos;
+        } catch (SQLException ex) {
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Media> getVideoById(String searchTerm) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p;
+
+            p = dM.prepareStatement("SELECT * FROM Videos WHERE video_id=?");
+            p.setString(1, searchTerm);
+
+            ResultSet r = p.executeQuery();
+            
+            List<Media> video = new ArrayList<>();
+            while (r.next()) {
+                List<String> tags = listTags(1, r.getInt("video_id"));
+                video.add(new Video(r.getInt("video_id"), r.getString("title"), r.getString("link"), tags, r.getInt("status")));
+            }
+            dM.close();
+            return video;
         } catch (SQLException ex) {
             return new ArrayList<>();
         }
@@ -265,6 +305,23 @@ public class TietokantaDAO {
             return false;
         }
     }
+    
+    public boolean modifyArticle(String id, String title, String link, List<String> tags, String status) {
+        try {
+            Connection dM = createConnection();
+            int idInt = Integer.parseInt(id);
+            PreparedStatement p = dM.prepareStatement("UPDATE Articles SET title=?, link=?, status=? WHERE article_id=?");
+            p.setString(1, title);
+            p.setString(2, link);
+            p.setString(3, status);
+            p.setString(4, id);
+            p.executeUpdate();
+            return addTags(tags, 1, idInt);
+            
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
 
     public List<Media> listArticles(String searchTerm) {
         try {
@@ -285,6 +342,28 @@ public class TietokantaDAO {
             }
             dM.close();
             return articles;
+        } catch (SQLException ex) {
+            return new ArrayList<>();
+        }
+    }
+    
+    public List<Media> getArticleById(String searchTerm) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p;
+
+            p = dM.prepareStatement("SELECT * FROM Articles WHERE article_id=?");
+            p.setString(1, searchTerm);
+
+            ResultSet r = p.executeQuery();
+            
+            List<Media> article = new ArrayList<>();
+            while (r.next()) {
+                List<String> tags = listTags(1, r.getInt("book_id"));
+                article.add(new Article(r.getInt("article_id"), r.getString("title"), r.getString("link"), tags, r.getInt("status")));
+            }
+            dM.close();
+            return article;
         } catch (SQLException ex) {
             return new ArrayList<>();
         }

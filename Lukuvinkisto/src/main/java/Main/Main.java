@@ -329,25 +329,93 @@ public class Main {
             }
         }, new VelocityTemplateEngine());
         
+        //Artikkelin muokkaus
+        post("/muokkaaartikkeli", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) throws Exception {
+                HashMap<String, String> model = new HashMap<>();
+                String id = request.queryParams("haettavaId");
+                
+                List<Media> articleFound = articleNIO.fetchWithId(id);
+                
+                if (articleFound.isEmpty()) {
+                    model.put("error", "Ei id:tä vastaavia artikkeleita");
+                    model.put("template", "templates/muokkaaartikkeli.html");
+                    return new ModelAndView(model, LAYOUT);
+                }
+                
+                model.put("id", id);
+                model.put("title", articleFound.get(0).getTitle());
+                model.put("link", articleFound.get(0).getLink());
+                model.put("tags", String.join(",", articleFound.get(0).getTags()));
+                model.put("status", String.valueOf(articleFound.get(0).getStatus()));
+                model.put("template", "templates/muokkaaartikkeli.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+        }, new VelocityTemplateEngine());
+        
+        post("/muokkaavideo", new TemplateViewRoute() {
+            @Override
+            public ModelAndView handle(Request request, Response response) throws Exception {
+                HashMap<String, String> model = new HashMap<>();
+                String id = request.queryParams("haettavaId");
+                
+                List<Media> videoFound = videoNIO.fetchWithId(id);
+                
+                if (videoFound.isEmpty()) {
+                    model.put("error", "Ei id:tä vastaavia videoita");
+                    model.put("template", "templates/muokkaavideo.html");
+                    return new ModelAndView(model, LAYOUT);
+                }
+                
+                model.put("id", id);
+                model.put("title", videoFound.get(0).getTitle());
+                model.put("link", videoFound.get(0).getAuthor());
+                model.put("tags", String.join(",", videoFound.get(0).getTags()));
+                model.put("status", String.valueOf(videoFound.get(0).getStatus()));
+                model.put("template", "templates/muokkaavideo.html");
+                return new ModelAndView(model, LAYOUT);
+            }
+        }, new VelocityTemplateEngine());
+        
         //Tallenna muokkaukset
         post("/tallennamuokkaus", (request, response) -> {
             
             HashMap<String, String> model = new HashMap<>();
             String title = request.queryParams("otsikko");
-            String author = request.queryParams("kirjoittaja");
-            String pages = request.queryParams("sivumaara");
-            String status = request.queryParams("status");
             String id = request.queryParams("id");
-
+            String status = "0";
+            int intType = Integer.parseInt(request.queryParams("type"));
+            
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
                 Collections.addAll(tagit, request.queryParams("tagit").split(","));
             }
+            Boolean added = false;
+            
+            if (intType == 1) {
+                String author = request.queryParams("kirjoittaja");
+                String pages = request.queryParams("sivumaara");
+                status = request.queryParams("status");
+                added = bookNIO.modify(id, title, author, pages, tagit, status);
+            } else if (intType == 2) {
+                String link = request.queryParams("linkki");
+                boolean luettu = Boolean.parseBoolean(request.queryParams("status"));
+                if (luettu) {
+                    status = "1";
+                }
+                added = videoNIO.modify(id, title, link, tagit, status);
+            } else if (intType == 3) {
+                String link = request.queryParams("linkki");
+                boolean luettu = Boolean.parseBoolean(request.queryParams("status"));
+                if (luettu) {
+                    status = "1";
+                }
+                added = articleNIO.modify(id, title, link, tagit, status);
+            }
 
-            Boolean bookAdded = bookNIO.modify(id, title, author, pages, tagit, status);
-
-            if (!bookAdded) {
-                model.put("error", "Kirjaa ei saatu muokattua");
+            if (!added) {
+                model.put("error", "Muokkaus epäonnistui");
                 model.put("template", "templates/tallennamuokkaus.html");
                 return new ModelAndView(model, LAYOUT);
             }
@@ -384,6 +452,8 @@ public class Main {
         siteAddresses.put("poistavinkki", "templates/poistavinkki.html");
         
         siteAddresses.put("muokkaakirjaa", "templates/muokkaakirjaa.html");
+        siteAddresses.put("muokkaaartikkeli", "templates/muokkaaartikkeli.html");
+        siteAddresses.put("muokkaavideo", "templates/muokkaavideo.html");
         siteAddresses.put("tallennamuokkaus", "templates/tallennamuokkaus.html");
     }
 

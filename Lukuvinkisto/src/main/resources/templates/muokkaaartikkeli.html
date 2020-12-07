@@ -16,20 +16,20 @@
         <input type="text" name="kirjoittaja" id="kirjoittaja" size="100" value="$author" />
         <br/>     
         
-        <label for="sivumaara">Sivumäärä:</label>
-        <input type="text" name="sivumaara" id="sivumaara" size="10" value="$pages"/>
+        <label for="sivumaara">Linkki:</label>
+        <input type="text" name="linkki" id="linkki" size="10" value="$link"/>
         <br />
         
         <label for="tagit">Tagit pilkulla eroteltuina:</label>
         <input type="text" name="tagit" id="tagit" size="100" value="$tags"/>
         <br/>          
         
-        <label for="status">Luettu sivumäärä:</label>
-        <input type="text" name="status" id="status" size="100" value="$status"/>
+        <label for="status">Luettu:</label>
+        <input type="checkbox" name="status" id="status" size="100" value="$status"/>
         <br/>
         
         <input type="hidden" name="id" id="id" value="$id"/>
-        <input type="hidden" name="type" id="type" value="1"/>
+        <input type="hidden" name="type" id="type" value="3"/>
         <br/>          
         
         <input name="tallennamuokkaus" type="submit" value="Muokkaa" />
