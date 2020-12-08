@@ -49,7 +49,9 @@ public class BookTest {
     }
     @Test
     public void ReturnCorrectListElement() {
-        Book book = new Book("Linnunradan käsikirja liftareille", "Adams, Douglas", 203, List.of("ab", "cd"));
-        assertEquals(book.getAsListElement(), book.toString());
+        Book book = new Book(1,"Linnunradan käsikirja liftareille", "Adams, Douglas", 203, List.of("ab", "cd"));
+        assertEquals(book.getAsListElement(), book.toString() + " <form method=\"GET\" action=\"/kirja/1\">\n" +
+                "        <input type=\"submit\" name=\"muokkaakirjaa\" value=\"Muokkaa\" />\n" +
+                  "</form>");
     }
 }

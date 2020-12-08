@@ -25,34 +25,23 @@ public class Article extends Media {
     
     @Override
     public String getAsListElement(){
-        String luettu = "";
+        String luettu = (status != 1)? "Luettu" : "Lukematta";
         String muokkaus = " "
-                + "<form method=\"POST\" action=\"/muokkaakirjaa\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
+                + "<form method=\"GET\" action=\"/artikkeli/" + id + "\">\n" +
                 "        <input type=\"submit\" name=\"muokkaaartikkeli\" value=\"Muokkaa\" />\n" +
                   "</form>";
         if (tags==null || tags.isEmpty()) {
             return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>" + luettu + muokkaus;
         }
-        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString() + luettu + muokkaus;
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString() + "; " + luettu + muokkaus;
     }
     
     @Override
     public String toString() {
-        String luettu = "";
-        String muokkaus = " "
-                + "<form method=\"POST\" action=\"/muokkaakirjaa\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
-                "        <input type=\"submit\" name=\"muokkaaartikkeli\" value=\"Muokkaa\" />\n" +
-                  "</form>";
-        if (this.status != 1) {
-            luettu = "Luettu";
-        } else {
-            luettu = "Lukematta";
-        }
+        String luettu = (status != 1)? "Luettu" : "Lukematta";
         if (tags==null || tags.isEmpty()) {
-            return title + " : "  + link + luettu + muokkaus;
+            return title + " : "  + link + luettu;
         }
-        return title + " : "  + link + ", Tagit: " + this.getTagString() + luettu + muokkaus;
+        return title + " : "  + link + ", Tagit: " + this.getTagString() + "; " + luettu;
     }
 }

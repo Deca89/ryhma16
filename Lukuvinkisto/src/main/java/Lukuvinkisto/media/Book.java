@@ -29,17 +29,24 @@ public class Book extends Media {
         this.pages = pages;
         this.id = -1;
     }
-
+    
+    @Override
+    public String getAsListElement(){
+        if (tags==null || tags.isEmpty()) {
+            return author + " : "  + title + ", sivumäärä: " + length + ", luettu: " + status + "/" + length;
+        }
+        return author + " : "  + title + ", sivumäärä: " + length + ", luettu: " + status + "/" + length + ", Tagit: " + this.getTagString() + " "
+                + "<form method=\"GET\" action=\"/kirja/"+id +"\">\n" +
+                "        <input type=\"submit\" name=\"muokkaakirjaa\" value=\"Muokkaa\" />\n" +
+                  "</form>";
+    }
+    
     @Override
     public String toString() {
         if (tags==null || tags.isEmpty()) {
             return author + " : "  + title + ", sivumäärä: " + length + ", luettu: " + status + "/" + length;
         }
-        return author + " : "  + title + ", sivumäärä: " + length + ", luettu: " + status + "/" + length + ", Tagit: " + this.getTagString() + " "
-                + "<form method=\"POST\" action=\"/muokkaakirjaa\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
-                "        <input type=\"submit\" name=\"muokkaakirjaa\" value=\"Muokkaa\" />\n" +
-                  "</form>";
+        return author + " : "  + title + ", sivumäärä: " + length + ", luettu: " + status + "/" + length + ", Tagit: " + this.getTagString();
     }
     
     public int getPages() {

@@ -25,46 +25,26 @@ public class Video extends Media {
     
     @Override
     public String getAsListElement(){
-        String katsottu = "";
-        if (this.status != 1) {
-            katsottu = "Katsottu";
-        } else {
-            katsottu = "Katsomatta";
-        }
+        String katsottu = (this.status != 1) ? "Katsottu" : "Katsomatta";
+              
         if (tags==null || tags.isEmpty()) {
             return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>" + katsottu + " "
-                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
+                + "<form method=\"GET\" action=\"/video/" + id + "\">\n" +
                 "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
                   "</form>";
         }
-        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString() + katsottu + " "
-                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString() + "; " + katsottu + " "
+                + "<form method=\"GET\" action=\"/video/" + id + "\">\n" +
                 "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
                   "</form>";
     }
     
     @Override
     public String toString() {
-        String katsottu = "";
-        if (this.status != 1) {
-            katsottu = "Katsottu";
-        } else {
-            katsottu = "Katsomatta";
-        }
-        String muokkaus = " "
-                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
-                "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
-                  "</form>";
+        String katsottu = (this.status != 1) ? "Katsottu" : "Katsomatta";
         if (tags==null || tags.isEmpty()) {
-            return title + " : "  + link + katsottu + muokkaus;
+            return title + " : "  + link + katsottu;
         }
-        return title + " : "  + link + ", Tagit: " + this.getTagString() + katsottu + " "
-                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
-                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
-                "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
-                  "</form>";
+        return title + " : "  + link + ", Tagit: " + this.getTagString() + "; " + katsottu;
     }
 }
