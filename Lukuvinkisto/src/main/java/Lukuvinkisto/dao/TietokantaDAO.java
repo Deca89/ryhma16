@@ -362,7 +362,7 @@ public class TietokantaDAO {
             
             List<Media> article = new ArrayList<>();
             while (r.next()) {
-                List<String> tags = listTags(2, r.getInt("book_id"));
+                List<String> tags = listTags(3, r.getInt("article_id"));
                 article.add(new Article(r.getInt("article_id"), r.getString("title"), r.getString("link"), tags, r.getInt("status")));
             }
             dM.close();
