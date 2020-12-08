@@ -89,6 +89,7 @@ public class TietokantaDAO {
             p.setString(4, status);
             p.setString(5, id);
             p.executeUpdate();
+            deleteMediaTags(1, idInt);
             return addTags(tags, 1, idInt);
             
         } catch (SQLException ex) {
@@ -215,7 +216,8 @@ public class TietokantaDAO {
             p.setString(3, status);
             p.setString(4, id);
             p.executeUpdate();
-            return addTags(tags, 1, idInt);
+            deleteMediaTags(2, idInt);
+            return addTags(tags, 2, idInt);
 
         } catch (SQLException ex) {
             return false;
@@ -238,7 +240,7 @@ public class TietokantaDAO {
             List<Media> videos = new ArrayList<>();
             while (r.next()) {
                 List<String> tags = listTags(2, r.getInt("video_id"));
-                videos.add(new Video(r.getString("title"), r.getString("link"), tags));
+                videos.add(new Video(r.getInt("video_id"), r.getString("title"), r.getString("link"), tags));
             }
             dM.close();
             return videos;
@@ -259,7 +261,7 @@ public class TietokantaDAO {
             
             List<Media> video = new ArrayList<>();
             while (r.next()) {
-                List<String> tags = listTags(1, r.getInt("video_id"));
+                List<String> tags = listTags(2, r.getInt("video_id"));
                 video.add(new Video(r.getInt("video_id"), r.getString("title"), r.getString("link"), tags, r.getInt("status")));
             }
             dM.close();
@@ -316,7 +318,8 @@ public class TietokantaDAO {
             p.setString(3, status);
             p.setString(4, id);
             p.executeUpdate();
-            return addTags(tags, 1, idInt);
+            deleteMediaTags(3, idInt);
+            return addTags(tags, 3, idInt);
             
         } catch (SQLException ex) {
             return false;
@@ -338,7 +341,7 @@ public class TietokantaDAO {
             List<Media> articles = new ArrayList<>();
             while (r.next()) {
                 List<String> tags = listTags(3, r.getInt("article_id"));
-                articles.add(new Article(r.getString("title"), r.getString("link"), tags));
+                articles.add(new Article(r.getInt("article_id"), r.getString("title"), r.getString("link"), tags));
             }
             dM.close();
             return articles;
@@ -359,7 +362,7 @@ public class TietokantaDAO {
             
             List<Media> article = new ArrayList<>();
             while (r.next()) {
-                List<String> tags = listTags(1, r.getInt("book_id"));
+                List<String> tags = listTags(2, r.getInt("book_id"));
                 article.add(new Article(r.getInt("article_id"), r.getString("title"), r.getString("link"), tags, r.getInt("status")));
             }
             dM.close();
@@ -473,5 +476,20 @@ public class TietokantaDAO {
             return null;
         }
     }
-
+    public boolean deleteMediaTags(int item_type, int item_id) {
+        try {
+            Connection dM = createConnection();
+            PreparedStatement p = dM.prepareStatement("DELETE FROM Tags WHERE item_type=? AND item_id=?");
+            p.setInt(1, item_type);
+            p.setInt(2, item_id);
+            int r = p.executeUpdate();
+            dM.close();
+            if (r == 1) {
+                return true;
+            }
+            return false;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
 }

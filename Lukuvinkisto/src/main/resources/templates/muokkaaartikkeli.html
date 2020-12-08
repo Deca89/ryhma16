@@ -1,4 +1,4 @@
-<h1>Muokkaa kirjaa</h1>
+<h1>Muokkaa artikkelia</h1>
 
 #if( $error )
 <div id="error" style="color:red">
@@ -12,12 +12,8 @@
         <input type="text" name="otsikko" id="otsikko" size="100" value="$title"/>
         <br />
         
-        <label for="kirjoittaja">Kirjoittaja:</label>
-        <input type="text" name="kirjoittaja" id="kirjoittaja" size="100" value="$author" />
-        <br/>     
-        
         <label for="sivumaara">Linkki:</label>
-        <input type="text" name="linkki" id="linkki" size="10" value="$link"/>
+        <input type="text" name="linkki" id="linkki" size="100" value="$link"/>
         <br />
         
         <label for="tagit">Tagit pilkulla eroteltuina:</label>

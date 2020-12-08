@@ -1,4 +1,4 @@
-<h1>Muokkaa kirjaa</h1>
+<h1>Muokkaa videoa</h1>
 
 #if( $error )
 <div id="error" style="color:red">
@@ -10,14 +10,10 @@
     <fieldset>
         <label for="otsikko">Otsikko:</label>
         <input type="text" name="otsikko" id="otsikko" size="100" value="$title"/>
-        <br />
-        
-        <label for="kirjoittaja">Kirjoittaja:</label>
-        <input type="text" name="kirjoittaja" id="kirjoittaja" size="100" value="$author" />
-        <br/>     
+        <br /> 
         
         <label for="sivumaara">Linkki:</label>
-        <input type="text" name="Linkki" id="Linkki" size="10" value="$link"/>
+        <input type="text" name="linkki" id="linkki" size="100" value="$link"/>
         <br />
         
         <label for="tagit">Tagit pilkulla eroteltuina:</label>
@@ -29,7 +25,7 @@
         <br/>
         
         <input type="hidden" name="id" id="id" value="$id"/>
-        <input type="hidden" name="itype" id="type" value="2"/>
+        <input type="hidden" name="type" id="type" value="2"/>
         <br/>          
         
         <input name="tallennamuokkaus" type="submit" value="Muokkaa" />

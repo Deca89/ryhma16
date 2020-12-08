@@ -118,7 +118,7 @@ public class Main {
             
             String id = request.params(":id");
             
-            List<Media> articleFound = bookNIO.fetchWithId(id);
+            List<Media> articleFound = articleNIO.fetchWithId(id);
             
             model.put("id", id);
             model.put("title", articleFound.get(0).getTitle());
@@ -131,15 +131,15 @@ public class Main {
         }, new VelocityTemplateEngine());
         
         get("/video/:id", (request, response) -> {
-            HashMap<String, String> model = buildModel("muokkaakirjaa");
+            HashMap<String, String> model = buildModel("muokkaavideo");
             
             String id = request.params(":id");
             
-            List<Media> videoFound = bookNIO.fetchWithId(id);
+            List<Media> videoFound = videoNIO.fetchWithId(id);
             
             model.put("id", id);
             model.put("title", videoFound.get(0).getTitle());
-            model.put("link", videoFound.get(0).getAuthor());
+            model.put("link", videoFound.get(0).getLink());
             model.put("tags", String.join(",", videoFound.get(0).getTags()));
             model.put("status", String.valueOf(videoFound.get(0).getStatus()));
             
@@ -364,7 +364,6 @@ public class Main {
             String id = request.queryParams("id");
             String status = "0";
             int intType = Integer.parseInt(request.queryParams("type"));
-            
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
                 Collections.addAll(tagit, request.queryParams("tagit").split(","));
@@ -376,6 +375,7 @@ public class Main {
                 String pages = request.queryParams("sivumaara");
                 status = request.queryParams("status");
                 added = bookNIO.modify(id, title, author, pages, tagit, status);
+                
             } else if (intType == 2) {
                 String link = request.queryParams("linkki");
                 boolean luettu = Boolean.parseBoolean(request.queryParams("status"));
