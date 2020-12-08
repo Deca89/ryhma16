@@ -25,10 +25,24 @@ public class Video extends Media {
     
     @Override
     public String getAsListElement(){
-        if (tags==null || tags.isEmpty()) {
-            return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>";
+        String katsottu = "";
+        if (this.status != 1) {
+            katsottu = "Katsottu";
+        } else {
+            katsottu = "Katsomatta";
         }
-        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString();
+        if (tags==null || tags.isEmpty()) {
+            return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>" + katsottu + " "
+                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
+                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
+                "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
+                  "</form>";
+        }
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString() + katsottu + " "
+                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
+                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
+                "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
+                  "</form>";
     }
     
     @Override
@@ -40,7 +54,7 @@ public class Video extends Media {
             katsottu = "Katsomatta";
         }
         String muokkaus = " "
-                + "<form method=\"POST\" action=\"/muokkaakirjaa\">\n" +
+                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
                 "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
                 "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
                   "</form>";
@@ -48,7 +62,7 @@ public class Video extends Media {
             return title + " : "  + link + katsottu + muokkaus;
         }
         return title + " : "  + link + ", Tagit: " + this.getTagString() + katsottu + " "
-                + "<form method=\"POST\" action=\"/muokkaakirjaa\">\n" +
+                + "<form method=\"POST\" action=\"/muokkaavideo\">\n" +
                 "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
                 "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
                   "</form>";

@@ -25,10 +25,16 @@ public class Article extends Media {
     
     @Override
     public String getAsListElement(){
+        String luettu = "";
+        String muokkaus = " "
+                + "<form method=\"POST\" action=\"/muokkaakirjaa\">\n" +
+                "        <input type=\"hidden\" name=\"haettavaId\" id=\"haettavaId\" value=\"" + id + "\"/>" +
+                "        <input type=\"submit\" name=\"muokkaaartikkeli\" value=\"Muokkaa\" />\n" +
+                  "</form>";
         if (tags==null || tags.isEmpty()) {
-            return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>";
+            return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>" + luettu + muokkaus;
         }
-        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString();
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString() + luettu + muokkaus;
     }
     
     @Override
