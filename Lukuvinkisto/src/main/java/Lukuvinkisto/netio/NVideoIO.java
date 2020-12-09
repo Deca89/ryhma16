@@ -29,6 +29,11 @@ public class NVideoIO {
         Collections.sort(works);
         return works;
     }
+        
+    public List<Media> fetchWithId(String input) {
+        List<Media> work = db.getVideoById(input);
+        return work;
+    }
 
     public boolean remove(String title) {
         return db.removeVideo(title);
@@ -37,6 +42,13 @@ public class NVideoIO {
     public boolean add(String title, String link, List<String> tags) {
         if (this.validate(title, link)) {
             return db.addVideo(title, link, tags);
+        }
+        return false;
+    }
+    
+    public boolean modify(String id, String title, String link, List<String> tags, String status){
+        if (this.validate(title, link)) {
+            return db.modifyVideo(id, title, link, tags, status);
         }
         return false;
     }

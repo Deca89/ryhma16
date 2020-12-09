@@ -43,6 +43,11 @@ public class NBookIO {
         Collections.sort(works);
         return works;
     }
+    
+    public List<Media> fetchWithId(String input) {
+        List<Media> work = db.getBookById(input);
+        return work;
+    }
 
     public boolean remove(String title, String author) { 
         return db.removeBook(title, author);
@@ -52,6 +57,13 @@ public class NBookIO {
         if (this.validate(title, Author, pages)) {
             return db.addBook(title, Author, pages, tags);
            
+        }
+        return false;
+    }    
+    
+    public boolean modify(String id, String title, String Author, String pages, List<String> tags, String status){
+        if (this.validate(title, Author, pages)) {
+            return db.modifyBook(id, title, Author, pages, tags, status);
         }
         return false;
     }

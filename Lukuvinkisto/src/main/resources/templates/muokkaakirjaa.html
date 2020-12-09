@@ -1,0 +1,40 @@
+<h1>Muokkaa kirjaa</h1>
+
+#if( $error )
+<div id="error" style="color:red">
+    <p><em>$error</em></p>
+</div>
+#end
+
+<form method="POST" action="/tallennamuokkaus">
+    <fieldset>
+        <label for="otsikko">Otsikko:</label>
+        <input type="text" name="otsikko" id="otsikko" size="100" value="$title"/>
+        <br />
+        
+        <label for="kirjoittaja">Kirjoittaja:</label>
+        <input type="text" name="kirjoittaja" id="kirjoittaja" size="100" value="$author" />
+        <br/>     
+        
+        <label for="sivumaara">Sivumäärä:</label>
+        <input type="text" name="sivumaara" id="sivumaara" size="10" value="$pages"/>
+        <br />
+        
+        <label for="tagit">Tagit pilkulla eroteltuina:</label>
+        <input type="text" name="tagit" id="tagit" size="100" value="$tags"/>
+        <br/>          
+        
+        <label for="status">Luettu sivumäärä:</label>
+        <input type="text" name="status" id="status" size="100" value="$status"/>
+        <br/>
+        
+        <input type="hidden" name="id" id="id" value="$id"/>
+        <input type="hidden" name="type" id="type" value="1"/>
+        <br/>          
+        
+        <input name="tallennamuokkaus" type="submit" value="Muokkaa" />
+    </fieldset>
+<form>  
+    
+<p><a href="/naytavinkit">Takaisin valikkoon</a></p>
+<p><a href="/">Takaisin päävalikkoon</a></p>

@@ -29,6 +29,11 @@ public class NArticleIO {
         Collections.sort(works);
         return works;
     }
+        
+    public List<Media> fetchWithId(String input) {
+        List<Media> work = db.getArticleById(input);
+        return work;
+    }
 
     public boolean remove(String title) {
         return db.removeArticle(title);
@@ -37,6 +42,14 @@ public class NArticleIO {
     public boolean add(String title, String link, List<String> tags) {
         if (this.validate(title, link)) {
             return db.addArticle(title, link, tags);
+        }
+        return false;
+    }
+    
+    
+    public boolean modify(String id, String title, String link, List<String> tags, String status){
+        if (this.validate(title, link)) {
+            return db.modifyArticle(id, title, link, tags, status);
         }
         return false;
     }

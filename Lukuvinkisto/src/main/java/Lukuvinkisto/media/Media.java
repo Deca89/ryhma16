@@ -16,13 +16,24 @@ public class Media implements Comparable<Media>   {
     final String author;
     final String link;
     final int length;
+    final int status;
     final List<String> tags;
-
+    
     public Media(String title, String author, String link, int pages, List<String> tags) {
         this.title = title;
         this.author = author;
         this.link = link;
         this.length = pages;
+        this.status = 0;
+        this.tags = tags;
+    }
+    
+    public Media(String title, String author, String link, int pages, List<String> tags, int status) {
+        this.title = title;
+        this.author = author;
+        this.link = link;
+        this.length = pages;
+        this.status = status;
         this.tags = tags;
     }
 
@@ -36,6 +47,10 @@ public class Media implements Comparable<Media>   {
 
     public int getLength() {
         return length;
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     public String getLink() {
