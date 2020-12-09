@@ -37,7 +37,8 @@ public class Main {
     private static TietokantaDAO db;
 
     private static Map<String, String> siteAddresses;
-
+    private static List<String> withListAddresses;
+    
     public static void main(String[] args) {
         if ((args.length > 0) && args[0].equals("demotietokanta")) {
             DemoTietokanta.luo(DB_FILENAME);
@@ -433,16 +434,40 @@ public class Main {
         siteAddresses.put("muokkaaartikkeli", "templates/muokkaaartikkeli.html");
         siteAddresses.put("muokkaavideo", "templates/muokkaavideo.html");
         siteAddresses.put("tallennamuokkaus", "templates/tallennamuokkaus.html");
+        siteAddresses.put("listaelementti", "templates/listaelementti.html");
+        
+        withListAddresses = new ArrayList<>();
+        
+        withListAddresses.add("naytavinkit");
+        withListAddresses.add("haevinkki");
+        withListAddresses.add("poistavinkki");
+        withListAddresses.add("lisaavinkki");
     }
-
-    static HashMap<String, String> buildModel(String page) {
+    
+    
+    static HashMap<String, String> buildModel(String page){
+        if(withListAddresses.contains(page)) {
+            return buildModelWithList(page);
+        }
         HashMap<String, String> model = new HashMap<>();
         if (!siteAddresses.containsKey(page)) {
             return null;
         }
         model.put("template", siteAddresses.get(page));
         return model;
-
+    }
+    static HashMap<String, String> buildModelWithList(String page){
+        HashMap<String, String> model = new HashMap<>();
+        if(!siteAddresses.containsKey(page)){
+            return null;
+        }
+        model.put("template", siteAddresses.get("listaelementti"));
+        
+        List<Media> allMedia = listAllMedia();
+        model.put("lista", stringifyList(allMedia));
+        model.put("template2", siteAddresses.get(page));
+        
+        return model;
     }
 
     static String stringifyList(List<Media> mediaList) {
@@ -455,7 +480,18 @@ public class Main {
 
         return stringified;
     }
-
+    
+    static List<Media> listAllMedia() {
+        List<Media> list = new ArrayList<>();
+        list.addAll(bookNIO.fetch());
+        list.addAll(articleNIO.fetch());
+        list.addAll(videoNIO.fetch());
+        
+        Collections.sort(list);
+        
+        return list;
+    }
+  
     static int findOutPort() {
         if (portFromEnv != null) {
             return Integer.parseInt(portFromEnv);

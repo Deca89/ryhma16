@@ -22,7 +22,7 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 1. Lataa ohjelma Githubista (komento *git clone*).
 2. Avaa ohjelmakansio. Mene kansioon *Lukuvinkisto*.
 3. Suorita ohjelma komentoriviltä komennolla *gradle run*.
-4. Ohjelma avaa uuddssa selainikkunassa Lukuvinkistön web-käyttöliittymän.
+4. Ohjelma avaa uudessa selainikkunassa Lukuvinkistön web-käyttöliittymän.
 5. Kun haluat lopettaa ohjelman, klikkaa web-käyttöliittymässä linkkiä *Lopeta ohjelma*.
 
 Suorittamalla ohjelma komennolla *gradle run \-\-args="demotietokanta"*, ohjelma aluksi poistaa mahdollisen aiemman tietokannan ja korvaa sen demotietokannalla.
@@ -36,6 +36,8 @@ Ohjelma käynnistetään komentoriviltä. Seuraavat ohjeet koskevat web-käyttö
 *Lisää vinkki* -linkin avulla lukuvinkistöön voidaan lisätä uusia vinkkejä.
 
 Kun olet painanut *Lisää vinkki* -linkkiä, valitse seuraavaksi *Lisää kirja*, *Lisää artikkeli* tai *Lisää video* sen mukaan, minkä tyyppistä materiaalia haluat lisätä. Täytyä pyydetyt tiedot ja paina lopuksi *Lisää kirja/artikkeli/video*. Ohjelma ilmoittaa, onnistuiko uuden vinkin lisääminen.
+
+Tagit lisätään yhteen kertaan pilkuilla eroteltuna.
 
 #### Poista vinkki -linkki
 
@@ -52,6 +54,8 @@ Täytä lomake ja paina lopuksi *Poista kirja/artikkeli/video*. Ohjelma ilmoitta
 Valitse seuraavaksi *Hae kirja*, *Hae artikkeli* tai *Hae video* sen mukaan, minkätyyppistä materiaalia haluat etsiä.
 
 Täytä lomake ja paina lopuksi *Hae kirja/video/artikkeli*. Ohjelma listaa hakutulokset hakukentän alle.
+
+Vinkkejä voi hakea myös tageilla valitsemalla *Hae tagien avulla*. Alasvetovalikosta voi valita tagin. Painamalla *Hae*, ohjelma listaa kaikki vinkit joihin on merkitty kyseinen tagi.
 
 #### Näytä vinkit
 
@@ -80,3 +84,4 @@ Sami & Ossi
 Sonja & Dennis
 
 Atte & Lauri
+
