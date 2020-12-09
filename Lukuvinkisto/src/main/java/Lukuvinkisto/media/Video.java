@@ -22,6 +22,9 @@ public class Video extends Media {
         super(title, "", link, 0, tags, status);
         this.id = id;
     }
+    public String getId(){
+        return id + "";
+    }
     
     @Override
     public String getAsListElement(){

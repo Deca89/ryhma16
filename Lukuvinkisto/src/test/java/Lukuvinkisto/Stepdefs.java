@@ -144,6 +144,7 @@ public class Stepdefs {
     @Given("Book is added with title {string} and author {string} and page count {int}")
     public void bookIsAdded(String title, String author, int pagecount) {
         nBook.add(title, author, String.valueOf(pagecount), null);
+        book = (Book)nBook.fetch(title).get(0);
     }
 
     @Then("Book search for {string} should return {int} results")
@@ -160,6 +161,7 @@ public class Stepdefs {
     @Given("Video is added with title {string} and link {string}")
     public void videoIsAddedWithTitleAndLink(String title, String link) {
         nVideo.add(title, link, null);
+        video = (Video) nVideo.fetch(title).get(0);
     }
 
     @Then("Video search for {string} should return {int} results")
@@ -176,6 +178,7 @@ public class Stepdefs {
     @Given("Article is added with title {string} and link {string}")
     public void articleIsAddedWithTitleAndLink(String title, String link) {
         nArticle.add(title, link, null);
+        article = (Article) nArticle.fetch(title).get(0);
     }
 
     @Then("Article search for {string} should return {int} results")
@@ -203,5 +206,149 @@ public class Stepdefs {
     public void bookRemovalIs(String title, String author, String trueFalse) {
         assertEquals(trueFalse, String.valueOf(nBook.remove(title, author)));
     }
-
+    
+    @When("the Book is then modified to have the title {string}")
+    public void bookTitleModify(String newTitle) {
+        nBook.modify(book.getId(), newTitle, book.getAuthor(), book.getPages() + "", book.getTags(), book.getStatus() + "");
+        book = (Book)nBook.fetch(newTitle).get(0);
+    }
+    @When("the Book's tags are then set to be {string}")
+    public void bookTagSet(String newTags) {
+        
+        String[] tagArray = newTags.split(", ");
+        List<String> newTagList = new ArrayList<>();
+        
+        Collections.addAll(newTagList, tagArray);
+        
+        nBook.modify(book.getId(), book.getTitle(), book.getAuthor(), book.getPages() + "", newTagList, book.getStatus() + "");
+        book = (Book)nBook.fetch(book.getTitle()).get(0);
+    }
+    
+    @Then("the Book's tags should be {string}")
+    public void checkBookTagsAreCorrect(String tagString){
+        String[] tagArray = tagString.split(", ");
+        List<String> tagList = new ArrayList<>();
+        
+        Collections.addAll(tagList, tagArray);
+        
+        assertTrue(tagList.size() == book.getTags().size());
+        
+        for (int i = 0; i < tagList.size(); i++) {
+            assertTrue(tagList.get(i).equals(book.getTags().get(i)));
+        }
+        
+    }
+    
+    @When("the Book's status is then set to {int}")
+    public void bookStatusSet(int newStatus) {
+        
+        nBook.modify(book.getId(), book.getTitle(), book.getAuthor(), book.getPages() + "", book.getTags(), newStatus + "");
+        book = (Book)nBook.fetch(book.getTitle()).get(0);
+    }
+    
+    @Then("the Book's status should be {int}")
+    public void bookStatusCheck(int value) {
+        assertEquals(book.getStatus(), value);
+    }
+    
+    @When("the Video is then modified to have the title {string}")
+    public void videoTitleModify(String newTitle) {
+        
+        nVideo.modify(video.getId(), newTitle, video.getLink(), video.getTags(), video.getStatus() + "");
+        video = (Video) nVideo.fetch(newTitle).get(0);
+    }
+    
+    @When("the Video's tags are then set to be {string}")
+    public void videoTagSet(String newTags) {
+        
+        String[] tagArray = newTags.split(", ");
+        List<String> newTagList = new ArrayList<>();
+        
+        Collections.addAll(newTagList, tagArray);
+        
+        nVideo.modify(video.getId(), video.getTitle(), video.getLink(), newTagList, video.getStatus() + "");
+        video = (Video)nVideo.fetch(video.getTitle()).get(0);
+    }
+    
+    @Then("the Video's tags should be {string}")
+    public void checkVideoTagsAreCorrect(String tagString){
+        String[] tagArray = tagString.split(", ");
+        List<String> tagList = new ArrayList<>();
+        
+        Collections.addAll(tagList, tagArray);
+        
+        assertTrue(tagList.size() == video.getTags().size());
+        
+        for (int i = 0; i < tagList.size(); i++) {
+            assertTrue(tagList.get(i).equals(video.getTags().get(i)));
+        }
+        
+    }
+    
+    @When("the Video's status is then set to {int}")
+    public void videoStatusSet(int newStatus) {
+        nVideo.modify(video.getId(), video.getTitle(), video.getLink(), video.getTags(), newStatus + "");
+        video = (Video)nVideo.fetch(video.getTitle()).get(0);
+    }
+    
+    @Then("the Video's status should be {int}")
+    public void videoStatusCheck(int value) {
+        assertEquals(value, video.getStatus());
+    }
+    
+    @Then("the Video's title should be {string}")
+    public void videoTitleCheck(String title){
+        assertEquals(title, video.getTitle());
+    }
+    
+    @When("the Article is then modified to have the title {string}")
+    public void articleTitleModify(String newTitle) {
+        
+        nArticle.modify(article.getId(), newTitle, article.getLink(), article.getTags(), article.getStatus() + "");
+        article = (Article) nArticle.fetch(newTitle).get(0);
+    }
+    
+    @When("the Article's tags are then set to be {string}")
+    public void articleTagSet(String newTags) {
+        
+        String[] tagArray = newTags.split(", ");
+        List<String> newTagList = new ArrayList<>();
+        
+        Collections.addAll(newTagList, tagArray);
+        
+        nArticle.modify(article.getId(), article.getTitle(), article.getLink(), newTagList, article.getStatus() + "");
+        article = (Article) nArticle.fetch(article.getTitle()).get(0);
+    }
+    
+    @Then("the Article's tags should be {string}")
+    public void checkArticleTagsAreCorrect(String tagString){
+        String[] tagArray = tagString.split(", ");
+        List<String> tagList = new ArrayList<>();
+        
+        Collections.addAll(tagList, tagArray);
+        
+        assertTrue(tagList.size() == article.getTags().size());
+        
+        for (int i = 0; i < tagList.size(); i++) {
+            assertTrue(tagList.get(i).equals(article.getTags().get(i)));
+        }
+        
+    }
+    
+    @When("the Article's status is then set to {int}")
+    public void articleStatusSet(int newStatus) {
+        nArticle.modify(article.getId(), article.getTitle(), article.getLink(), article.getTags(), newStatus + "");
+        article = (Article) nArticle.fetch(article.getTitle()).get(0);
+    }
+    
+    @Then("the Article's status should be {int}")
+    public void articleStatusCheck(int value) {
+        assertEquals(value, article.getStatus());
+    }
+    
+    @Then("the Article's title should be {string}")
+    public void articleTitleCheck(String title){
+        assertEquals(title, article.getTitle());
+    }
+    
 }
