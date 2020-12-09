@@ -22,7 +22,7 @@ Feature: User can add tags to book, videos and articles and search with those ta
 
     Scenario: Tags added to article can be searched
         Given Article is added with title "yydefgh" and link "xxx" and tags "ykolmas, yneljas"
-        Then  The search with tag "kolmas" should return item with title "defgh"
+        Then  The search with tag "ykolmas" should return item with title "yydefgh"
 
     Scenario: Tags added to article can be searched by second tag
         Given Article is added with title "yyxxdefgh" and link "xxx" and tags "yxkolmas, yxneljas"
