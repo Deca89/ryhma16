@@ -45,12 +45,12 @@ public class BookTest {
         books.add(new Book("Linnunradan käsikirja liftareille", "Adams, Douglas", 203, tags1));
         books.add(new Book("Maailmanlopun ravintola", "Adams, Douglas", 222, tags2));
         Collections.sort(books);
-        assertEquals(books.get(0).toString(), "Adams, Douglas : Linnunradan käsikirja liftareille, sivumäärä: 203, Tagit: ab, cd");
+        assertEquals(books.get(0).toString(), "Adams, Douglas : Linnunradan käsikirja liftareille, sivumäärä: 203, luettu: 0/203, Tagit: ab, cd");
     }
     @Test
     public void ReturnCorrectListElement() {
-        Book book = new Book(1,"Linnunradan käsikirja liftareille", "Adams, Douglas", 203, List.of("ab", "cd"));
-        assertEquals(book.getAsListElement(), book.toString() + " <form method=\"GET\" action=\"/kirja/1\">\n" +
+        Book book = new Book("Linnunradan käsikirja liftareille", "Adams, Douglas", 203, List.of("ab", "cd"));
+        assertEquals(book.getAsListElement(), book.toString() + " <form method=\"GET\" action=\"/kirja/-1\">\n" +
                 "        <input type=\"submit\" name=\"muokkaakirjaa\" value=\"Muokkaa\" />\n" +
                   "</form>");
     }

@@ -35,7 +35,7 @@ public class VideoTest {
         videos.add(new Video("Stephen Moore reads The Hitch-Hiker's Guide to the Galaxy by Douglas Adams", "https://youtu.be/dPbr0v_V-cI", List.of("ab", "cd")));
         videos.add(new Video("The Hitchhiker's Guide to the Galaxy read by Douglas Adams [Part 1 of 4]", "https://youtu.be/FmakHVY7xeU", List.of("ef", "gh")));
         Collections.sort(videos);
-        assertEquals(videos.get(0).toString(), "Stephen Moore reads The Hitch-Hiker's Guide to the Galaxy by Douglas Adams : https://youtu.be/dPbr0v_V-cI, Tagit: ab, cd");
+        assertEquals(videos.get(0).toString(), "Stephen Moore reads The Hitch-Hiker's Guide to the Galaxy by Douglas Adams : https://youtu.be/dPbr0v_V-cI, Tagit: ab, cd; Katsottu");
     }
     @Test
     public void ReturnCorrectListElement() {

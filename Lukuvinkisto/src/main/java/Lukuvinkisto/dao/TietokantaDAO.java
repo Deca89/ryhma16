@@ -451,7 +451,7 @@ public class TietokantaDAO {
             PreparedStatement p;
             ResultSet r;
 
-            p = dM.prepareStatement("SELECT title,author,pages,book_id FROM Tags,Books WHERE item_type=1 AND item_id=book_id AND lower(tag)=?");
+            p = dM.prepareStatement("SELECT title,author,pages,book_id,status FROM Tags,Books WHERE item_type=1 AND item_id=book_id AND lower(tag)=?");
             p.setString(1, tag.toLowerCase());
             r = p.executeQuery();
             while (r.next()) {

@@ -32,6 +32,7 @@ public class Stepdefs {
     @Before
     public void initialize() {
         db = new TiedostoDAO();
+        db.deleteFile("TestDatabase");
         a = db.createFile("TestDatabase");
         instance = new TietokantaDAO("TestDatabase");
 
