@@ -28,7 +28,7 @@ public class Video extends Media {
     
     @Override
     public String getAsListElement(){
-        String katsottu = (this.status != 1) ? "Katsottu" : "Katsomatta";
+        String katsottu = (this.status != 1)? "Katsomatta" : "Katsottu";
               
         if (tags==null || tags.isEmpty()) {
             return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>" + katsottu + " "
@@ -44,7 +44,7 @@ public class Video extends Media {
     
     @Override
     public String toString() {
-        String katsottu = (this.status != 1) ? "Katsottu" : "Katsomatta";
+        String katsottu = (this.status != 1) ? "Katsomatta" : "Katsottu";
         if (tags==null || tags.isEmpty()) {
             return title + " : "  + link + katsottu;
         }
