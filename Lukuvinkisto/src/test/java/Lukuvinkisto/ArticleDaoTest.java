@@ -21,7 +21,6 @@ public class ArticleDaoTest {
         TiedostoDAO dbFile = new TiedostoDAO();
         dbFile.createFile("testi");
         db = new TietokantaDAO("testi");
-
     }
     
     @After
@@ -62,6 +61,7 @@ public class ArticleDaoTest {
         db.removeArticle(article2.getTitle());
         db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
         boolean r = db.removeArticle(article2.getTitle());
+        db.addArticle(article2.getTitle(), article2.getLink(), article2.getTags());
         assertFalse(r);
     } 
 
