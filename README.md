@@ -55,6 +55,7 @@ Ohjelma ilmoittaa, onnistuiko poistaminen.
 ##### Haku
 Jos haluat *hakea* tietokannasta vinkkejä, käytä selailunäkymän yläosassa olevaa hakukenttää. Valitse kategoria, tagi tai kirjoita vapaa hakusana.
 
+##### Vinkin muokkaus
 Jos haluat *muokata* vinkkejä, valitse selailunäkymän listalta haluamasi vinkki ja klikkaa sen välittömässä läheisyydessä olevaa *Muokkaa*-painiketta. Muokkaa haluamasi tiedot avautuvaan lomakkeeseen ja lähetä lomake.
 
 #### Lopeta ohjelma -linkki
