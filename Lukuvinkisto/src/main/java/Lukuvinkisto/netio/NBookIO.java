@@ -8,6 +8,7 @@ package Lukuvinkisto.netio;
 import Lukuvinkisto.dao.TietokantaDAO;
 import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -17,29 +18,33 @@ import org.apache.commons.lang.StringUtils;
  * @author anoth
  */
 public class NBookIO {
+
     TietokantaDAO db;
 
     public NBookIO(TietokantaDAO db) {
         this.db = db;
     }
-    
-    /** Fetches all books stored in memory
+
+    /**
+     * Fetches all books stored in memory
      *
      * @return List of all books
      */
-    public List<Media> fetch(){
-        List<Media> works=db.listBooks(null);
+    public List<Media> fetch() {
+        List<Media> works = db.listBooks(null);
         Collections.sort(works);
         return works;
     }
 
-    /** Fetches all books from the database witch match given input.
+    /**
+     * Fetches all books from the database witch match given input.
      *
-     * @param input Searches all works containing input string. Input string can be author part of, or whole name of the name of the book or author.
+     * @param input Searches all works containing input string. Input string can
+     * be author part of, or whole name of the name of the book or author.
      * @return List of all results.
      */
-    public List<Media> fetch(String input){
-        List<Media> works=db.listBooks(input);
+    public List<Media> fetch(String input) {
+        List<Media> works = db.listBooks(input);
         Collections.sort(works);
         return works;
     }
@@ -49,14 +54,25 @@ public class NBookIO {
         return work;
     }
 
-    public boolean remove(String title, String author) { 
+    public List<Media> separateByTag(List<Media> books, String input) {
+        List<Media> works = new ArrayList();
+        if (books.isEmpty()) return books;
+        for (Media book : books) {
+            if (book.getTags().contains(input)) {
+                works.add(book);
+            }
+        }
+        return works;
+    }
+
+    public boolean remove(String title, String author) {
         return db.removeBook(title, author);
     }
-    
-    public boolean add(String title, String Author, String pages, List<String> tags){
+
+    public boolean add(String title, String Author, String pages, List<String> tags) {
         if (this.validate(title, Author, pages)) {
             return db.addBook(title, Author, pages, tags);
-           
+
         }
         return false;
     }    
@@ -67,11 +83,11 @@ public class NBookIO {
         }
         return false;
     }
-    
+
     private boolean validate(String title, String author, String pages) {
         if (!StringUtils.isNumeric(pages)) {
             return false;
         }
-        return author.length() > 2 && Integer.valueOf(pages) > 0 && title.length()>0;
+        return author.length() > 2 && Integer.valueOf(pages) > 0 && title.length() > 0;
     }
 }

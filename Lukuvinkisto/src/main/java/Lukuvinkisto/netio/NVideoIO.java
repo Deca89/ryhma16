@@ -3,6 +3,7 @@ package Lukuvinkisto.netio;
 import Lukuvinkisto.dao.TietokantaDAO;
 import Lukuvinkisto.media.Media;
 import Lukuvinkisto.media.Video;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +36,17 @@ public class NVideoIO {
         return work;
     }
 
+    public List<Media> separateByTag(List<Media> videos, String input) {
+        List<Media> works = new ArrayList();
+        if (videos.isEmpty()) return videos;
+        for (Media video : videos) {
+            if (video.getTags().contains(input)) {
+                works.add(video);
+            }
+        }
+        return works;
+    }
+
     public boolean remove(String title) {
         return db.removeVideo(title);
     }
@@ -45,6 +57,7 @@ public class NVideoIO {
         }
         return false;
     }
+<<<<<<< HEAD
     
     public boolean modify(String id, String title, String link, List<String> tags, String status){
         if (this.validate(title, link)) {
@@ -53,6 +66,9 @@ public class NVideoIO {
         return false;
     }
     
+=======
+
+>>>>>>> selailu2
     private boolean validate(String title, String link) {
         return title.length() > 2 && link.length() > 2;
     }
