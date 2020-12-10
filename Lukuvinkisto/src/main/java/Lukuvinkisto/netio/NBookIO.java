@@ -83,7 +83,7 @@ public class NBookIO {
         return false;
     }
 
-    private boolean validate(String title, String author, String pages) {
+    public boolean validate(String title, String author, String pages) {
         if (!StringUtils.isNumeric(pages)) {
             return false;
         }

@@ -128,17 +128,18 @@ public class Stepdefs {
 
     @Then("Book add validation is {string}")
     public void bookValidationReturns(String trueFalse) {
-        assertEquals(trueFalse, String.valueOf(nBook.add(book.getTitle(), book.getAuthor(), String.valueOf(book.getPages()), null)));
+        assertEquals(trueFalse, String.valueOf(nBook.validate(book.getTitle(), book.getAuthor(), String.valueOf(book.getPages()))));
     }
 
     @Then("Video add validation is {string}")
     public void videoAddValidationReturns(String trueFalse) {
-        assertEquals(trueFalse, String.valueOf(nVideo.add(video.getTitle(), video.getLink(), null)));
+        assertEquals(trueFalse, String.valueOf(nVideo.validate(video.getTitle(), video.getLink())));
     }
 
     @Then("Article add validation is {string}")
     public void articleAddValidationReturns(String trueFalse) {
-        assertEquals(trueFalse, String.valueOf(nArticle.add(article.getTitle(), article.getLink(), null)));
+        nArticle.remove(article.getTitle());
+        assertEquals(trueFalse, String.valueOf(nArticle.validate(article.getTitle(), article.getLink())));
     }
 
     @Given("Book is added with title {string} and author {string} and page count {int}")

@@ -22,6 +22,7 @@ public class TiedostoDAOTest {
      */
     @Test
     public void testCreateFile() {
+        instance.deleteFile("TestFile");
         Integer expResult = instance.createFile("TestFile");
         assertEquals((Object) expResult, (Object) 2);
         
@@ -34,7 +35,7 @@ public class TiedostoDAOTest {
      */
     @Test
     public void testFileExists() {
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.fileExists(fileName);
         assertEquals(expResult, result);
         
@@ -54,10 +55,6 @@ public class TiedostoDAOTest {
          
         boolean expResult = true;
         boolean result = instance.deleteFile(fileName);
-        assertEquals(expResult, result);
-        
-        expResult = false;
-        result = instance.deleteFile(fileName);
         assertEquals(expResult, result);
     }
     

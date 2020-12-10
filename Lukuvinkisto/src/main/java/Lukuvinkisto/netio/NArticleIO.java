@@ -65,7 +65,7 @@ public class NArticleIO {
         return false;
     }
     
-    private boolean validate(String title, String link) {
+    public boolean validate(String title, String link) {
         return title.length() > 2 && link.length() > 2;
     }
 }

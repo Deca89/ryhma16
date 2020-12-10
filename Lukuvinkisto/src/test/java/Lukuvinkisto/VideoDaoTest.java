@@ -32,6 +32,7 @@ public class VideoDaoTest {
 
     @Test
     public void testVideoAddOk() {
+        db.removeVideo(video1.getTitle());
         boolean r = db.addVideo(video1.getTitle(), video1.getLink(), video1.getTags());
         assertTrue(r);
     } 
@@ -60,26 +61,33 @@ public class VideoDaoTest {
     @Test
     public void testRemovingNonExistingVideoReturnsFalse() {
         db.addVideo(video1.getTitle(), video1.getLink(), video1.getTags());
+        db.removeVideo(video2.getTitle());
         boolean r = db.removeVideo(video2.getTitle());
         assertFalse(r);
     } 
 
     @Test
     public void testTwoVideosAdded() {
+        db.removeVideo(video1.getTitle());
+        db.removeVideo(video2.getTitle());
+        List<Media> list = db.listVideos(null);
         db.addVideo(video1.getTitle(), video1.getLink(), video1.getTags());
         db.addVideo(video2.getTitle(), video2.getLink(), video2.getTags());
-        List<Media> list = db.listVideos(null);
-        assertEquals(list.size(),2);
+        List<Media> list2 = db.listVideos(null);
+        assertEquals(list.size(),list2.size()-2);
     } 
 
     @Test
     public void testTwoVideosAddedOneRemoved() {
+        db.removeVideo(video1.getTitle());
+        db.removeVideo(video2.getTitle());
+        List<Media> list = db.listVideos(null);
         db.addVideo(video1.getTitle(), video1.getLink(), video1.getTags());
         db.addVideo(video2.getTitle(), video2.getLink(), video2.getTags());
         db.removeVideo(video1.getTitle());
         
-        List<Media> list = db.listVideos(null);
-        assertEquals(list.size(),1);
+        List<Media> list2 = db.listVideos(null);
+        assertEquals(list.size(),list2.size()-1);
     } 
 
     @Test

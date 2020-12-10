@@ -45,7 +45,7 @@ public class BookTest {
         books.add(new Book("Linnunradan k‰sikirja liftareille", "Adams, Douglas", 203, tags1));
         books.add(new Book("Maailmanlopun ravintola", "Adams, Douglas", 222, tags2));
         Collections.sort(books);
-        assertEquals(books.get(0).toString(), "Adams, Douglas : Linnunradan k‰sikirja liftareille, sivum‰‰r‰§: 203, luettu: 0/203, Tagit: ab, cd");
+        assertEquals(books.get(0).toString(), "Adams, Douglas : Linnunradan k‰sikirja liftareille, sivum‰‰r‰: 203, luettu: 0/203, Tagit: ab, cd");
     }
     @Test
     public void ReturnCorrectListElement() {

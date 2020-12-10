@@ -53,6 +53,7 @@ public class TietokantaDAOTest {
      */
     @Test
     public void testAddBook() {
+        instance.removeBook("1984", "George Orwell");
         boolean result = instance.addBook("1984", "George Orwell", "209", null);
 
         assertEquals(true, result);
@@ -67,7 +68,7 @@ public class TietokantaDAOTest {
 
         String searchTerm = "";        
         List<Media> result = instance.listBooks(searchTerm);
-        assertEquals(4, result.size());
+        assertEquals(16, result.size());
         
         searchTerm = "Taikavuori";        
         result = instance.listBooks(searchTerm);
@@ -75,7 +76,7 @@ public class TietokantaDAOTest {
         
         searchTerm = null;        
         result = instance.listBooks(searchTerm);
-        assertEquals(4, result.size());
+        assertEquals(16, result.size());
     }
 
     /**
@@ -89,7 +90,7 @@ public class TietokantaDAOTest {
         
         String searchTerm = null;
         List<Media> result = instance.listBooks(searchTerm);
-        assertEquals(3, result.size());
+        assertEquals(15, result.size());
     }
 
     @Test
@@ -107,7 +108,7 @@ public class TietokantaDAOTest {
         // Checking the list size afterwards
         searchTerm = "";        
         result = instance.listBooks(searchTerm);
-        assertEquals(4, result.size());
+        assertEquals(16, result.size());
     }
     
 
@@ -116,7 +117,7 @@ public class TietokantaDAOTest {
      */
     @Test
     public void testNumberOfBooks() {
-        int expResult = 4;
+        int expResult = 16;
         int result = instance.numberOfBooks();
         assertEquals(expResult, result);
     }

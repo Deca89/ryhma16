@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class ArticleDaoTest {
     TietokantaDAO db;
-    Article article1 = new Article("Wikipedia: The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd"));
+    Article article1 = new Article("The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd"));
     Article article2 = new Article("Linnunradan käsikirja liftareille", "https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille", List.of("ef", "gh"));
     
     @Before
@@ -32,22 +32,22 @@ public class ArticleDaoTest {
 
     @Test
     public void testArticleAddOk() {
+        db.removeArticle(article1.getTitle());
         boolean r = db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
         assertTrue(r);
     } 
 
     @Test
     public void testArticleAddOkTitle() {
-        db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
         List<Media> list = db.listArticles(null);
-        assertEquals(list.get(0).getTitle(),article1.getTitle());
+        assertEquals(list.get(0).getTitle(),article2.getTitle());
     } 
 
     @Test
     public void testArticleAddOkLink() {
         db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
-        List<Media> list = db.listArticles(null);
-        assertEquals(list.get(0).getLink(),article1.getLink());
+        List<Media> list = db.listArticles("");
+        assertEquals(list.get(0).getLink(), article1.getLink());
     } 
 
     @Test
@@ -59,6 +59,7 @@ public class ArticleDaoTest {
 
     @Test
     public void testRemovingNonExistingArticleReturnsFalse() {
+        db.removeArticle(article2.getTitle());
         db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
         boolean r = db.removeArticle(article2.getTitle());
         assertFalse(r);
