@@ -125,7 +125,9 @@ public class Main {
             model.put("title", articleFound.get(0).getTitle());
             model.put("link", articleFound.get(0).getLink());
             model.put("tags", String.join(",", articleFound.get(0).getTags()));
-            model.put("status", String.valueOf(articleFound.get(0).getStatus()));
+            
+            String status = (articleFound.get(0).getStatus() == 1)? "checked" : "";
+            model.put("status", status);
             
             return new ModelAndView(model, LAYOUT);
                 
@@ -142,7 +144,9 @@ public class Main {
             model.put("title", videoFound.get(0).getTitle());
             model.put("link", videoFound.get(0).getLink());
             model.put("tags", String.join(",", videoFound.get(0).getTags()));
-            model.put("status", String.valueOf(videoFound.get(0).getStatus()));
+            
+            String status = (videoFound.get(0).getStatus() == 1)? "checked" : "";
+            model.put("status", status);
             
             return new ModelAndView(model, LAYOUT);
                 
@@ -395,20 +399,20 @@ public class Main {
                 
             } else if (intType == 2) {
                 String link = request.queryParams("linkki");
-                boolean luettu = Boolean.parseBoolean(request.queryParams("status"));
-                if (luettu) {
+                String luettu = request.queryParams("status");
+                if (luettu != null) {
                     status = "1";
                 }
                 added = videoNIO.modify(id, title, link, tagit, status);
             } else if (intType == 3) {
                 String link = request.queryParams("linkki");
-                boolean luettu = Boolean.parseBoolean(request.queryParams("status"));
-                if (luettu) {
+                String luettu = request.queryParams("status");
+                if (luettu != null) {
                     status = "1";
                 }
                 added = articleNIO.modify(id, title, link, tagit, status);
             }
-
+            
             if (!added) {
                 model.put("error", "Muokkaus epäonnistui");
                 model.put("template", "templates/tallennamuokkaus.html");

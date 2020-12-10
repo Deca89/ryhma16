@@ -240,7 +240,7 @@ public class TietokantaDAO {
             List<Media> videos = new ArrayList<>();
             while (r.next()) {
                 List<String> tags = listTags(2, r.getInt("video_id"));
-                videos.add(new Video(r.getInt("video_id"), r.getString("title"), r.getString("link"), tags));
+                videos.add(new Video(r.getInt("video_id"), r.getString("title"), r.getString("link"), tags, r.getInt("status")));
             }
             dM.close();
             return videos;
@@ -341,7 +341,7 @@ public class TietokantaDAO {
             List<Media> articles = new ArrayList<>();
             while (r.next()) {
                 List<String> tags = listTags(3, r.getInt("article_id"));
-                articles.add(new Article(r.getInt("article_id"), r.getString("title"), r.getString("link"), tags));
+                articles.add(new Article(r.getInt("article_id"), r.getString("title"), r.getString("link"), tags, r.getInt("status")));
             }
             dM.close();
             return articles;
