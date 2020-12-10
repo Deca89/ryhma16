@@ -34,13 +34,13 @@ public class ArticleTest {
         articles.add(new Article("Wikipedia: The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd")));
         articles.add(new Article("Linnunradan käsikirja liftareille", "https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille", List.of("ef", "gh")));
         Collections.sort(articles);
-        assertEquals(articles.get(0).toString(), "Linnunradan käsikirja liftareille : https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille, Tagit: ef, gh; Luettu");
+        assertEquals(articles.get(0).toString(), "Linnunradan käsikirja liftareille : https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille, Tagit: ef, gh; Lukematta");
     }
     
     @Test
     public void ReturnCorrectListElement() {
         Article article = new Article("Wikipedia: The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd"));
-        assertEquals(article.getAsListElement(), "<a href=\"https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy\">Wikipedia: The Hitchhiker's Guide to the Galaxy<a>, Tagit: ab, cd; Luettu <form method=\"GET\" action=\"/artikkeli/0\">\n" +
+        assertEquals(article.getAsListElement(), "<a href=\"https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy\">Wikipedia: The Hitchhiker's Guide to the Galaxy<a>, Tagit: ab, cd; Lukematta <form method=\"GET\" action=\"/artikkeli/0\">\n" +
                 "        <input type=\"submit\" name=\"muokkaaartikkeli\" value=\"Muokkaa\" />\n" +
                   "</form>");
     }

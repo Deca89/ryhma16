@@ -29,7 +29,9 @@ public class Book extends Media {
         this.pages = pages;
         this.id = -1;
     }
-    
+    public String getId(){
+        return id + "";
+    }
     @Override
     public String getAsListElement(){
         if (tags==null || tags.isEmpty()) {

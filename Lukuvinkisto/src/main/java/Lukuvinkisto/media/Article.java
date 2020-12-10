@@ -15,17 +15,20 @@ public class Article extends Media {
     }
   
     public Article(int id, String title, String link, List<String> tags, int status) {
-        super(title, "", link, 0, tags);
+        super(title, "", link, 0, tags, status);
         this.id = id;
     }
   
     public Article(String title, String link, List<String> tags, int status) {
         super(title, "", link, 0, tags, status);
     }
+    public String getId(){
+        return id + "";
+    }
     
     @Override
     public String getAsListElement(){
-        String luettu = (status != 1)? "Luettu" : "Lukematta";
+        String luettu = (status != 1)? "Lukematta" : "Luettu";
         String muokkaus = " "
                 + "<form method=\"GET\" action=\"/artikkeli/" + id + "\">\n" +
                 "        <input type=\"submit\" name=\"muokkaaartikkeli\" value=\"Muokkaa\" />\n" +
@@ -38,7 +41,7 @@ public class Article extends Media {
     
     @Override
     public String toString() {
-        String luettu = (status != 1)? "Luettu" : "Lukematta";
+        String luettu = (status != 1)? "Lukematta" : "Luettu";
         if (tags==null || tags.isEmpty()) {
             return title + " : "  + link + luettu;
         }
