@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class ArticleDaoTest {
     TietokantaDAO db;
     Article article1 = new Article("The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd"));
-    Article article2 = new Article("Linnunradan käsikirja liftareille", "https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille", List.of("ef", "gh"));
+    Article article2 = new Article("Linnunradan kasikirja liftareille", "https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille", List.of("ef", "gh"));
     
     @Before
     public void setUp() {
@@ -88,7 +88,7 @@ public class ArticleDaoTest {
         db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
         db.addArticle(article2.getTitle(), article2.getLink(), article2.getTags());
         List<Media> list = db.listArticles("RADAN");
-        assertEquals(list.get(0).getTitle(),"Linnunradan käsikirja liftareille");
+        assertEquals(list.get(0).getTitle(),"Linnunradan kasikirja liftareille");
     } 
 
     @Test

@@ -148,11 +148,11 @@ public class Main {
             Boolean articleAdded = articleNIO.add(title, link, tagit);
 
             if (!articleAdded) {
-                model.put("error", "Artikkelia ei saatu lisättyä");
+                model.put("error", "Artikkelia ei saatu lisattya");
                 model.put("template", "templates/lisaaArtikkeli.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Artikkeli lisätty lukuvinkistöön");
+            model.put("lisatty", "Artikkeli lisatty lukuvinkistoon");
             model.put("template", "templates/lisaaArtikkeli.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -170,7 +170,7 @@ public class Main {
                 model.put("template", "templates/poistaArtikkeli.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Artikkeli poistettu lukuvinkistöstä");
+            model.put("lisatty", "Artikkeli poistettu lukuvinkistosta");
             model.put("template", "templates/poistaArtikkeli.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -189,11 +189,11 @@ public class Main {
             Boolean videoAdded = videoNIO.add(title, link, tagit);
 
             if (!videoAdded) {
-                model.put("error", "Videota ei saatu lisättyä");
+                model.put("error", "Videota ei saatu lisattya");
                 model.put("template", "templates/lisaavideo.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Video lisätty lukuvinkistöön");
+            model.put("lisatty", "Video lisatty lukuvinkistoon");
             model.put("template", "templates/lisaavideo.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -211,7 +211,7 @@ public class Main {
                 model.put("template", "templates/poistavideo.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Video poistettu lukuvinkistöstä");
+            model.put("lisatty", "Video poistettu lukuvinkistosta");
             model.put("template", "templates/poistavideo.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -232,11 +232,11 @@ public class Main {
             Boolean bookAdded = bookNIO.add(title, author, pages, tagit);
 
             if (!bookAdded) {
-                model.put("error", "Kirjaa ei saatu lisättyä");
+                model.put("error", "Kirjaa ei saatu lisattya");
                 model.put("template", "templates/lisaakirja.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Kirja lisätty lukuvinkistöön");
+            model.put("lisatty", "Kirja lisatty lukuvinkistoon");
             model.put("template", "templates/lisaakirja.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -254,7 +254,7 @@ public class Main {
                 model.put("template", "templates/poistakirja.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Kirja poistettu lukuvinkistöstä");
+            model.put("lisatty", "Kirja poistettu lukuvinkistosta");
             model.put("template", "templates/poistakirja.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -298,7 +298,7 @@ public class Main {
             }
             
             if (!added) {
-                model.put("error", "Muokkaus epäonnistui");
+                model.put("error", "Muokkaus epaonnistui");
                 model.put("template", "templates/tallennamuokkaus.html");
                 return new ModelAndView(model, LAYOUT);
             }
