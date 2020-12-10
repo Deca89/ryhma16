@@ -32,9 +32,9 @@ public class ArticleTest {
     public void SortsCorrectly() {
         ArrayList articles = new ArrayList<Book>();
         articles.add(new Article("Wikipedia: The Hitchhiker's Guide to the Galaxy", "https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy", List.of("ab", "cd")));
-        articles.add(new Article("Linnunradan k√§sikirja liftareille", "https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille", List.of("ef", "gh")));
+        articles.add(new Article("Linnunradan k‰sikirja liftareille", "https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille", List.of("ef", "gh")));
         Collections.sort(articles);
-        assertEquals(articles.get(0).toString(), "Linnunradan k√§sikirja liftareille : https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille, Tagit: ef, gh; Lukematta");
+        assertEquals(articles.get(0).toString(), "Linnunradan k‰sikirja liftareille : https://fi.wikipedia.org/wiki/Linnunradan_k%C3%A4sikirja_liftareille, Tagit: ef, gh; Lukematta");
     }
     
     @Test

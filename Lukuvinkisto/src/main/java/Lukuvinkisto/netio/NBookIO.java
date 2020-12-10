@@ -6,7 +6,6 @@
 package Lukuvinkisto.netio;
 
 import Lukuvinkisto.dao.TietokantaDAO;
-import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
 import java.util.ArrayList;
 import java.util.Collections;

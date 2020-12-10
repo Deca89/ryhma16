@@ -2,7 +2,6 @@ package Lukuvinkisto.netio;
 
 import Lukuvinkisto.dao.TietokantaDAO;
 import Lukuvinkisto.media.Media;
-import Lukuvinkisto.media.Video;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -3,10 +3,7 @@ package Main;
 import Lukuvinkisto.dao.DemoTietokanta;
 import Lukuvinkisto.dao.TiedostoDAO;
 import Lukuvinkisto.dao.TietokantaDAO;
-import Lukuvinkisto.media.Article;
-import Lukuvinkisto.media.Book;
 import Lukuvinkisto.media.Media;
-import Lukuvinkisto.media.Video;
 import Lukuvinkisto.netio.NArticleIO;
 import Lukuvinkisto.netio.NBookIO;
 import Lukuvinkisto.netio.NVideoIO;
@@ -18,12 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
 import static spark.Spark.get;
 import static spark.Spark.port;
 import static spark.Spark.post;
-import spark.TemplateViewRoute;
 import spark.template.velocity.VelocityTemplateEngine;
 
 public class Main {
@@ -61,39 +55,6 @@ public class Main {
         get("/lopeta", (request, response) -> {
             System.exit(0);
             return null;
-        }, new VelocityTemplateEngine());
-
-        get("/naytakirjat", (request, response) -> {
-            HashMap<String, String> model = buildModel("naytakirjat");
-            List<Media> booksFound = bookNIO.fetch();
-
-            model.put("books", stringifyList(booksFound));
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/naytaartikkelit", (request, response) -> {
-            HashMap<String, String> model = buildModel("naytaartikkelit");
-            List<Media> articlesFound = articleNIO.fetch();
-
-            model.put("articles", stringifyList(articlesFound));
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/naytavideot", (request, response) -> {
-            HashMap<String, String> model = buildModel("naytavideot");
-            List<Media> videosFound = videoNIO.fetch();
-
-            model.put("videos", stringifyList(videosFound));
-            return new ModelAndView(model, LAYOUT);
-        }, new VelocityTemplateEngine());
-
-        get("/haetagi", (request, response) -> {
-            HashMap<String, Object> model = new HashMap<>();
-            List<String> tags = db.listAllTags();
-            Collections.sort(tags);
-            model.put("allTags", tags);
-            model.put("template", siteAddresses.get("haetagi"));
-            return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
         
         get("/kirja/:id", (request, response) -> {
@@ -187,11 +148,11 @@ public class Main {
             Boolean articleAdded = articleNIO.add(title, link, tagit);
 
             if (!articleAdded) {
-                model.put("error", "Artikkelia ei saatu lis√§tty√§");
+                model.put("error", "Artikkelia ei saatu lis‰tty‰");
                 model.put("template", "templates/lisaaArtikkeli.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Artikkeli lis√§tty lukuvinkist√∂√∂n");
+            model.put("lisatty", "Artikkeli lis‰tty lukuvinkistˆˆn");
             model.put("template", "templates/lisaaArtikkeli.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -209,27 +170,8 @@ public class Main {
                 model.put("template", "templates/poistaArtikkeli.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Artikkeli poistettu lukuvinkist√∂st√§");
+            model.put("lisatty", "Artikkeli poistettu lukuvinkistˆst‰");
             model.put("template", "templates/poistaArtikkeli.html");
-            return new ModelAndView(model, LAYOUT);
-
-        }, new VelocityTemplateEngine());
-
-        post("/haeartikkeli", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            String searchWord = request.queryParams("hakusana");
-
-            List<Media> articlesFound = articleNIO.fetch(searchWord);
-
-            if (articlesFound.isEmpty()) {
-                model.put("error", "Ei hakusanaa vastaavia artikkeleita");
-                model.put("template", "templates/haeartikkeli.html");
-                return new ModelAndView(model, LAYOUT);
-            }
-
-            model.put("articles", stringifyList(articlesFound));
-
-            model.put("template", "templates/haeartikkeli.html");
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
@@ -247,11 +189,11 @@ public class Main {
             Boolean videoAdded = videoNIO.add(title, link, tagit);
 
             if (!videoAdded) {
-                model.put("error", "Videota ei saatu lis√§tty√§");
+                model.put("error", "Videota ei saatu lis‰tty‰");
                 model.put("template", "templates/lisaavideo.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Video lis√§tty lukuvinkist√∂√∂n");
+            model.put("lisatty", "Video lis‰tty lukuvinkistˆˆn");
             model.put("template", "templates/lisaavideo.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -275,47 +217,6 @@ public class Main {
 
         }, new VelocityTemplateEngine());
 
-        post("/haevideo", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            String searchWord = request.queryParams("hakusana");
-
-            List<Media> videosFound = videoNIO.fetch(searchWord);
-
-            if (videosFound.isEmpty()) {
-                model.put("error", "Ei hakusanaa vastaavia videoita");
-                model.put("template", "templates/haevideo.html");
-                return new ModelAndView(model, LAYOUT);
-            }
-
-            model.put("videos", stringifyList(videosFound));
-
-            model.put("template", "templates/haevideo.html");
-            return new ModelAndView(model, LAYOUT);
-
-        }, new VelocityTemplateEngine());
-
-        post("/haetagi", (request, response) -> {
-            HashMap<String, Object> model = new HashMap<>();
-            List<String> tags = db.listAllTags();
-            Collections.sort(tags);
-            model.put("allTags", tags);
-            model.put("template", siteAddresses.get("haetagi"));
-
-            String searchWord = request.queryParams("tagi");
-
-            List<Media> itemsFound = db.SearchByTag(searchWord);
-
-            if (itemsFound.isEmpty()) {
-                model.put("error", "Ei tagia vastaavia vinkkej‰");
-                model.put("template", "templates/haetagi.html");
-                return new ModelAndView(model, LAYOUT);
-            }
-
-            model.put("tags", stringifyList(itemsFound));
-            return new ModelAndView(model, LAYOUT);
-
-        }, new VelocityTemplateEngine());
-
         //kirjan komennot
         post("/lisaakirja", (request, response) -> {
             HashMap<String, String> model = new HashMap<>();
@@ -331,7 +232,7 @@ public class Main {
             Boolean bookAdded = bookNIO.add(title, author, pages, tagit);
 
             if (!bookAdded) {
-                model.put("error", "Kirjaa ei saatu lis√§tty√§");
+                model.put("error", "Kirjaa ei saatu lis‰tty‰");
                 model.put("template", "templates/lisaakirja.html");
                 return new ModelAndView(model, LAYOUT);
             }
@@ -353,29 +254,12 @@ public class Main {
                 model.put("template", "templates/poistakirja.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Kirja poistettu lukuvinkist√∂st√§");
+            model.put("lisatty", "Kirja poistettu lukuvinkistˆst‰");
             model.put("template", "templates/poistakirja.html");
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
 
-        post("/haekirja", (request, response) -> {
-            HashMap<String, String> model = new HashMap<>();
-            String searchWord = request.queryParams("hakusana");
-
-            List<Media> booksFound = bookNIO.fetch(searchWord);
-
-            if (booksFound.isEmpty()) {
-                model.put("error", "Ei hakusanaa vastaavia kirjoja");
-                model.put("template", "templates/haekirja.html");
-                return new ModelAndView(model, LAYOUT);
-            }
-
-            model.put("books", stringifyList(booksFound));
-            model.put("template", "templates/haekirja.html");
-            return new ModelAndView(model, LAYOUT);
-
-        }, new VelocityTemplateEngine());
 
         //Tallenna muokkaukset
         post("/tallennamuokkaus", (request, response) -> {
@@ -414,7 +298,7 @@ public class Main {
             }
             
             if (!added) {
-                model.put("error", "Muokkaus ep√§onnistui");
+                model.put("error", "Muokkaus ep‰onnistui");
                 model.put("template", "templates/tallennamuokkaus.html");
                 return new ModelAndView(model, LAYOUT);
             }
@@ -474,17 +358,6 @@ public class Main {
         siteAddresses.put("lisaavideo", "templates/lisaavideo.html");
         siteAddresses.put("lisaavinkki", "templates/lisaavinkki.html");
 
-        siteAddresses.put("haeartikkeli", "templates/haeartikkeli.html");
-        siteAddresses.put("haekirja", "templates/haekirja.html");
-        siteAddresses.put("haevideo", "templates/haevideo.html");
-        siteAddresses.put("haevinkki", "templates/haevinkki.html");
-        siteAddresses.put("haetagi", "templates/haetagi.html");
-
-        siteAddresses.put("naytakirjat", "templates/naytakirjat.html");
-        siteAddresses.put("naytaartikkelit", "templates/naytaartikkelit.html");
-        siteAddresses.put("naytavideot", "templates/naytavideot.html");
-        siteAddresses.put("naytavinkit", "templates/naytavinkit.html");
-
         siteAddresses.put("poistakirja", "templates/poistakirja.html");
         siteAddresses.put("poistaArtikkeli", "templates/poistaArtikkeli.html");
         siteAddresses.put("poistavideo", "templates/poistavideo.html");
@@ -500,9 +373,7 @@ public class Main {
         siteAddresses.put("listaelementti", "templates/listaelementti.html");
         
         withListAddresses = new ArrayList<>();
-        
-        withListAddresses.add("naytavinkit");
-        withListAddresses.add("haevinkki");
+
         withListAddresses.add("poistavinkki");
         withListAddresses.add("lisaavinkki");
     }
