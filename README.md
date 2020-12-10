@@ -16,6 +16,7 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 
 [Sprintti 1](https://github.com/vuorenkoski/ryhma16/projects/2)
 [Sprintti 2](https://github.com/vuorenkoski/ryhma16/projects/3)
+[Sprintti 3](https://github.com/vuorenkoski/ryhma16/projects/4)
 
 ### Ohjelman asennusohje
 
@@ -31,35 +32,30 @@ Suorittamalla ohjelma komennolla *gradle run \-\-args="demotietokanta"*, ohjelma
 
 Ohjelma käynnistetään komentoriviltä. Seuraavat ohjeet koskevat web-käyttöliittymää.
 
-#### Lisää vinkki -linkki
+#### Lisää vinkki
 
-*Lisää vinkki* -linkin avulla lukuvinkistöön voidaan lisätä uusia vinkkejä.
+*Lisää vinkki* -linkkien avulla lukuvinkistöön voidaan lisätä uusia vinkkejä.
 
-Kun olet painanut *Lisää vinkki* -linkkiä, valitse seuraavaksi *Lisää kirja*, *Lisää artikkeli* tai *Lisää video* sen mukaan, minkä tyyppistä materiaalia haluat lisätä. Täytyä pyydetyt tiedot ja paina lopuksi *Lisää kirja/artikkeli/video*. Ohjelma ilmoittaa, onnistuiko uuden vinkin lisääminen.
+Valitse vasemmalla olevasta navigointipalkista joko *Lisää kirja*, *Lisää artikkeli* tai *Lisää video*.
+
+Täytyä avautuva lomake. Kirjailijan nimessä on oltava vähintään kolme kirjainta.
 
 Tagit lisätään yhteen kertaan pilkuilla eroteltuna.
 
-#### Poista vinkki -linkki
+#### Poista vinkki
 
-Kun haluat poistaa lukuvinkistöstä vinkkejä, klikkaa aluksi linkkiä *Poista vinkki*.
+Kun haluat poistaa lukuvinkistöstä vinkkejä, klikkaa aluksi vasemmalla olevasta navigointipalkista linkkiä *Poista kirja*, *Poista artikkeli* tai *Poista video*.
 
-Valitse seuraavaksi *Poista kirja*, *Poista video* tai *Poista artikkeli* sen mukaan, minkätyyppisen vinkin haluat poistaa.
+Täytä avautuva lomake ja lähetä se.
 
-Täytä lomake ja paina lopuksi *Poista kirja/artikkeli/video*. Ohjelma ilmoittaa, onnistuiko poistaminen.
+Ohjelma ilmoittaa, onnistuiko poistaminen.
 
-#### Hae vinkki -linkki
+#### Selailunäkymä
 
-*Hae vinkki* -toiminnon avulla lukuvinkistöstä voidaan etsiä haluttua materiaalia. Kun haluat hakea materiaalia, klikkaa aluksi *Hae vinkki*.
+##### Haku
+Jos haluat *hakea* tietokannasta vinkkejä, käytä selailunäkymän yläosassa olevaa hakukenttää. Valitse kategoria, tagi tai kirjoita vapaa hakusana.
 
-Valitse seuraavaksi *Hae kirja*, *Hae artikkeli* tai *Hae video* sen mukaan, minkätyyppistä materiaalia haluat etsiä.
-
-Täytä lomake ja paina lopuksi *Hae kirja/video/artikkeli*. Ohjelma listaa hakutulokset hakukentän alle.
-
-Vinkkejä voi hakea myös tageilla valitsemalla *Hae tagien avulla*. Alasvetovalikosta voi valita tagin. Painamalla *Hae*, ohjelma listaa kaikki vinkit joihin on merkitty kyseinen tagi.
-
-#### Näytä vinkit
-
-Tämä toiminto ei vielä ole käytössä.
+Jos haluat *muokata* vinkkejä, valitse selailunäkymän listalta haluamasi vinkki ja klikkaa sen välittömässä läheisyydessä olevaa *Muokkaa*-painiketta. Muokkaa haluamasi tiedot avautuvaan lomakkeeseen ja lähetä lomake.
 
 #### Lopeta ohjelma -linkki
 
@@ -84,4 +80,3 @@ Sami & Ossi
 Sonja & Dennis
 
 Atte & Lauri
-
