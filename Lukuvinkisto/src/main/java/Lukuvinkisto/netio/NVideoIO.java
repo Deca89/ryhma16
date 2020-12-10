@@ -57,7 +57,6 @@ public class NVideoIO {
         }
         return false;
     }
-<<<<<<< HEAD
     
     public boolean modify(String id, String title, String link, List<String> tags, String status){
         if (this.validate(title, link)) {
@@ -66,9 +65,7 @@ public class NVideoIO {
         return false;
     }
     
-=======
 
->>>>>>> selailu2
     private boolean validate(String title, String link) {
         return title.length() > 2 && link.length() > 2;
     }

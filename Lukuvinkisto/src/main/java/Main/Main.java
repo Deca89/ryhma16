@@ -265,7 +265,7 @@ public class Main {
                 model.put("template", "templates/poistavideo.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Video poistettu lukuvinkist√∂st√§");
+            model.put("lisatty", "Video poistettu lukuvinkistˆst‰");
             model.put("template", "templates/poistavideo.html");
             return new ModelAndView(model, LAYOUT);
 
@@ -302,7 +302,7 @@ public class Main {
             List<Media> itemsFound = db.SearchByTag(searchWord);
 
             if (itemsFound.isEmpty()) {
-                model.put("error", "Ei tagia vastaavia vinkkej√§");
+                model.put("error", "Ei tagia vastaavia vinkkej‰");
                 model.put("template", "templates/haetagi.html");
                 return new ModelAndView(model, LAYOUT);
             }
@@ -331,7 +331,7 @@ public class Main {
                 model.put("template", "templates/lisaakirja.html");
                 return new ModelAndView(model, LAYOUT);
             }
-            model.put("lisatty", "Kirja lis√§tty lukuvinkist√∂√∂n");
+            model.put("lisatty", "Kirja lis‰tty lukuvinkistˆˆn");
             model.put("template", "templates/lisaakirja.html");
             return new ModelAndView(model, LAYOUT);
 
