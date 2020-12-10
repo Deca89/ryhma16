@@ -3,6 +3,7 @@ package Lukuvinkisto.netio;
 import Lukuvinkisto.dao.TietokantaDAO;
 import Lukuvinkisto.media.Article;
 import Lukuvinkisto.media.Media;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +28,17 @@ public class NArticleIO {
     public List<Media> fetch(String input) {
         List<Media> works = db.listArticles(input);
         Collections.sort(works);
+        return works;
+    }
+    
+    public List<Media> separateByTag(List<Media> articles, String input) {
+        List<Media> works = new ArrayList();
+        if (articles.isEmpty()) return null;
+        for (Media article : articles) {
+            if (article.getTags().contains(input)) {
+                works.add(article);
+            }
+        }
         return works;
     }
 
