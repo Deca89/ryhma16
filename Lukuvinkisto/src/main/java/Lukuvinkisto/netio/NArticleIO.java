@@ -33,7 +33,7 @@ public class NArticleIO {
     
     public List<Media> separateByTag(List<Media> articles, String input) {
         List<Media> works = new ArrayList();
-        if (articles.isEmpty()) return null;
+        if (articles.isEmpty()) return articles;
         for (Media article : articles) {
             if (article.getTags().contains(input)) {
                 works.add(article);

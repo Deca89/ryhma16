@@ -89,7 +89,7 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
         
-        get("/selaakirjoja", (request, response) -> {
+        get("/selaa", (request, response) -> {
             HashMap<String, Object> model = new HashMap<>();
             List<String> tags = db.listAllTags();
             String books = stringifyList(bookNIO.fetch());
@@ -100,7 +100,7 @@ public class Main {
             model.put("books", books);
             model.put("articles", articles);
             model.put("videos", videos);
-            model.put("template", siteAddresses.get("selaakirjoja"));
+            model.put("template", siteAddresses.get("selaa"));
             return new ModelAndView(model, LAYOUT);
         }, new VelocityTemplateEngine());
         
@@ -317,12 +317,12 @@ public class Main {
 
         }, new VelocityTemplateEngine());
         
-        post("/selaakirjoja", (request, response) -> {
+        post("/selaa", (request, response) -> {
             HashMap<String, Object> model = new HashMap<>();
             List<String> tags = db.listAllTags();
             Collections.sort(tags);
             model.put("allTags", tags);
-            model.put("template", siteAddresses.get("selaakirjoja"));
+            model.put("template", siteAddresses.get("selaa"));
             String searchWord = request.queryParams("hakusana");
             String searchTag = request.queryParams("tagi");
             String searchCategory = request.queryParams("kategoria");
@@ -333,9 +333,9 @@ public class Main {
             List<Media> videosFound = videoNIO.fetch(searchWord);
             
             if (!searchTag.equalsIgnoreCase("Kaikki")) {
-                booksFound = bookNIO.separateByTag(booksFound, searchTag);
-                articlesFound = articleNIO.separateByTag(articlesFound, searchTag);
-                videosFound = videoNIO.separateByTag(videosFound, searchTag);
+                if (!booksFound.isEmpty()) booksFound = bookNIO.separateByTag(booksFound, searchTag);
+                if (!articlesFound.isEmpty())articlesFound = articleNIO.separateByTag(articlesFound, searchTag);
+                if (!videosFound.isEmpty())videosFound = videoNIO.separateByTag(videosFound, searchTag);
             }
             
             if (searchCategory.equalsIgnoreCase("Kaikki") || searchCategory.equalsIgnoreCase("Kirjat")) {
@@ -351,7 +351,7 @@ public class Main {
                 else model.put("videos", stringifyList(videosFound));
             }
 
-            model.put("template", "templates/selaakirjoja.html");
+            model.put("template", "templates/selaa.html");
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
@@ -382,7 +382,7 @@ public class Main {
         siteAddresses.put("poistavideo", "templates/poistavideo.html");
         siteAddresses.put("poistavinkki", "templates/poistavinkki.html");
         
-        siteAddresses.put("selaakirjoja", "templates/selaakirjoja.html");
+        siteAddresses.put("selaa", "templates/selaa.html");
         
         siteAddresses.put("listaelementti", "templates/listaelementti.html");
         

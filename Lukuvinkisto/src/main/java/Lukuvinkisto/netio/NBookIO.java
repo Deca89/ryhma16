@@ -51,7 +51,7 @@ public class NBookIO {
 
     public List<Media> separateByTag(List<Media> books, String input) {
         List<Media> works = new ArrayList();
-        if (books.isEmpty()) return null;
+        if (books.isEmpty()) return books;
         for (Media book : books) {
             if (book.getTags().contains(input)) {
                 works.add(book);

@@ -33,7 +33,7 @@ public class NVideoIO {
 
     public List<Media> separateByTag(List<Media> videos, String input) {
         List<Media> works = new ArrayList();
-        if (videos.isEmpty()) return null;
+        if (videos.isEmpty()) return videos;
         for (Media video : videos) {
             if (video.getTags().contains(input)) {
                 works.add(video);
