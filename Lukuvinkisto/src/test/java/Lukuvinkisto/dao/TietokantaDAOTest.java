@@ -55,7 +55,10 @@ public class TietokantaDAOTest {
     public void testAddBook() {
         instance.removeBook("1984", "George Orwell");
         boolean result = instance.addBook("1984", "George Orwell", "209", null);
-
+        
+        // Let's not have the book stay in the database.
+        instance.removeBook("1984", "George Orwell");
+        
         assertEquals(true, result);
     }
     
@@ -65,10 +68,9 @@ public class TietokantaDAOTest {
      */
     @Test
     public void testListBooks() {
-
         String searchTerm = "";        
         List<Media> result = instance.listBooks(searchTerm);
-        assertEquals(16, result.size());
+        assertEquals(4, result.size());
         
         searchTerm = "Taikavuori";        
         result = instance.listBooks(searchTerm);
@@ -76,7 +78,7 @@ public class TietokantaDAOTest {
         
         searchTerm = null;        
         result = instance.listBooks(searchTerm);
-        assertEquals(16, result.size());
+        assertEquals(4, result.size());
     }
 
     /**
@@ -90,7 +92,10 @@ public class TietokantaDAOTest {
         
         String searchTerm = null;
         List<Media> result = instance.listBooks(searchTerm);
-        assertEquals(15, result.size());
+        assertEquals(3, result.size());
+        
+        // Let's add the book back.
+        instance.addBook("Ulysses", "James Joyce", "111", List.of("ef", "gh"));
     }
 
     @Test
@@ -108,7 +113,7 @@ public class TietokantaDAOTest {
         // Checking the list size afterwards
         searchTerm = "";        
         result = instance.listBooks(searchTerm);
-        assertEquals(16, result.size());
+        assertEquals(4, result.size());
     }
     
 
@@ -117,7 +122,7 @@ public class TietokantaDAOTest {
      */
     @Test
     public void testNumberOfBooks() {
-        int expResult = 16;
+        int expResult = 4;
         int result = instance.numberOfBooks();
         assertEquals(expResult, result);
     }

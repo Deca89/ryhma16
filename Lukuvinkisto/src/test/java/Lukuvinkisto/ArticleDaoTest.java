@@ -21,7 +21,6 @@ public class ArticleDaoTest {
         TiedostoDAO dbFile = new TiedostoDAO();
         dbFile.createFile("testi");
         db = new TietokantaDAO("testi");
-
     }
     
     @After
@@ -39,8 +38,17 @@ public class ArticleDaoTest {
 
     @Test
     public void testArticleAddOkTitle() {
+        // Let's add the articles to the database once again in case the tests
+        // are run out of order.
+        db.removeArticle(article1.getTitle());
+        db.removeArticle(article2.getTitle());
+        db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
+        db.addArticle(article2.getTitle(), article2.getLink(), article2.getTags());
+        
         List<Media> list = db.listArticles(null);
-        assertEquals(list.get(0).getTitle(),article2.getTitle());
+        
+        
+        assertEquals(list.get(0).getTitle(),article1.getTitle());
     } 
 
     @Test
@@ -62,6 +70,7 @@ public class ArticleDaoTest {
         db.removeArticle(article2.getTitle());
         db.addArticle(article1.getTitle(), article1.getLink(), article1.getTags());
         boolean r = db.removeArticle(article2.getTitle());
+        db.addArticle(article2.getTitle(), article2.getLink(), article2.getTags());
         assertFalse(r);
     } 
 
