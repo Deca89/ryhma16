@@ -9,15 +9,6 @@ public class Video extends Media {
         super(title, "", link, 0, tags);
     }
     
-    public Video(String title, String link, List<String> tags, int status) {
-        super(title, "", link, 0, tags, status);
-    }
-    
-    public Video(int id, String title, String link, List<String> tags) {
-        super(title, "", link, 0, tags);
-        this.id = id;
-    }
-    
     public Video(int id, String title, String link, List<String> tags, int status) {
         super(title, "", link, 0, tags, status);
         this.id = id;

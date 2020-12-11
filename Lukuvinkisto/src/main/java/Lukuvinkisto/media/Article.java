@@ -8,20 +8,12 @@ public class Article extends Media {
     public Article(String title, String link, List<String> tags) {
         super(title, "", link, 0, tags);
     }
-    
-    public Article(int id, String title, String link, List<String> tags) {
-        super(title, "", link, 0, tags);
-        this.id = id;
-    }
   
     public Article(int id, String title, String link, List<String> tags, int status) {
         super(title, "", link, 0, tags, status);
         this.id = id;
     }
   
-    public Article(String title, String link, List<String> tags, int status) {
-        super(title, "", link, 0, tags, status);
-    }
     public String getId(){
         return id + "";
     }
