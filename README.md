@@ -24,14 +24,15 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 [Loppuraportti](https://docs.google.com/document/d/1Fvppq7Zg8Ci1p25ikpNxgy9Z3YqIOJCPfncui3TO4Pc)
 
 ### Ohjelman asennusohje
+Esivalmistelut: varmista, että käytettävissä on java versio 11.
 
 1. Lataa ohjelma Githubista (komento *git clone*).
 2. Avaa ohjelmakansio. Mene kansioon *Lukuvinkisto*.
-3. Suorita ohjelma komentoriviltä komennolla *gradle run*.
+3. Suorita ohjelma komentoriviltä komennolla *gradle run*. (tai gradlew run)
 4. Ohjelma avaa uudessa selainikkunassa Lukuvinkistön web-käyttöliittymän.
 5. Kun haluat lopettaa ohjelman, klikkaa web-käyttöliittymässä linkkiä *Lopeta ohjelma*.
 
-Suorittamalla ohjelma komennolla *gradle run \-\-args="demotietokanta"*, ohjelma aluksi poistaa mahdollisen aiemman tietokannan ja korvaa sen demotietokannalla.
+Suorittamalla ohjelma komennolla *gradle run \-\-args="demotietokanta"* (tai gradlew gradle:n tilalla), ohjelma aluksi poistaa mahdollisen aiemman tietokannan ja korvaa sen demotietokannalla.
 
 ### Käyttöohje
 
@@ -54,6 +55,8 @@ Kun haluat poistaa lukuvinkistöstä vinkkejä, klikkaa aluksi vasemmalla olevas
 Täytä avautuva lomake ja lähetä se.
 
 Ohjelma ilmoittaa, onnistuiko poistaminen.
+
+Vinkki voidaan myös poistaa selausnäkymässä saadun muokkausnäkymän kautta: klikkaa poista ruutua ja valitse muokkaa, niin vinkki poistetaan tietokannasta.
 
 #### Selailunäkymä
 
