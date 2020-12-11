@@ -18,6 +18,10 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 [Sprintti 2](https://github.com/vuorenkoski/ryhma16/projects/3)
 [Sprintti 3](https://github.com/vuorenkoski/ryhma16/projects/4)
 
+### Loppuraportti
+
+[Loppuraportti](https://docs.google.com/document/d/1Fvppq7Zg8Ci1p25ikpNxgy9Z3YqIOJCPfncui3TO4Pc)
+
 ### Ohjelman asennusohje
 
 1. Lataa ohjelma Githubista (komento *git clone*).
