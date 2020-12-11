@@ -59,3 +59,28 @@
 ![TokaTunnit.jpg](https://github.com/vuorenkoski/ryhma16/blob/main/Dokumentaatio/kuvat/TokaTunnit.jpg)
 
 ![TokaTaskit.jpg](https://github.com/vuorenkoski/ryhma16/blob/main/Dokumentaatio/kuvat/TokaTaskit.jpg)
+
+
+
+### Kolmas viikko
+
+
+|Tekopäivä|	Tekijä|	Tehtävä|	Käytetty aika (h)|
+|:---:|:-------:|:-------:|:---------|
+|to|	Sami	|Mainin refaktorointi	|2|
+|to|	Lauri	|Tagien lisääminen	|6|
+|la|	Sami	|Vinkkien listaus sivuilla	|1|
+|la|	Atte	|Syötteen validointoi	|2|
+|su|	Sonja	|CSS-muotoilu	|0,5|
+|su|	Atte	|Cucumber-testit	|4|
+|su|	Ossi	|Luettu sivumäärä	|1|
+|su|	Sonja	|Vinkin muokkaaminen	|5,5|
+|ti2|	Sami	|Vinkin muokkaamisen korjaukset	|2|
+|pe2|	Ossi	|Vinkin muokkaaminen	|4|
+|pe2|	Sami	|Cucumber-testit muokkaukselle	|1|
+|pe2|	Dennis	|Listaa, hae ja poista	|6|
+|pe2|	Sonja	|Testien debuggaus	|1|
+
+![KolmasTunnit.jpg](https://github.com/vuorenkoski/ryhma16/blob/main/Dokumentaatio/kuvat/KolmasTunnit.jpg)
+
+![KolmasTaskit.jpg](https://github.com/vuorenkoski/ryhma16/blob/main/Dokumentaatio/kuvat/KolmasTaskit.jpg)
