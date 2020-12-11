@@ -18,12 +18,6 @@ public class Book extends Media {
         this.id = -1;
     }
     
-    public Book(int id, String title, String author, int pages, List<String> tags) {
-        super(title, author, "", pages, tags, 0);
-        this.pages = pages;
-        this.id = id;
-    }
-    
     public Book(String title, String author, int pages, List<String> tags) {
         super(title, author, "", pages, tags, 0);
         this.pages = pages;
