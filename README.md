@@ -14,9 +14,10 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 
 ### Backlogit
 
-[Sprintti 1](https://github.com/vuorenkoski/ryhma16/projects/2)
-[Sprintti 2](https://github.com/vuorenkoski/ryhma16/projects/3)
-[Sprintti 3](https://github.com/vuorenkoski/ryhma16/projects/4)
+- [Product backlog](https://github.com/vuorenkoski/ryhma16/projects/2)
+- [Sprintti 1](https://github.com/vuorenkoski/ryhma16/projects/2)
+- [Sprintti 2](https://github.com/vuorenkoski/ryhma16/projects/3)
+- [Sprintti 3](https://github.com/vuorenkoski/ryhma16/projects/4)
 
 ### Loppuraportti
 
