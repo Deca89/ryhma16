@@ -70,6 +70,8 @@ public class Main {
             model.put("author", bookFound.get(0).getAuthor());
             model.put("tags", String.join(",", bookFound.get(0).getTags()));
             model.put("status", String.valueOf(bookFound.get(0).getStatus()));
+            String poista = (bookFound.get(0).getStatus() == 1)? "checked" : "";
+            model.put("poista", poista);
             
             return new ModelAndView(model, LAYOUT);
                 
@@ -88,7 +90,9 @@ public class Main {
             model.put("tags", String.join(",", articleFound.get(0).getTags()));
             
             String status = (articleFound.get(0).getStatus() == 1)? "checked" : "";
+            String poista = (articleFound.get(0).getStatus() == 1)? "checked" : "";
             model.put("status", status);
+            model.put("poista", poista);
             
             return new ModelAndView(model, LAYOUT);
                 
@@ -107,7 +111,9 @@ public class Main {
             model.put("tags", String.join(",", videoFound.get(0).getTags()));
             
             String status = (videoFound.get(0).getStatus() == 1)? "checked" : "";
+            String poista = (videoFound.get(0).getStatus() == 1)? "checked" : "";
             model.put("status", status);
+            model.put("poista", poista);
             
             return new ModelAndView(model, LAYOUT);
                 
@@ -268,6 +274,7 @@ public class Main {
             String title = request.queryParams("otsikko");
             String id = request.queryParams("id");
             String status = "0";
+            String poista = "0";
             int intType = Integer.parseInt(request.queryParams("type"));
             List<String> tagit = new ArrayList();
             if (!request.queryParams("tagit").equals("")) {
@@ -279,22 +286,39 @@ public class Main {
                 String author = request.queryParams("kirjoittaja");
                 String pages = request.queryParams("sivumaara");
                 status = request.queryParams("status");
-                added = bookNIO.modify(id, title, author, pages, tagit, status);
+                String poistettava = request.queryParams("poista");
+                if (poistettava != null) {
+                    added = bookNIO.remove(title, author);
+                } else {
+                    added = bookNIO.modify(id, title, author, pages, tagit, status);
+                }
+                
                 
             } else if (intType == 2) {
                 String link = request.queryParams("linkki");
                 String luettu = request.queryParams("status");
+                String poistettava = request.queryParams("poista");
                 if (luettu != null) {
                     status = "1";
                 }
-                added = videoNIO.modify(id, title, link, tagit, status);
+                if (poistettava != null) {
+                    added = videoNIO.remove(title);
+                } else {
+                    added = videoNIO.modify(id, title, link, tagit, status);
+                }
+                
             } else if (intType == 3) {
                 String link = request.queryParams("linkki");
                 String luettu = request.queryParams("status");
+                String poistettava = request.queryParams("poista");
                 if (luettu != null) {
                     status = "1";
                 }
-                added = articleNIO.modify(id, title, link, tagit, status);
+                if (poistettava != null) {
+                    added = articleNIO.remove(title);
+                } else {
+                    added = articleNIO.modify(id, title, link, tagit, status);
+                }
             }
             
             if (!added) {
@@ -307,7 +331,6 @@ public class Main {
             return new ModelAndView(model, LAYOUT);
 
         }, new VelocityTemplateEngine());
-
         
         post("/selaa", (request, response) -> {
             HashMap<String, Object> model = new HashMap<>();

@@ -31,12 +31,12 @@ public class Video extends Media {
         String katsottu = (this.status != 1)? "Katsomatta" : "Katsottu";
               
         if (tags==null || tags.isEmpty()) {
-            return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>" + katsottu + " "
+            return "<a href=\"" + getLink() + "\">" + getTitle() + "</a>" + katsottu + " "
                 + "<form method=\"GET\" action=\"/video/" + id + "\">\n" +
                 "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
                   "</form>";
         }
-        return "<a href=\"" + getLink() + "\">" + getTitle() + "<a>, Tagit: " + this.getTagString() + "; " + katsottu + " "
+        return "<a href=\"" + getLink() + "\">" + getTitle() + "</a>, Tagit: " + this.getTagString() + "; " + katsottu + " "
                 + "<form method=\"GET\" action=\"/video/" + id + "\">\n" +
                 "        <input type=\"submit\" name=\"muokkaavideo\" value=\"Muokkaa\" />\n" +
                   "</form>";
