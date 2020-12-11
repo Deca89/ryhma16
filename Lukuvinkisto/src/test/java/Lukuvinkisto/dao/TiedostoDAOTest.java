@@ -35,6 +35,9 @@ public class TiedostoDAOTest {
      */
     @Test
     public void testFileExists() {
+        instance.deleteFile(fileName);
+        instance.createFile(fileName);
+        
         boolean expResult = true;
         boolean result = instance.fileExists(fileName);
         assertEquals(expResult, result);
