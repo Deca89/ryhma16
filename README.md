@@ -24,7 +24,7 @@ Lisää tehdyt taskit Seuranta-välilehdelle.
 [Loppuraportti](https://docs.google.com/document/d/1Fvppq7Zg8Ci1p25ikpNxgy9Z3YqIOJCPfncui3TO4Pc)
 
 ### Ohjelman asennusohje
-Esivalmistelut: varmista, että käytettävissä on java versio 11.
+Esivalmistelut: varmista, että käytettävissä on javan versio 11.
 
 1. Lataa ohjelma Githubista (komento *git clone*).
 2. Avaa ohjelmakansio. Mene kansioon *Lukuvinkisto*.
